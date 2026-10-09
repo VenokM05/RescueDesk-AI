@@ -25,7 +25,7 @@ import com.rescuedesk.ai.ui.theme.Amber
  * before instructions (PRD §5.6 requirements).
  */
 @Composable
-fun EmergencyHelpScreen(onBack: () -> Unit, onOpenGuides: () -> Unit) {
+fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,18 +45,19 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenGuides: () -> Unit) {
             color = Amber
         )
 
+        // Each situation routes straight to its guide category (PRD §5.6:
+        // direct taps, no typing, no AI dependency).
         val situations = listOf(
-            "Flooding or rising water",
-            "Typhoon or strong winds",
-            "Earthquake",
-            "Fire or smoke",
-            "Injury or medical emergency",
-            "Other emergency"
+            "Flooding or rising water" to "flood",
+            "Typhoon or strong winds" to "typhoon",
+            "Earthquake" to "earthquake",
+            "Fire or smoke" to "fire",
+            "Injury or medical emergency" to "firstaid",
+            "Other emergency" to ""
         )
-        // TODO Phase 2: route each to its guide (Guide Detail), not the library root.
-        situations.forEach { label ->
+        situations.forEach { (label, category) ->
             Button(
-                onClick = onOpenGuides,
+                onClick = { onOpenCategory(category) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),

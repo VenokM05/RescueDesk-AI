@@ -39,6 +39,9 @@ class BuiltInGuideSeeder(
                             (0 until steps.length())
                                 .joinToString("\n") { "${it + 1}. ${steps.getString(it)}" }
                         },
+                        avoid = json.optJSONArray("avoid")?.let { avoid ->
+                            (0 until avoid.length()).joinToString("\n") { avoid.getString(it) }
+                        }.orEmpty(),
                         language = json.optString("language", "en"),
                         sourceName = json.optString("sourceName", "Unreviewed placeholder"),
                         sourceRef = json.optString("sourceRef").takeIf { it.isNotEmpty() },

@@ -3,6 +3,7 @@ package com.rescuedesk.ai.app
 import android.content.Context
 import com.rescuedesk.ai.ai.engine.AiEngine
 import com.rescuedesk.ai.ai.engine.UnavailableAiEngine
+import com.rescuedesk.ai.data.local.PreferencesStore
 import com.rescuedesk.ai.data.local.RescueDeskDatabase
 import com.rescuedesk.ai.data.repository.GuideRepository
 import com.rescuedesk.ai.data.repository.RoomGuideRepository
@@ -23,11 +24,15 @@ object ServiceLocator {
     lateinit var guideRepository: GuideRepository
         private set
 
+    lateinit var preferencesStore: PreferencesStore
+        private set
+
     lateinit var aiEngine: AiEngine
         private set
 
     fun init(context: Context) {
         val db = RescueDeskDatabase.create(context)
+        preferencesStore = PreferencesStore(context)
         guideRepository = RoomGuideRepository(
             guideDao = db.guideDao(),
             seeder = BuiltInGuideSeeder(context, db.guideDao())

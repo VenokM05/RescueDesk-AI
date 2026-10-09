@@ -27,6 +27,8 @@ data class GuideEntity(
     val summary: String,
     /** Structured guide body; numbered steps separated by newlines. */
     val body: String,
+    /** "Avoid these actions" items separated by newlines (PRD §5.7 layout). */
+    val avoid: String = "",
     /** BCP-47 tag: "en" or "fil". */
     val language: String,
     val sourceName: String,

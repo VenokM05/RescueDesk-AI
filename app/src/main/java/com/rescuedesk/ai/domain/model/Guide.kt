@@ -11,14 +11,22 @@ data class Guide(
     val category: String,
     val summary: String,
     val body: String,
+    val avoid: String,
     val language: String,
     val sourceName: String,
+    val sourceRef: String?,
     val lastReviewed: String?,
     val nextReview: String?,
     val version: Int,
     val rightsStatus: String,
     val isBuiltin: Boolean
 ) {
+    /** "Do this first" steps, ready for the Screen G layout (PRD §5.7). */
+    val steps: List<String> get() = body.lines().map { it.trim() }.filter { it.isNotEmpty() }
+
+    /** Actions the guide warns against (PRD §5.7 "Avoid these actions"). */
+    val avoidList: List<String> get() = avoid.lines().map { it.trim() }.filter { it.isNotEmpty() }
+
     /**
      * PRD §8.3 freshness threshold: warning shows when next_review_date has passed
      * or more than 12 months elapsed since the last approved review.

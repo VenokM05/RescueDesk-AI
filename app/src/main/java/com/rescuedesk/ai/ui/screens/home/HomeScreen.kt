@@ -12,9 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -36,8 +40,10 @@ import com.rescuedesk.ai.ui.theme.DarkRed
 fun HomeScreen(
     onEmergencyHelp: () -> Unit,
     onOpenGuides: () -> Unit,
+    onOpenCategory: (String) -> Unit,
     onAskAi: () -> Unit,
-    onMyFamily: () -> Unit
+    onMyFamily: () -> Unit,
+    onSettings: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -47,14 +53,27 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Brand lockup (PRD §5.5 top section): logo + accessible name label.
-        Image(
-            painter = painterResource(R.drawable.logo_horizontal),
-            contentDescription = "RescueDesk AI",
-            modifier = Modifier
-                .height(44.dp)
-                .width(132.dp),
-            contentScale = ContentScale.Fit
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(R.drawable.logo_horizontal),
+                contentDescription = "RescueDesk AI",
+                modifier = Modifier
+                    .height(44.dp)
+                    .width(132.dp),
+                contentScale = ContentScale.Fit
+            )
+            Spacer(Modifier.weight(1f))
+            IconButton(onClick = onSettings) {
+                Icon(
+                    Icons.Default.Settings,
+                    contentDescription = "Settings / Mga setting",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
         Text(
             text = "Kumusta! Handa ka na ba?",
             style = MaterialTheme.typography.displaySmall
@@ -76,16 +95,15 @@ fun HomeScreen(
             Text("Emergency Help", style = MaterialTheme.typography.labelLarge)
         }
 
-        // Quick-access category cards (PRD §5.5): Bagyo at Baha, Lindol, Sunog, First Aid.
-        // TODO Phase 2: fetch real categories from GuideRepository and route to Guide Detail.
+        // Quick-access category cards (PRD §5.5): route straight to the category's guides.
         Text("Quick guides", style = MaterialTheme.typography.titleLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            QuickCard("Bagyo at Baha", "Typhoon and flood", Modifier.weight(1f), onClick = onOpenGuides)
-            QuickCard("Lindol", "Earthquake", Modifier.weight(1f), onClick = onOpenGuides)
+            QuickCard("Bagyo at Baha", "Typhoon and flood", Modifier.weight(1f)) { onOpenCategory("typhoon") }
+            QuickCard("Lindol", "Earthquake", Modifier.weight(1f)) { onOpenCategory("earthquake") }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            QuickCard("Sunog", "Fire", Modifier.weight(1f), onClick = onOpenGuides)
-            QuickCard("First Aid", "Basic first aid", Modifier.weight(1f), onClick = onOpenGuides)
+            QuickCard("Sunog", "Fire", Modifier.weight(1f)) { onOpenCategory("fire") }
+            QuickCard("First Aid", "Basic first aid", Modifier.weight(1f)) { onOpenCategory("firstaid") }
         }
 
         Spacer(Modifier.height(4.dp))

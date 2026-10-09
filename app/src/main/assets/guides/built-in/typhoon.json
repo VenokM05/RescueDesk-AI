@@ -12,6 +12,12 @@
     "Know your household evacuation route and meeting point.",
     "During the typhoon: stay indoors, away from windows, until the official all-clear for your area."
   ],
+  "avoid": [
+    "Do not step outside to check on anything during heavy winds and rain.",
+    "Do not shelter under trees, billboards, or unstable structures.",
+    "Do not walk or drive through floodwater of unknown depth.",
+    "Do not treat the calm eye as the end of the storm — the strongest winds return from the other direction."
+  ],
   "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
   "sourceRef": null,
   "publishedDate": null,

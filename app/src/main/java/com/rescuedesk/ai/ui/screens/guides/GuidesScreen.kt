@@ -25,7 +25,10 @@ import com.rescuedesk.ai.domain.model.Guide
  * Works fully offline; usable even when the AI model is absent (acceptance criterion).
  */
 @Composable
-fun GuidesScreen(viewModel: GuidesViewModel = viewModel()) {
+fun GuidesScreen(
+    onOpenGuide: (Long) -> Unit,
+    viewModel: GuidesViewModel = viewModel()
+) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val guides by viewModel.results.collectAsStateWithLifecycle()
 
@@ -45,21 +48,22 @@ fun GuidesScreen(viewModel: GuidesViewModel = viewModel()) {
         )
         if (guides.isEmpty()) {
             Text(
-                text = "No matching guides found. Try a shorter word, like \"bagyo\", \"flood\", or \"fire\".",
+                text = "No guides found. Try a shorter word, like \"bagyo\", \"flood\", or \"fire\". " +
+                    "Built-in guides cover typhoon, flood, earthquake, and fire.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            items(guides, key = { it.id }) { guide -> GuideRow(guide) }
+            items(guides, key = { it.id }) { guide -> GuideRow(guide, onClick = { onOpenGuide(guide.id) }) }
         }
     }
 }
 
 @Composable
-private fun GuideRow(guide: Guide) {
-    // TODO Phase 2: navigate to Guide Detail (Screen G) with "Do this first" layout
-    Card(onClick = { }, modifier = Modifier.fillMaxWidth()) {
+private fun GuideRow(guide: Guide, onClick: () -> Unit) {
+    // Screen G opens on tap; the row itself stays a summary only (PRD §5.9).
+    Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Text(guide.title, style = MaterialTheme.typography.titleLarge)
             Text(guide.summary, style = MaterialTheme.typography.bodyMedium)

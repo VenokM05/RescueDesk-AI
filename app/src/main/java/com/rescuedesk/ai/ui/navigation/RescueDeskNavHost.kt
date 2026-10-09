@@ -19,28 +19,44 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.screens.ask.AskAiScreen
+import com.rescuedesk.ai.ui.screens.detail.GuideDetailScreen
 import com.rescuedesk.ai.ui.screens.emergency.EmergencyHelpScreen
 import com.rescuedesk.ai.ui.screens.family.MyFamilyScreen
 import com.rescuedesk.ai.ui.screens.guides.GuidesScreen
 import com.rescuedesk.ai.ui.screens.home.HomeScreen
+import com.rescuedesk.ai.ui.screens.settings.SettingsScreen
 
 object Routes {
     const val HOME = "home"
+    // Guides library with an optional category filter argument.
     const val GUIDES = "guides"
+    const val GUIDES_PATTERN = "guides?category={category}"
     const val ASK_AI = "ask_ai"
     const val MY_FAMILY = "my_family"
     const val EMERGENCY_HELP = "emergency_help"
-    const val GUIDE_DETAIL = "guide_detail"
+    const val SETTINGS = "settings"
+    const val GUIDE_DETAIL_ARG = "guideId"
+    const val GUIDE_DETAIL = "guide_detail/{$GUIDE_DETAIL_ARG}"
+
+    fun guides(category: String? = null) =
+        if (category == null) GUIDES else "$GUIDES?category=$category"
+
+    fun guideDetail(id: Long) = "guide_detail/$id"
 }
 
 private data class TabSpec(
+    /** Destination pattern used for back-stack matching. */
     val route: String,
+    /** Concrete route to navigate to (no literal placeholders). */
+    val navRoute: String,
     val labelRes: Int,
     val icon: ImageVector
 )
@@ -48,10 +64,10 @@ private data class TabSpec(
 // PRD §4.6: exactly four tab destinations. Emergency Help is a prominent
 // action, never a hidden fifth tab.
 private val tabs = listOf(
-    TabSpec(Routes.HOME, R.string.nav_home, Icons.Filled.Home),
-    TabSpec(Routes.GUIDES, R.string.nav_guides, Icons.Filled.MenuBook),
-    TabSpec(Routes.ASK_AI, R.string.nav_ask_ai, Icons.Filled.Chat),
-    TabSpec(Routes.MY_FAMILY, R.string.nav_my_family, Icons.Filled.Groups)
+    TabSpec(Routes.HOME, Routes.HOME, R.string.nav_home, Icons.Filled.Home),
+    TabSpec(Routes.GUIDES_PATTERN, Routes.GUIDES, R.string.nav_guides, Icons.Filled.MenuBook),
+    TabSpec(Routes.ASK_AI, Routes.ASK_AI, R.string.nav_ask_ai, Icons.Filled.Chat),
+    TabSpec(Routes.MY_FAMILY, Routes.MY_FAMILY, R.string.nav_my_family, Icons.Filled.Groups)
 )
 
 @Composable
@@ -62,13 +78,15 @@ fun RescueDeskApp() {
 
     Scaffold(
         bottomBar = {
-            if (currentRoute != Routes.EMERGENCY_HELP) {
+            // Bottom bar shows on the four tabs only; sub-screens (detail,
+            // settings, emergency) are full-screen with their own back action.
+            if (currentRoute in tabs.map { it.route }) {
                 NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                     tabs.forEach { tab ->
                         NavigationBarItem(
                             selected = currentRoute == tab.route,
                             onClick = {
-                                navController.navigate(tab.route) {
+                                navController.navigate(tab.navRoute) {
                                     popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
@@ -101,17 +119,40 @@ fun RescueDeskApp() {
                 HomeScreen(
                     onEmergencyHelp = { navController.navigate(Routes.EMERGENCY_HELP) },
                     onOpenGuides = { navController.navigate(Routes.GUIDES) },
+                    onOpenCategory = { category -> navController.navigate(Routes.guides(category)) },
                     onAskAi = { navController.navigate(Routes.ASK_AI) },
-                    onMyFamily = { navController.navigate(Routes.MY_FAMILY) }
+                    onMyFamily = { navController.navigate(Routes.MY_FAMILY) },
+                    onSettings = { navController.navigate(Routes.SETTINGS) }
                 )
             }
-            composable(Routes.GUIDES) { GuidesScreen() }
+            composable(
+                route = Routes.GUIDES_PATTERN,
+                arguments = listOf(
+                    navArgument("category") { type = NavType.StringType; nullable = true; defaultValue = null }
+                )
+            ) {
+                GuidesScreen(onOpenGuide = { id -> navController.navigate(Routes.guideDetail(id)) })
+            }
             composable(Routes.ASK_AI) { AskAiScreen(onOpenGuides = { navController.navigate(Routes.GUIDES) }) }
             composable(Routes.MY_FAMILY) { MyFamilyScreen() }
             composable(Routes.EMERGENCY_HELP) {
                 EmergencyHelpScreen(
                     onBack = { navController.popBackStack() },
-                    onOpenGuides = { navController.navigate(Routes.GUIDES) }
+                    onOpenCategory = { category -> navController.navigate(Routes.guides(category)) }
+                )
+            }
+            composable(Routes.SETTINGS) {
+                SettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(
+                route = Routes.GUIDE_DETAIL,
+                arguments = listOf(
+                    navArgument(Routes.GUIDE_DETAIL_ARG) { type = NavType.LongType }
+                )
+            ) {
+                GuideDetailScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenGuide = { id -> navController.navigate(Routes.guideDetail(id)) }
                 )
             }
         }

@@ -12,6 +12,12 @@
     "Move to higher ground or the safest upper floor; avoid enclosed attics without a way out.",
     "Return home only after authorities declare it safe for your area."
   ],
+  "avoid": [
+    "Do not drive or walk through floodwater — moving water can sweep you off your feet.",
+    "Do not touch electrical appliances or outlets while standing in water or with wet hands.",
+    "Do not return home before waters have fully receded and authorities say it is safe.",
+    "Do not drink or wash with floodwater — it may carry sewage and chemicals."
+  ],
   "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
   "sourceRef": null,
   "publishedDate": null,

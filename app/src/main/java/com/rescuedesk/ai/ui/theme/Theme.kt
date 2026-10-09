@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 
 // MVP direction (PRD §4.1): light background, dark high-contrast text.
 // Dark mode is intentionally not wired yet; a high-contrast appearance
@@ -27,11 +28,13 @@ private val RescueDeskLightScheme = lightColorScheme(
 @Composable
 fun RescueDeskTheme(
     @Suppress("UNUSED_PARAMETER") useDarkTheme: Boolean = isSystemInDarkTheme(),
+    /** In-app text size multiplier from Settings (PRD §5.3); 1.0 = base scale. */
+    textScaleFactor: Float = 1.0f,
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colorScheme = RescueDeskLightScheme,
-        typography = RescueDeskTypography,
+        typography = remember(textScaleFactor) { scaledTypography(textScaleFactor) },
         content = content
     )
 }

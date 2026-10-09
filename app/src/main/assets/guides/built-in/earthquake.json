@@ -12,6 +12,12 @@
     "After shaking stops: expect aftershocks, check for injuries, and inspect gas, wires, and structure before moving broken items.",
     "If your area is coastal and shaking was strong or long, move to higher ground immediately — do not wait for an official tsunami advisory."
   ],
+  "avoid": [
+    "Do not run outside while the ground is still shaking.",
+    "Do not use elevators before, during, or immediately after the shaking.",
+    "Do not stand under unsecured shelves, glass, or heavy objects that can fall.",
+    "Do not light matches or lighters until you are sure there is no gas leak."
+  ],
   "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
   "sourceRef": null,
   "publishedDate": null,

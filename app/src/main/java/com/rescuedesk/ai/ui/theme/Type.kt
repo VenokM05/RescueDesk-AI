@@ -49,3 +49,22 @@ val RescueDeskTypography = Typography(
         lineHeight = 24.sp
     )
 )
+
+/**
+ * Applies the in-app text size multiplier (PRD §5.3) on top of the base scale.
+ * System font scaling still layers on top; layouts must reflow, not clip.
+ */
+fun scaledTypography(factor: Float): Typography {
+    if (factor == 1.0f) return RescueDeskTypography
+    fun TextStyle.scaled() = copy(fontSize = fontSize * factor, lineHeight = lineHeight * factor)
+    return with(RescueDeskTypography) {
+        copy(
+            displaySmall = displaySmall.scaled(),
+            headlineMedium = headlineMedium.scaled(),
+            titleLarge = titleLarge.scaled(),
+            bodyLarge = bodyLarge.scaled(),
+            bodyMedium = bodyMedium.scaled(),
+            labelLarge = labelLarge.scaled()
+        )
+    }
+}

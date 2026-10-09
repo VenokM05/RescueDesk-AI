@@ -12,6 +12,12 @@
     "Once out, stay out and call for help from outside.",
     "If your clothes catch fire: STOP, DROP, and ROLL, covering your face with your hands."
   ],
+  "avoid": [
+    "Do not use elevators during a fire.",
+    "Do not throw water on an electrical or grease (cooking oil) fire.",
+    "Do not stand upright in smoke — smoke rises; stay low and crawl to an exit.",
+    "Do not go back inside for belongings once you are out."
+  ],
   "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
   "sourceRef": null,
   "publishedDate": null,
