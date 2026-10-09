@@ -114,6 +114,18 @@
     <string name="settings_offline_open">Open Offline and downloads manager</string>
     <string name="settings_privacy_section">Privacy</string>
     <string name="settings_privacy_body">RescueDesk AI stores everything on this device: no accounts, no location, no chat history kept, no analytics. Guides work fully offline.</string>
+    <string name="settings_delete_all_button">Delete all personal information</string>
+    <string name="settings_delete_dialog_title">Delete all personal information?</string>
+    <string name="settings_delete_dialog_body">This permanently deletes from this device:
+    
+    • Household plan and notes
+    • Saved emergency contacts
+    • Go-bag checklist
+    
+    Guide library, language, and text-size settings are kept. There is no copy on any server, so this cannot be undone.</string>
+    <string name="settings_delete_confirm">Delete everything</string>
+    <string name="settings_delete_cancel">Cancel</string>
+    <string name="settings_delete_done">All personal information was deleted from this device.</string>
     <string name="settings_about_section">About</string>
     <string name="settings_about_body">Built-in emergency guides are preliminary and pending review by qualified Philippine responders. In a real emergency, contact local authorities and follow official instructions.</string>
 

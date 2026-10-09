@@ -91,6 +91,20 @@ class PreferencesStore(private val context: Context) {
         context.dataStore.edit { it[KEY_LAST_SYNC] = dateIso }
     }
 
+    /**
+     * Companion of delete-all-personal-data (PRD §5.13): the onboarding
+     * consent/completion stamp and the sync history are device records about
+     * the user, so they reset too. Language and text size are accessibility
+     * choices, not personal data — they are deliberately KEPT so the user
+     * immediately sees the app in their language afterwards.
+     */
+    suspend fun resetPersonalization() {
+        context.dataStore.edit {
+            it[KEY_ONBOARDING] = false
+            it[KEY_LAST_SYNC] = ""
+        }
+    }
+
     private companion object {
         val KEY_LANGUAGE = stringPreferencesKey("language")
         val KEY_TEXT_SIZE_FACTOR = floatPreferencesKey("text_size_factor")

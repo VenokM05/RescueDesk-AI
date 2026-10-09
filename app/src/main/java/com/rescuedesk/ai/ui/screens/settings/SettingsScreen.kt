@@ -7,14 +7,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,15 +32,17 @@ import com.rescuedesk.ai.ui.labelRes
 import kotlinx.coroutines.launch
 
 /**
- * Screen M — Settings (PRD §5.13), minimal Phase 2 slice: language, text size,
- * and the privacy posture statement. Go-bag, plan export, and data deletion
- * arrive with Phase 4.
+ * Screen M — Settings (PRD §5.13): language, text size, offline manager
+ * entry, privacy posture, and the FR-07 "delete all locally saved personal
+ * information" tool (Phase 4, PRD §10.1 data-subject-rights entry point).
  */
 @Composable
 fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
     val store = ServiceLocator.preferencesStore
     val settings by store.settings.collectAsStateWithLifecycle(initialValue = null)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -90,7 +97,15 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 stringResource(R.string.settings_privacy_body),
                 style = MaterialTheme.typography.bodyLarge
             )
-            // TODO Phase 4: "Delete my data" (household plan, contacts, chat).
+            // Destructive actions must be confirmed (PRD §4.4); the dialog names
+            // exactly what is wiped and what survives.
+            TextButton(onClick = { showDeleteDialog = true }) {
+                Text(
+                    stringResource(R.string.settings_delete_all_button),
+                    color = MaterialTheme.colorScheme.error,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
 
         SectionCard(stringResource(R.string.settings_about_section)) {
@@ -100,6 +115,42 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+    }
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text(stringResource(R.string.settings_delete_dialog_title)) },
+            text = { Text(stringResource(R.string.settings_delete_dialog_body)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteDialog = false
+                        scope.launch {
+                            // Personal tables first, then the device records about
+                            // the user (onboarding stamp, sync history). Language and
+                            // text size are accessibility choices — deliberately kept.
+                            ServiceLocator.familyRepository.deleteAllPersonalData()
+                            store.resetPersonalization()
+                            android.widget.Toast
+                                .makeText(context, R.string.settings_delete_done, android.widget.Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                ) {
+                    Text(
+                        stringResource(R.string.settings_delete_confirm),
+                        color = MaterialTheme.colorScheme.error,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text(stringResource(R.string.settings_delete_cancel))
+                }
+            }
+        )
     }
 }
 

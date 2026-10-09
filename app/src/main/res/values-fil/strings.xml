@@ -106,6 +106,18 @@
     <string name="settings_offline_open">Buksan ang Offline at Download Manager</string>
     <string name="settings_privacy_section">Pagkapribado</string>
     <string name="settings_privacy_body">Nakaimbak sa device na ito ang lahat ng RescueDesk AI: walang account, walang location, walang iniipon na chat history, walang analytics. Gumagana ang mga gabay nang buong offline.</string>
+    <string name="settings_delete_all_button">Burahin ang lahat ng personal na impormasyon</string>
+    <string name="settings_delete_dialog_title">Burahin ang lahat ng personal na impormasyon?</string>
+    <string name="settings_delete_dialog_body">Permanenteng mabubura dito sa device ang:
+    
+    • Plano ng pamilya at mga paalala
+    • Mga naka-save na emergency contact
+    • Checklist ng go-bag
+    
+    Panatili ang mga gabay, wika, at laki ng teksto. Walang kopya ito sa kahit anong server, kaya hindi na ito maibabalik.</string>
+    <string name="settings_delete_confirm">Burahin lahat</string>
+    <string name="settings_delete_cancel">Kanselahin</string>
+    <string name="settings_delete_done">Nabura na sa device na ito ang lahat ng personal na impormasyon.</string>
     <string name="settings_about_section">Tungkol sa app</string>
     <string name="settings_about_body">Ang mga built-in na emergency guide ay preliminary at nasa pag-review pa ng mga kwalipikadong responder sa Pilipinas. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
 

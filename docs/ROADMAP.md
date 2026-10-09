@@ -140,11 +140,11 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 
 ## Phase 4 — Household Features (1 week)
 
-- [ ] My Family (Screen J) five-step plan wizard with autosave (FR-05).
-- [ ] Emergency contacts with ACTION_DIAL deliberate-call flow (FR-06, PRD §10.2).
-- [ ] Meeting places and out-of-area contact.
-- [ ] Go-bag checklist (Screen K) with custom items (Should-have per PRD §14.1 — first item to cut if the schedule slips).
-- [ ] Local persistence, edit, and delete paths; "delete all personal information" wired end-to-end (FR-07 privacy side, Screen M).
+- [x] My Family (Screen J) five-step plan wizard with autosave (FR-05).
+- [x] Emergency contacts with ACTION_DIAL deliberate-call flow (FR-06, PRD §10.2).
+- [x] Meeting places and out-of-area contact.
+- [x] Go-bag checklist (Screen K) with custom items (Should-have per PRD §14.1 — first item to cut if the schedule slips).
+- [x] Local persistence, edit, and delete paths; "delete all personal information" wired end-to-end (FR-07 privacy side, Screen M).
 
 **Exit:** Plan survives app restart; deletion removes data completely including any auto-backup surface decided in Phase 0.
 

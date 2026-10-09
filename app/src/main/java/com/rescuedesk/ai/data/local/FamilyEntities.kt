@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
@@ -69,6 +70,19 @@ interface FamilyPlanDao {
 
     @Query("DELETE FROM family_plan")
     suspend fun clear()
+
+    /**
+     * FR-07 / PRD §5.13 "Delete all locally saved personal information":
+     * every personal table in one transaction so deletion is all-or-nothing
+     * (Room shares one DB connection per in-memory database, so the nested
+     * DAO calls run inside this transaction).
+     */
+    @Transaction
+    suspend fun deleteAllPersonalData(contactDao: ContactDao, goBagDao: GoBagDao) {
+        clear()
+        contactDao.clear()
+        goBagDao.clear()
+    }
 }
 
 @Dao
@@ -81,6 +95,9 @@ interface ContactDao {
 
     @Query("DELETE FROM emergency_contacts WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("DELETE FROM emergency_contacts")
+    suspend fun clear()
 }
 
 @Dao
@@ -99,4 +116,7 @@ interface GoBagDao {
 
     @Query("DELETE FROM go_bag_items WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("DELETE FROM go_bag_items")
+    suspend fun clear()
 }

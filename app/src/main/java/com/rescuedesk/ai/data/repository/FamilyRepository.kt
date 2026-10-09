@@ -26,6 +26,12 @@ interface FamilyRepository {
     suspend fun addGoBagItem(category: String, label: String)
     suspend fun deleteGoBagItem(id: Long)
     suspend fun ensureGoBagSeeded()
+
+    /**
+     * PRD §5.13 + roadmap Phase 4: wipe every personal table atomically.
+     * Guide content is not personal data and stays installed.
+     */
+    suspend fun deleteAllPersonalData()
 }
 
 /**
@@ -100,6 +106,9 @@ class RoomFamilyRepository(
         )
 
     override suspend fun deleteGoBagItem(id: Long) = goBagDao.deleteById(id)
+
+    override suspend fun deleteAllPersonalData() =
+        planDao.deleteAllPersonalData(contactDao, goBagDao)
 
     /** Seeds the general starter checklist once; users add/edit from there. */
     override suspend fun ensureGoBagSeeded() {
