@@ -7,21 +7,22 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-ce56dd3-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-71fed25-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `ce56dd3` |
+| Git commit | `71fed25` |
 | Date | 2026-10-10 |
-| SHA-256 | `595f95cab0697570e69d56d93d342cdaf6ee2e51ca4bb6ff6541801f0bccbe1a` |
-| Size | ~70 MB (grew from ~18 MB: MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `4437c2e427f75c5d365f30a00e468a496bfae4a279665b27cf77cbd063218405` |
+| Size | 74,020,119 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** a **splash screen** (app logo on the brand background,
-held until your language settings load, so the first real frame is never in
-the wrong language); Settings → About now carries the project **mission
-paragraph** and credits — *Created by Elvin Manuel, Team ELOHIM Creator*
-(English + Filipino); and all `§` symbols in docs/comments were replaced with
-the word "section". Previous build: the launcher shows
-**"RescueDesk AI"** as the app display name.
+**New in this build:** the assistant is renamed **Ask Juan** everywhere
+(nav tab, screen title, home chip, settings, offline screen — English and
+Filipino; the name stays identical in both languages). And "no match" is no
+longer a dead end: when nothing fits the question, Juan now shows the **real
+topics installed on the device as tappable guide chips** under a short note.
+Earlier: splash screen with the app logo, About mission + credits
+(*Created by Elvin Manuel, Team ELOHIM Creator*), `§` replaced with the word
+"section", launcher display name **"RescueDesk AI"**.
 
 **Included:** onboarding (language + text size), Home, Emergency Help routing,
 8 built-in guides in EN + Filipino (typhoon/flood/earthquake/fire — UNREVIEWED,
@@ -33,7 +34,7 @@ Screen L — Offline & Download Manager (guide-pack pipeline present; server URL
 is a placeholder until the content repo ships), Settings, **delete all personal
 information** in Settings → Privacy (household plan, contacts, go-bag wiped
 atomically; guides and language settings survive), a bilingual privacy notice,
-and **Ask AI in local mode** — offline, retrieval-grounded answers composed
+and **Ask Juan in local mode** — offline, retrieval-grounded answers composed
 only from the on-device guides, with citations, PRD section 5.8 safety refusals
 (live-claim + out-of-scope), and a new **medical-emergency escalation**
 (bilingual) that routes symptom / urgency wording to 911 + nearest hospital
@@ -44,11 +45,11 @@ targets on chips + Call/Delete.
 **Included (new in this build):** an **experimental on-device LLM path** —
 Gemma 2 2B IT via MediaPipe LLM Inference, behind
 Settings → Experimental → "Try local LLM" (**off by default**). When enabled
-AND a model file is present on the device, Ask AI rephrases the
+AND a model file is present on the device, Ask Juan rephrases the
 retrieval-grounded answer into a short paragraph with an
 "Rephrased by local AI (experimental)" badge; source citations always remain,
 and refusals / medical escalation / no-match never reach the model. Without
-the toggle or the model file, Ask AI behaves exactly as before. The model
+the toggle or the model file, Ask Juan behaves exactly as before. The model
 file itself is **not** bundled (see below).
 **Not included:** a bundled model asset or automatic download — the LLM path
 is candidate evaluation only and still gated behind the Phase 1 Go/No-Go
@@ -62,7 +63,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-ce56dd3-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-71fed25-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
