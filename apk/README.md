@@ -7,11 +7,11 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-63bdbf5-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-6536dab-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `63bdbf5` |
+| Git commit | `6536dab` |
 | Date | 2026-10-10 |
-| SHA-256 | `a009a3e945e0f3215cdd8998242222b719a766b669650e8198b4559bcb67ab83` |
+| SHA-256 | `a5da669fb0a03990a0a1e55b93203cf23ddcaf1a399442dd2758f4d61605a2c0` |
 | Size | ~18 MB |
 | Min Android | 8.0 (API 26) |
 
@@ -23,8 +23,11 @@ Go-Bag checklist, full Filipino UI (Settings → Language → Filipino),
 Screen L — Offline & Download Manager (guide-pack pipeline present; server URL
 is a placeholder until the content repo ships), Settings, and **delete all
 personal information** in Settings → Privacy (household plan, contacts, go-bag
-wiped atomically; guides and language settings survive).
-**Not included:** on-device AI (Ask AI shows the fallback state).
+wiped atomically; guides and language settings survive), a bilingual privacy
+notice, and **Ask AI in local mode** — offline, retrieval-grounded answers
+composed only from the on-device guides, with citations and safety refusals.
+**Not included:** the generative on-device LLM (Gemma / llama.cpp) — that is
+still gated behind the Phase 1 Go/No-Go decision and lives in the `:poc` module.
 **Note:** first launch on a phone that ran the previous build resets the
 household plan / contacts / go-bag once (Room v2 schema change for the
 bilingual checklist).
@@ -34,7 +37,7 @@ bilingual checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-63bdbf5-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-6536dab-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
