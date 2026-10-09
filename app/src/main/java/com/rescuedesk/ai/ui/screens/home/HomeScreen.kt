@@ -1,5 +1,6 @@
 package com.rescuedesk.ai.ui.screens.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -18,8 +20,11 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.theme.DarkRed
 
 /**
@@ -41,6 +46,15 @@ fun HomeScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Brand lockup (PRD §5.5 top section): logo + accessible name label.
+        Image(
+            painter = painterResource(R.drawable.logo_horizontal),
+            contentDescription = "RescueDesk AI",
+            modifier = Modifier
+                .height(44.dp)
+                .width(132.dp),
+            contentScale = ContentScale.Fit
+        )
         Text(
             text = "Kumusta! Handa ka na ba?",
             style = MaterialTheme.typography.displaySmall
