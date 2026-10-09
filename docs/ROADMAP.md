@@ -83,7 +83,8 @@ Tasks:
 
 ### 🔴 Phase 1 Gate — Go/No-Go (PRD §14.2)
 
-Decision recorded in writing with test data attached. GO requires **all five**:
+Decision recorded in writing with test data attached — use the scorecard at
+`docs/PHASE1-GATE.md`. GO requires **all five**:
 
 1. Model runs on ≥2 representative devices (incl. one 4 GB-class) without memory-pressure crashes.
 2. Usable answer speed; no unacceptable heat/battery drain under repeated inference.
