@@ -79,6 +79,26 @@ These are proposed pilot targets, not existing results.
 
 AI quality targets must be measured using a reviewed test set. A high answer score must never be treated as proof that every AI response is safe.
 
+## 2.3 Measurement Plan
+
+The MVP has no backend and no analytics collection. Pilot metrics in Section 2.2 are therefore measured manually, not by in-app telemetry:
+
+| Metric | Collection method |
+| --- | --- |
+| First-time users who finish basic setup | Moderated usability sessions with observer checklists |
+| Users who can find an emergency guide | Usability task observation (see Section 13.1) |
+| Offline features working in airplane mode | Manual QA test cases executed on physical devices |
+| AI answers meeting grounding criteria | Scored against the reviewed offline test set (see Section 13.4) |
+| Users who complete a family emergency plan | Session observation; any in-app completion flag stays local only |
+| Unresolved critical safety defects | Issue tracker review at the pilot release gate |
+| Users who can use the primary interface unassisted | Observer-logged usability sessions |
+
+Rules:
+
+* No remote analytics, telemetry, or crash reporting of personal content is collected in the MVP.
+* Any future analytics must be **opt-in**, presented separately from core functionality, aggregate-only, must never transmit household data or chat content, and must update the privacy notice and Google Play Data Safety disclosures before enabling.
+* Session-based results must be reported with sample size and device mix; a metric is "met" only when measured across at least the planned pilot cohort of representative devices and users.
+
 ---
 
 # 3. Target Users and Personas
@@ -368,6 +388,23 @@ Secondary option: **"Use default settings"**
 
 Help users download the AI model and emergency knowledge pack without confusing them about what is required.
 
+### Built-In Minimum Guide Set
+
+The application package ships with a minimal set of reviewed guides covering four situations:
+
+1. Typhoon
+2. Flood
+3. Earthquake
+4. Fire
+
+Rules:
+
+* These guides are available immediately after a fresh install, with no network connection and no download required.
+* The Emergency Help screen (Screen F) and local search must function using the built-in set alone.
+* Built-in guides follow the same content metadata, review, and freshness rules as downloadable content (see Section 8).
+* The interface must clearly distinguish "Built-in basics" from the fuller downloadable Emergency Guide Pack.
+* When a content pack is installed, the pack's reviewed version supersedes the built-in guide for the same topic, subject to the integrity checks in this screen's behavior rules.
+
 ### Layout
 
 Heading: **"Prepare your offline assistant"**
@@ -411,6 +448,7 @@ Provide a visible option to skip AI setup.
 * Keep a previously valid version available until a replacement has been verified, subject to available storage.
 * Never describe the app as fully AI-enabled offline before the model is successfully installed.
 * Never block essential guide access while a model is downloading.
+* On a fresh install with no network, the built-in minimum guide set remains fully available; this screen must say so rather than presenting an empty app.
 
 ### Storage Warning
 
@@ -423,6 +461,8 @@ If storage is insufficient, explain:
 ### Acceptance Criteria
 
 A user can skip the model download, use the emergency guides, and later download the AI model from Settings or the model status screen.
+
+A user in airplane mode from first launch can open all four built-in guides, reach Emergency Help, and search the built-in set without downloading anything.
 
 ## 5.5 Screen E — Home Dashboard
 
@@ -550,7 +590,7 @@ Present practical, easy-to-follow emergency instructions.
 * Distinguish general preparedness advice from immediate emergency instructions.
 * Explain unfamiliar terms.
 * Use reviewed information from appropriate authorities or qualified organizations.
-* Show a content warning if the guide is outdated or requires review.
+* Show a content warning if the guide is outdated or requires review, using the freshness threshold defined in Section 8.3.
 * Avoid unsupported guarantees such as "This will keep you completely safe."
 
 ### Example Structure
@@ -1077,8 +1117,44 @@ Every approved content item must include, where applicable:
 * Applicable geographic scope.
 * Language.
 * Next review date, where defined.
+* Rights status for offline redistribution, as required by Section 10.3.
 
-## 8.3 Information Freshness
+## 8.3 Content Operations and Review Governance
+
+### Reviewer Roles
+
+* **Content Editor:** assembles and adapts draft guide items from approved sources and prepares metadata.
+* **Subject-Matter Reviewer:** a qualified emergency preparedness, disaster risk reduction, or first-aid reviewer who validates operational accuracy.
+* **Approving Authority:** the qualified organization or credentialed individual (for example, a recognized first-aid trainer for medical-education content) whose approval marks an item as verified.
+* **Legal and Rights Reviewer:** confirms redistribution permission per Section 10.3.
+
+The Content Editor and Subject-Matter Reviewer must be different people. Early versions may combine other roles, but no item ships without a recorded reviewer and approval status.
+
+### Review Cadence
+
+* **Scheduled:** quarterly review of every active content item against its source.
+* **Event-driven:** a review is triggered within the same week by any of the following:
+  * A major disaster in the Philippines that changes recommended practice.
+  * A published guidance change by an original source agency.
+  * A credible user-reported error reaching the feedback process.
+  * A change in authoritative hazard recommendations relevant to Philippine contexts.
+* **Service level:** event-driven reviews are completed within 14 days of the trigger; quarterly cycles complete within the quarter.
+
+### Freshness Threshold and Out-of-Date Warning
+
+The content warning shown on guide screens (Screen G, Section 5.7) and source cards appears when any of the following is true:
+
+1. The item's `next_review_date` has passed.
+2. More than 12 months have elapsed since the item's last approved review and no completed review is recorded.
+3. An event-driven review is pending for the item's category or source.
+
+Handling rules:
+
+* Flagged items remain available. Silently removing safety guidance is treated as a greater risk than showing it with a visible "Needs review" warning and its last-reviewed date.
+* Flagged items are excluded from AI retrieval grounding until re-reviewed, so the assistant cannot present outdated text as verified.
+* An update notification for affected content packs is surfaced in the Offline and Download Manager (Screen L) after the next verified pack release.
+
+## 8.4 Information Freshness
 
 Clearly distinguish:
 
@@ -1089,7 +1165,7 @@ Clearly distinguish:
 
 An offline app cannot know whether a new warning, evacuation order, or road closure has been issued since the last successful update.
 
-## 8.4 Emergency Response Limitations
+## 8.5 Emergency Response Limitations
 
 The MVP must not claim to:
 
@@ -1123,16 +1199,46 @@ Because local storage is not automatically safe against every form of device com
 
 ---
 
-# 10. Performance and Compatibility
+# 10. Legal and Regulatory Compliance
 
-## 10.1 Initial Device Targets
+## 10.1 Philippines Data Privacy Act (RA 10173)
+
+* Household names, phone numbers, meeting places, and preparedness notes (including medicine and special-needs information) constitute personal information under RA 10173, even when stored only on the device.
+* The app must present a plain-language privacy notice in Filipino and English during initial setup and in Settings, identifying who operates the application and what data exists on the device.
+* Data-subject rights (access, correction, deletion) are satisfied by the local viewing, editing, and deletion tools required in Screens J and M.
+* Because no personal data leaves the device in the MVP, no registration with the National Privacy Commission is presumed required. This presumption must be confirmed with Philippine legal counsel before public release.
+* If any future feature transmits personal data (account sync, opt-in analytics, feedback attachments), a consent mechanism, an updated privacy notice, and a breach-notification policy must be approved before that feature ships.
+
+## 10.2 Google Play Store Requirements
+
+* Publish a privacy policy URL and complete the Data Safety form truthfully: the MVP collects and shares no user data. Any future analytics changes the form and requires re-review before enabling.
+* Target the minimum API level required by Google Play at submission time; the Phase 1 runtime proof of concept must confirm the selected on-device inference library supports it.
+* Use the system dialer intent (ACTION_DIAL) rather than the direct CALL_PHONE permission for emergency contacts, keeping the permission surface minimal, and document this decision.
+* Request no dangerous permissions beyond a demonstrated feature need. Location permission must not be requested in the MVP.
+* Device backup behavior for household data (included or excluded) must be an explicit, documented decision before release.
+
+## 10.3 Content Licensing and Redistribution
+
+Offline redistribution of agency materials requires confirmed permission before any content pack ships:
+
+* **Government sources (PAGASA, DOST-PHIVOLCS, OCD, NDRRMC, BFP, DOH):** confirm which materials may be reproduced, adapted, and redistributed offline, and how attribution must appear. Government authorship does not automatically mean unrestricted reuse.
+* **Philippine Red Cross and other qualified organizations:** secure written permission or a memorandum of understanding for offline educational use; record the permission reference in the content metadata.
+* No agency may be described or implied as endorsing RescueDesk AI, consistent with the statement in Section 8.1.
+* **Model artifacts:** verify each candidate model's license for redistribution of quantized derivatives, acceptable-use terms, and attribution requirements. Maintain a license matrix as a Phase 1 deliverable.
+* Every content item records a rights status in its metadata (Section 8.2): cleared, pending, or restricted. Only cleared items may ship in a public content pack.
+
+---
+
+# 11. Performance and Compatibility
+
+## 11.1 Initial Device Targets
 
 * Android phones with 4 GB RAM: compatibility testing and constrained-mode support.
 * Android phones with 6 GB RAM or more: primary prototype target.
 * Sufficient free storage for the selected model, emergency packs, and temporary update files.
 * Exact minimum Android OS version to be decided after runtime and library compatibility testing.
 
-## 10.2 Performance Goals
+## 11.2 Performance Goals
 
 These are engineering targets to validate, not guaranteed performance:
 
@@ -1148,7 +1254,7 @@ Do not make a public performance promise until the target device test suite has 
 
 ---
 
-# 11. MVP Scope
+# 12. MVP Scope
 
 ## Included in MVP
 
@@ -1187,9 +1293,9 @@ These features may be considered later only after their data, operational, priva
 
 ---
 
-# 12. Testing Plan
+# 13. Testing Plan
 
-## 12.1 UI and Accessibility Tests
+## 13.1 UI and Accessibility Tests
 
 Test with:
 
@@ -1210,9 +1316,10 @@ Tasks:
 
 Record task completion, errors, time to complete, and whether assistance was required.
 
-## 12.2 Offline Tests
+## 13.2 Offline Tests
 
-* Fresh install with no network.
+* Fresh install with no network: the four built-in guides (Typhoon, Flood, Earthquake, Fire) open, Emergency Help works, and local search covers the built-in set without any download.
+* Verify the interface clearly distinguishes built-in guides from full-pack content when the Emergency Guide Pack is not installed.
 * Open all previously installed guides in airplane mode.
 * Search local content.
 * Restart the app while offline.
@@ -1221,7 +1328,7 @@ Record task completion, errors, time to complete, and whether assistance was req
 * Confirm saved household data remains available.
 * Confirm no essential screen waits indefinitely for a server.
 
-## 12.3 Download Tests
+## 13.3 Download Tests
 
 * Pause and resume a download.
 * Interrupt a download.
@@ -1231,7 +1338,7 @@ Record task completion, errors, time to complete, and whether assistance was req
 * Update a model without deleting household data.
 * Recover from an interrupted update.
 
-## 12.4 AI Safety Tests
+## 13.4 AI Safety Tests
 
 Create a reviewed test suite containing:
 
@@ -1246,7 +1353,7 @@ Create a reviewed test suite containing:
 
 Measure grounding, source accuracy, unsupported claims, unsafe instructions, and appropriate uncertainty. Critical unsafe outputs must block release until addressed.
 
-## 12.5 Pilot Release Gate
+## 13.5 Pilot Release Gate
 
 Before broader distribution:
 
@@ -1260,20 +1367,52 @@ Before broader distribution:
 
 ---
 
-# 13. Development Roadmap
+# 14. Development Roadmap
 
-## Phase 1 — Discovery and Proof of Concept
+## 14.1 Feature Priorities (MoSCoW)
 
-**Estimated duration:** 1 week
+| Priority | Capability | Release dependency |
+| --- | --- | --- |
+| Must | Built-in minimum guide set and offline library (FR-01) | v1 cannot ship without it |
+| Must | Local guide search | Ships with the library |
+| Must | Household plan (FR-05) | Core preparedness value |
+| Must | Emergency contacts (FR-06) | Core preparedness value |
+| Must | Language and accessibility (FR-07) | Non-negotiable for target users |
+| Must | Content versioning and update handling (FR-08) | Required for safety governance |
+| Should | On-device AI bundle: model runtime (FR-02), model download (FR-03), grounded responses (FR-04) | Conditional on the Phase 1 go/no-go gate |
+| Should | Go-bag checklist | High value, separable from the plan wizard |
+| Could | Read-aloud text-to-speech enhancement | Where device speech services allow |
+| Won't | Items listed as excluded from MVP (Section 12) | Revisit only per Section 12 conditions |
+
+If the Phase 1 gate returns NO-GO, the Must set ships as v1 and the Should AI items move to a later release. The MVP scope in Section 12 reflects the GO path.
+
+## 14.2 Phase 1 — Discovery, Proof of Concept, and Go/No-Go Gate
+
+**Estimated duration:** 2 weeks
 
 * Confirm model/runtime compatibility.
-* Test inference on representative Android devices.
-* Prepare the first reviewed emergency content pack.
+* Test inference on representative Android devices, including at least one 4 GB-RAM-class device.
+* Prepare the first reviewed emergency content pack, including the built-in minimum guide set.
 * Validate offline storage and search.
+* Complete license verification for the runtime and model artifacts (Section 10.3).
 
-**Deliverable:** A working on-device AI proof of concept and a verified guide library.
+**Deliverable:** A working on-device AI proof of concept, a verified guide library, a model license matrix, and a recorded go/no-go decision.
 
-## Phase 2 — UI and Core Application
+### Phase 1 Go/No-Go Gate
+
+The on-device model earns a GO only if all of the following are met:
+
+1. Runs on at least two representative target devices, including one 4 GB-RAM-class device, without crashing under memory pressure.
+2. Produces answers at a usable speed without unacceptable heat or battery drain during repeated inference.
+3. Meets the agreed grounding-quality threshold on the initial seed safety test set (Section 13.4), with no critical unsafe outputs.
+4. Passes license and redistribution checks for the model artifact and runtime.
+5. Fits the storage budget defined for target devices, alongside the guide pack and user data.
+
+**GO:** Proceed with Phase 3 as planned.
+
+**NO-GO:** Ship the guide-only path. Replace Phase 3 with enhanced guide categorization, curated question-and-answer content, and improved search. Defer AI features to a later release until a compatible model passes this gate. Phases 2, 4, and 5 are unaffected.
+
+## 14.3 Phase 2 — UI and Core Application
 
 **Estimated duration:** 1–2 weeks
 
@@ -1283,11 +1422,11 @@ Before broader distribution:
 * Build emergency guide detail screens.
 * Add accessibility and language settings.
 
-**Deliverable:** Usable Android application without requiring the AI model.
+**Deliverable:** Usable Android application without requiring the AI model, with the built-in minimum guide set available from first launch.
 
-## Phase 3 — Offline AI and Downloads
+## 14.4 Phase 3 — Offline AI and Downloads
 
-**Estimated duration:** 1–2 weeks
+**Estimated duration:** 2–3 weeks (GO path only; see Section 14.2 for the NO-GO alternative)
 
 * Add model download management.
 * Add local inference.
@@ -1296,7 +1435,7 @@ Before broader distribution:
 
 **Deliverable:** A working local AI assistant using approved content.
 
-## Phase 4 — Household Features
+## 14.5 Phase 4 — Household Features
 
 **Estimated duration:** 1 week
 
@@ -1307,7 +1446,7 @@ Before broader distribution:
 
 **Deliverable:** Functional household preparedness tools.
 
-## Phase 5 — Safety, Accessibility, and Field Testing
+## 14.6 Phase 5 — Safety, Accessibility, and Field Testing
 
 **Estimated duration:** 1–2 weeks
 
@@ -1319,11 +1458,11 @@ Before broader distribution:
 
 **Deliverable:** Pilot-ready build.
 
-**Overall initial estimate:** Approximately 6–8 weeks for one experienced developer, assuming timely content review, available hardware, and no major model compatibility issues. This is a planning estimate, not a delivery guarantee.
+**Overall initial estimate:** Approximately 12–16 weeks for one experienced developer on the GO path, assuming timely content review and rights clearance, available hardware, and no major model compatibility issues. A guide-only v1 following a NO-GO decision may take less. The previous 6–8 week figure was only realistic if content review ran fully in parallel and the model PoC succeeded on the first attempt; it should not be used for commitments. This remains a planning estimate, not a delivery guarantee.
 
 ---
 
-# 14. Proposed Project Deliverables
+# 15. Proposed Project Deliverables
 
 1. Product and UI/UX specification.
 2. Android application source code.
@@ -1340,7 +1479,7 @@ Before broader distribution:
 
 ---
 
-# 15. Final Product Recommendation
+# 16. Final Product Recommendation
 
 Build RescueDesk AI as a **preparedness application first and an AI assistant second**.
 
