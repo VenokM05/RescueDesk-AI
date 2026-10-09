@@ -12,7 +12,7 @@ management, default-on toggle) begins.
 
 ## Test setup
 
-**Build under test:** `apk/RescueDeskAI-v0.1.0-scaffold-af0f0d9-debug.apk`
+**Build under test:** `apk/RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk`
 (or newer) — experimental Gemma 2 2B IT via MediaPipe LLM Inference 0.10.27,
 CPU backend, off-by-default toggle.
 

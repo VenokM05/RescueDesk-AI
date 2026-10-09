@@ -7,13 +7,17 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-af0f0d9-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `af0f0d9` |
+| Git commit | `eae6ac7` |
 | Date | 2026-10-10 |
-| SHA-256 | `4db78bcb9b2173615c45e35f87e009e69249912d44fc9d80c396d9b5d3c9c82d` |
+| SHA-256 | `248de0e6cafe482c5f44a29c54188e3db2d3f1d7bb4820180b9c8b8fd6a87cc4` |
 | Size | ~71 MB (grew from ~18 MB: MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
+
+**New in this build:** the launcher now shows **"RescueDesk AI"** as the app
+display name (`android:label` was missing, so launchers fell back to the
+package name).
 
 **Included:** onboarding (language + text size), Home, Emergency Help routing,
 8 built-in guides in EN + Filipino (typhoon/flood/earthquake/fire — UNREVIEWED,
@@ -54,7 +58,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-af0f0d9-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
