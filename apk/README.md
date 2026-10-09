@@ -7,11 +7,11 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-e5545d0-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-af0f0d9-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `e5545d0` |
+| Git commit | `af0f0d9` |
 | Date | 2026-10-10 |
-| SHA-256 | `76ae446d7f6dca4a234e8105c64fd94f44d86506445408b1bd90578df9289555` |
+| SHA-256 | `4db78bcb9b2173615c45e35f87e009e69249912d44fc9d80c396d9b5d3c9c82d` |
 | Size | ~71 MB (grew from ~18 MB: MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
@@ -54,7 +54,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-e5545d0-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-af0f0d9-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
