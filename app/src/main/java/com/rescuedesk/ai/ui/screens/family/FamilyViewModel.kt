@@ -7,6 +7,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.app.ServiceLocator
 import com.rescuedesk.ai.domain.model.EmergencyContact
 import com.rescuedesk.ai.domain.model.HouseholdPlan
@@ -48,7 +49,8 @@ class FamilyViewModel : ViewModel() {
         try {
             context.startActivity(intent)
         } catch (_: ActivityNotFoundException) {
-            Toast.makeText(context, "No dialer app available on this device.", Toast.LENGTH_LONG).show()
+            // LocalContext is the language-wrapped context, so this follows the setting.
+            Toast.makeText(context, context.getString(R.string.contacts_no_dialer), Toast.LENGTH_LONG).show()
         }
     }
 }

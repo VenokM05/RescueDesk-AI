@@ -35,19 +35,27 @@ data class GoBagItem(
     val id: Long,
     val category: String,
     val label: String,
+    val labelFil: String = "",
     val checked: Boolean,
     val isCustom: Boolean,
     val updatedAt: String
-)
+) {
+    /** Checklist text in the reader's language; Filipino falls back to English. */
+    fun labelFor(languageTag: String): String =
+        if (languageTag == "fil" && labelFil.isNotBlank()) labelFil else label
+}
 
-/** Checklist categories in display order (PRD §5.11). */
+/**
+ * Checklist category keys in display order (PRD §5.11). Keys are stable
+ * identifiers stored in the database; the UI maps them to localized headers.
+ */
 object GoBagCategories {
-    val ALL = listOf(
-        "Water and Food",
-        "First Aid and Medicines",
-        "Lighting and Communication",
-        "Documents and Money",
-        "Clothing and Hygiene",
-        "Special Household Needs"
-    )
+    const val WATER = "water"
+    const val FIRST_AID = "first_aid"
+    const val LIGHTING = "lighting"
+    const val DOCUMENTS = "documents"
+    const val CLOTHING = "clothing"
+    const val SPECIAL = "special"
+
+    val ALL = listOf(WATER, FIRST_AID, LIGHTING, DOCUMENTS, CLOTHING, SPECIAL)
 }

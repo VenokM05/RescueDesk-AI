@@ -59,6 +59,19 @@ class PreferencesStore(private val context: Context) {
         context.dataStore.edit { it[KEY_LANGUAGE] = language?.tag ?: "" }
     }
 
+    /**
+     * Resolved guide/content language tag ("fil" or "en"): the explicit choice,
+     * or the system locale when the user chose "follow system" (FR-07).
+     */
+    val languageTag: Flow<String> = settings.map { choice ->
+        choice.language?.tag ?: systemLanguageTag()
+    }
+
+    private fun systemLanguageTag(): String {
+        val primary = context.resources.configuration.locales[0].language
+        return if (primary == "fil" || primary == "tl") "fil" else "en"
+    }
+
     suspend fun setTextSize(size: TextSize) {
         context.dataStore.edit { it[KEY_TEXT_SIZE_FACTOR] = size.factor }
     }

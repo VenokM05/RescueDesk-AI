@@ -26,10 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.data.pack.PackRepository
 import com.rescuedesk.ai.data.pack.PackStatus
 
@@ -55,10 +57,13 @@ fun OfflineScreen(onBack: () -> Unit, viewModel: OfflineViewModel = viewModel())
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Offline & downloads") },
+                title = { Text(stringResource(R.string.offline_title)) },
                 navigationIcon = {
                     androidx.compose.material3.IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.common_back)
+                        )
                     }
                 }
             )
@@ -88,52 +93,70 @@ fun OfflineScreen(onBack: () -> Unit, viewModel: OfflineViewModel = viewModel())
 
 @Composable
 private fun StatusCard(status: PackStatus, syncing: Boolean, onCheck: () -> Unit) {
-    val (icon, label) = when (status) {
-        PackStatus.Idle -> Icons.Default.CloudOff to "Not checked yet on this device"
-        PackStatus.Checking -> Icons.Default.CloudSync to "Checking for guide updates…"
+    val statusLabel = when (status) {
+        PackStatus.Idle -> stringResource(R.string.offline_status_idle)
+        PackStatus.Checking -> stringResource(R.string.offline_status_checking)
         is PackStatus.Downloading ->
-            Icons.Default.CloudSync to "Downloading guides ${status.done + 1} of ${status.total}…"
-        PackStatus.Applying -> Icons.Default.CloudSync to "Applying downloaded guides…"
-        is PackStatus.UpToDate -> Icons.Default.Done to
-            if (status.downloaded > 0) "Update installed — ${status.downloaded} new, ${status.skipped} already current"
-            else "Up to date — no new guides found"
-        is PackStatus.Failed -> Icons.Default.ErrorOutline to "Could not update: ${status.reason}"
+            stringResource(R.string.offline_status_downloading, status.done + 1, status.total)
+        PackStatus.Applying -> stringResource(R.string.offline_status_applying)
+        is PackStatus.UpToDate ->
+            if (status.downloaded > 0) {
+                stringResource(R.string.offline_status_updated, status.downloaded, status.skipped)
+            } else {
+                stringResource(R.string.offline_status_uptodate)
+            }
+        is PackStatus.Failed -> stringResource(R.string.offline_status_failed, status.reason)
     }
-    SectionCard(title = "Connection status") {
+    val icon = when (status) {
+        is PackStatus.Failed -> Icons.Default.ErrorOutline
+        is PackStatus.UpToDate -> Icons.Default.Done
+        PackStatus.Idle -> Icons.Default.CloudOff
+        else -> Icons.Default.CloudSync
+    }
+    SectionCard(title = stringResource(R.string.offline_status_section)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(label, style = MaterialTheme.typography.bodyLarge)
+            Text(statusLabel, style = MaterialTheme.typography.bodyLarge)
         }
         FilledTonalButton(
             onClick = onCheck,
             enabled = !syncing,
             modifier = Modifier.padding(top = 8.dp)
-        ) { Text(if (syncing) "Working…" else "Check for updates") }
+        ) {
+            Text(
+                stringResource(if (syncing) R.string.offline_working else R.string.offline_check)
+            )
+        }
     }
 }
 
 @Composable
 private fun GuidePackCard(info: PackRepository.PackInfo?, lastSync: String?) {
-    SectionCard(title = "Emergency Guide Pack") {
+    SectionCard(title = stringResource(R.string.offline_pack_section)) {
         val installed = info != null && info.guideCount > 0
-        InfoRow("Built-in guides", "4 categories always on this device, no download needed")
         InfoRow(
-            "Downloaded guides",
-            if (installed) "${info!!.guideCount} guides, pack version ${info.latestVersion}"
-            else "None yet — built-in guides still work offline"
+            stringResource(R.string.offline_pack_builtin),
+            stringResource(R.string.offline_pack_builtin_value)
         )
         InfoRow(
-            "Storage used by downloads",
-            if (installed) "~${formatBytes(info!!.approxBytes)} (approx.)" else "0 KB"
+            stringResource(R.string.offline_pack_downloaded),
+            if (installed) stringResource(R.string.offline_pack_downloaded_value, info!!.guideCount, info.latestVersion)
+            else stringResource(R.string.offline_pack_empty_value)
         )
-        InfoRow("Last update check", lastSync ?: "Never")
+        InfoRow(
+            stringResource(R.string.offline_pack_storage),
+            if (installed) stringResource(R.string.offline_pack_storage_value, formatBytes(info!!.approxBytes))
+            else stringResource(R.string.offline_pack_storage_value, "0 B")
+        )
+        InfoRow(
+            stringResource(R.string.offline_pack_last),
+            lastSync ?: stringResource(R.string.common_never)
+        )
         Text(
-            "Downloads are verified by checksum and reviewer-cleared rights before " +
-                "they replace anything on this device. If a download fails, your " +
-                "current guides are kept unchanged.",
+            stringResource(R.string.offline_pack_note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 6.dp)
@@ -143,20 +166,19 @@ private fun GuidePackCard(info: PackRepository.PackInfo?, lastSync: String?) {
 
 @Composable
 private fun WifiCard(wifiOnly: Boolean, onSetWifiOnly: (Boolean) -> Unit) {
-    SectionCard(title = "Download preference") {
+    SectionCard(title = stringResource(R.string.offline_pref_section)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             androidx.compose.material3.Checkbox(checked = wifiOnly, onCheckedChange = onSetWifiOnly)
             Text(
-                "Download guides over Wi-Fi only",
+                stringResource(R.string.offline_pref_wifi),
                 style = MaterialTheme.typography.bodyLarge
             )
         }
         Text(
-            "Guides are small text files, but this protects prepaid data plans. " +
-                "\"Check for updates\" above always runs when you press it.",
+            stringResource(R.string.offline_pref_wifi_note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -165,20 +187,19 @@ private fun WifiCard(wifiOnly: Boolean, onSetWifiOnly: (Boolean) -> Unit) {
 
 @Composable
 private fun AiModelCard() {
-    SectionCard(title = "AI model (Ask AI)") {
+    SectionCard(title = stringResource(R.string.offline_model_section)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Icon(Icons.Default.CloudOff, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text("Not installed — Ask AI shows offline guide answers only",
-                style = MaterialTheme.typography.bodyLarge)
+            Text(
+                stringResource(R.string.offline_model_not_installed),
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
         Text(
-            "The on-device AI model needs several times more storage and memory " +
-                "than the whole guide library, and its availability depends on the " +
-                "Phase 1 on-device performance review. Emergency guides never " +
-                "depend on the model: removing or skipping it keeps all guides intact.",
+            stringResource(R.string.offline_model_note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 6.dp)

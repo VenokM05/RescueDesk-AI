@@ -20,9 +20,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.EmergencyContact
 
 /**
@@ -42,7 +44,7 @@ fun ContactsEditor(viewModel: FamilyViewModel) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         if (contacts.isEmpty()) {
             Text(
-                "No contacts saved yet. Add family members or neighbors you would call in an emergency.",
+                stringResource(R.string.contacts_empty),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -58,21 +60,21 @@ fun ContactsEditor(viewModel: FamilyViewModel) {
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Pangalan / Name") },
+            label = { Text(stringResource(R.string.contacts_name_label)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = relationship,
             onValueChange = { relationship = it },
-            label = { Text("Kamag-anak / Relationship (e.g. Tita in Cebu)") },
+            label = { Text(stringResource(R.string.contacts_relationship_label)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             value = phone,
             onValueChange = { phone = it },
-            label = { Text("Numero / Phone number") },
+            label = { Text(stringResource(R.string.contacts_phone_label)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -85,10 +87,10 @@ fun ContactsEditor(viewModel: FamilyViewModel) {
             },
             modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)
         ) {
-            Text("Idagdag (Add contact)", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.contacts_add), style = MaterialTheme.typography.labelLarge)
         }
         Text(
-            "Calling requires working phone service. RescueDesk AI never calls or notifies anyone automatically — you always dial yourself.",
+            stringResource(R.string.contacts_dialing_note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -122,10 +124,10 @@ private fun ContactRow(contact: EmergencyContact, onCall: () -> Unit, onDelete: 
                 onClick = onCall,
                 modifier = Modifier.heightIn(min = 48.dp)
             ) {
-                Text("📞 Tawagan (Call)", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.contacts_call), style = MaterialTheme.typography.labelLarge)
             }
             TextButton(onClick = onDelete) {
-                Text("Tanggalin", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.contacts_delete), color = MaterialTheme.colorScheme.error)
             }
         }
     }

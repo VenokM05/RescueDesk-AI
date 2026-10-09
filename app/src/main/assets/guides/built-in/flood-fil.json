@@ -1,0 +1,27 @@
+{
+  "publicId": "builtin-flood-fil",
+  "title": "Baha: Ano ang gagawin",
+  "category": "flood",
+  "language": "fil",
+  "summary": "Mga agarang hakbang sa tumataas na tubig at nalulunong lugar. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD §8.3, §10.3).",
+  "steps": [
+    "Lumipat sa ligtas na lugar kapag ligtas ang pagkilos.",
+    "Sundin ang opisyal na utos sa pag-evacuate para sa inyong lugar.",
+    "Kung pumapasok na ang tubig sa inyong bahay, patayin ang kuryente sa main breaker kung abot at ligtas.",
+    "Umakyat sa mas mataas na lugar o sa pinakaligtas na itaas na palapag; iwasan ang saradong kisame na walang labasan.",
+    "Bumalik lamang sa bahay kapag inihayag na ng mga awtoridad na ligtas na ito para sa inyong lugar."
+  ],
+  "avoid": [
+    "Huwag maglakad o magmaneho sa tubig-baha — maaari kang dalunin ng gumagalaw na tubig.",
+    "Huwag hawakan ang mga electrical appliance o outlet habang nakatayo sa tubig o basa ang kamay.",
+    "Huwag bumalik sa bahay bago pa bumaba ang baha at bago sabihin ng mga awtoridad na ligtas na.",
+    "Huwag uminom o maghugas gamit ang tubig-baha — maaari itong may dala na dumi at kemikal."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

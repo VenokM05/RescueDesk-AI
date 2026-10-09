@@ -15,12 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.app.ServiceLocator
 import com.rescuedesk.ai.data.local.AppLanguage
 import com.rescuedesk.ai.data.local.TextSize
+import com.rescuedesk.ai.ui.labelRes
 import kotlinx.coroutines.launch
 
 /**
@@ -41,12 +44,12 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        TextButton(onClick = onBack) { Text("← Bumalik (Back)") }
-        Text("Settings", style = MaterialTheme.typography.displaySmall)
+        TextButton(onClick = onBack) { Text(stringResource(R.string.common_back)) }
+        Text(stringResource(R.string.settings_title), style = MaterialTheme.typography.displaySmall)
 
         val current = settings ?: return@Column
 
-        SectionCard("Wika / Language") {
+        SectionCard(stringResource(R.string.settings_language_section)) {
             AppLanguage.entries.forEach { lang ->
                 SettingOption(
                     label = lang.label,
@@ -55,46 +58,44 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 )
             }
             SettingOption(
-                label = "Sundan ang system / Follow system",
+                label = stringResource(R.string.settings_language_follow),
                 selected = current.language == null,
                 onClick = { scope.launch { store.setLanguage(null) } }
             )
         }
 
-        SectionCard("Laki ng teksto / Text size") {
+        SectionCard(stringResource(R.string.settings_textsize_section)) {
             TextSize.entries.forEach { size ->
                 SettingOption(
-                    label = size.label,
+                    label = stringResource(size.labelRes()),
                     selected = current.textSize == size,
                     onClick = { scope.launch { store.setTextSize(size) } }
                 )
             }
         }
 
-        SectionCard("Offline resources") {
+        SectionCard(stringResource(R.string.settings_offline_section)) {
             Text(
-                "Downloaded guides, storage used, and update checks live in one place.",
+                stringResource(R.string.settings_offline_summary),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            TextButton(onClick = onOpenOffline) { Text("Open Offline & downloads manager") }
+            TextButton(onClick = onOpenOffline) {
+                Text(stringResource(R.string.settings_offline_open))
+            }
         }
 
-        SectionCard("Privacy") {
+        SectionCard(stringResource(R.string.settings_privacy_section)) {
             Text(
-                "RescueDesk AI stores everything on this device: no accounts, " +
-                    "no location, no chat history kept, no analytics. " +
-                    "Guides work fully offline.",
+                stringResource(R.string.settings_privacy_body),
                 style = MaterialTheme.typography.bodyLarge
             )
             // TODO Phase 4: "Delete my data" (household plan, contacts, chat).
         }
 
-        SectionCard("About") {
+        SectionCard(stringResource(R.string.settings_about_section)) {
             Text(
-                "Built-in emergency guides are preliminary and pending review by " +
-                    "qualified Philippine responders. In a real emergency, contact " +
-                    "local authorities and follow official instructions.",
+                stringResource(R.string.settings_about_body),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -7,6 +7,7 @@ import com.rescuedesk.ai.data.local.FamilyPlanEntity
 import com.rescuedesk.ai.data.local.GoBagDao
 import com.rescuedesk.ai.data.local.GoBagItemEntity
 import com.rescuedesk.ai.domain.model.EmergencyContact
+import com.rescuedesk.ai.domain.model.GoBagCategories
 import com.rescuedesk.ai.domain.model.GoBagItem
 import com.rescuedesk.ai.domain.model.HouseholdPlan
 import kotlinx.coroutines.flow.Flow
@@ -49,7 +50,9 @@ class RoomFamilyRepository(
 
     override fun observeGoBag(): Flow<List<GoBagItem>> =
         goBagDao.observeAll().map { list ->
-            list.map { GoBagItem(it.id, it.category, it.label, it.checked, it.isCustom, it.updatedAt) }
+            list.map {
+                GoBagItem(it.id, it.category, it.label, it.labelFil, it.checked, it.isCustom, it.updatedAt)
+            }
         }
 
     override suspend fun savePlan(plan: HouseholdPlan) {
@@ -89,6 +92,8 @@ class RoomFamilyRepository(
             GoBagItemEntity(
                 category = category,
                 label = label.trim(),
+                // User-entered text is language-neutral: shown as typed in either UI language.
+                labelFil = label.trim(),
                 isCustom = true,
                 updatedAt = java.time.LocalDate.now().toString()
             )
@@ -100,35 +105,72 @@ class RoomFamilyRepository(
     override suspend fun ensureGoBagSeeded() {
         seedMutex.withLock {
             if (goBagDao.count() > 0) return
-            GoBagDefaults.items.forEach { (category, label) ->
+            GoBagDefaults.items.forEach { (category, labelEn, labelFil) ->
                 goBagDao.insert(
-                    GoBagItemEntity(category = category, label = label, isCustom = false)
+                    GoBagItemEntity(
+                        category = category,
+                        label = labelEn,
+                        labelFil = labelFil,
+                        isCustom = false
+                    )
                 )
             }
         }
     }
 }
 
-/** Starter list from PRD §5.10 step 4 + §5.11 categories; general, not a substitute for household-specific planning. */
+/**
+ * Starter list from PRD §5.10 step 4 + §5.11 categories; general, not a
+ * substitute for household-specific planning. Seeded in both app languages
+ * (category key, English, Filipino).
+ */
 private object GoBagDefaults {
-    val items: List<Pair<String, String>> = listOf(
-        "Water and Food" to "Drinking water (about 3 liters per person per day, 3 days)",
-        "Water and Food" to "Ready-to-eat food for 3 days",
-        "Water and Food" to "Manual can opener",
-        "First Aid and Medicines" to "First aid kit",
-        "First Aid and Medicines" to "7-day supply of maintenance medicines",
-        "First Aid and Medicines" to "Face masks",
-        "Lighting and Communication" to "Flashlight or headlamp",
-        "Lighting and Communication" to "Batteries or charged power bank",
-        "Lighting and Communication" to "Battery- or hand-crank-powered radio",
-        "Documents and Money" to "Copies of IDs and important documents in a waterproof bag",
-        "Documents and Money" to "Cash in small bills",
-        "Clothing and Hygiene" to "Change of clothes for each person",
-        "Clothing and Hygiene" to "Towel, soap, and hygiene supplies",
-        "Clothing and Hygiene" to "Plastic bags for wet items and waste",
-        "Special Household Needs" to "Baby supplies, if applicable",
-        "Special Household Needs" to "Needs for seniors or persons with disabilities (medicine, glasses, mobility aids)",
-        "Special Household Needs" to "Pet food and supplies, if applicable"
+    val items: List<Triple<String, String, String>> = listOf(
+        Triple(
+            GoBagCategories.WATER,
+            "Drinking water (about 3 liters per person per day, 3 days)",
+            "Inuumang tubig (mga 3 litro bawat tao bawat araw, 3 araw)"
+        ),
+        Triple(
+            GoBagCategories.WATER,
+            "Ready-to-eat food for 3 days",
+            "Pagkaing hindi na kailangang lutuin para sa 3 araw"
+        ),
+        Triple(GoBagCategories.WATER, "Manual can opener", "Pangbukás ng lata na hindi kailangan ng kuryente"),
+        Triple(GoBagCategories.FIRST_AID, "First aid kit", "First aid kit"),
+        Triple(GoBagCategories.FIRST_AID, "7-day supply of maintenance medicines", "7 araw na sapat na gamot na regular na inumin"),
+        Triple(GoBagCategories.FIRST_AID, "Face masks", "Mga mask sa mukha"),
+        Triple(GoBagCategories.LIGHTING, "Flashlight or headlamp", "Flashlight o headlamp"),
+        Triple(GoBagCategories.LIGHTING, "Batteries or charged power bank", "Baterya o charged na power bank"),
+        Triple(
+            GoBagCategories.LIGHTING,
+            "Battery- or hand-crank-powered radio",
+            "Radyo na baterya o kamikamang pang-charge"
+        ),
+        Triple(
+            GoBagCategories.DOCUMENTS,
+            "Copies of IDs and important documents in a waterproof bag",
+            "Kopya ng ID at mahahalagang dokumento sa hindi tinatablan ng tubig na bag"
+        ),
+        Triple(GoBagCategories.DOCUMENTS, "Cash in small bills", "Pera sa maliliit na denomination"),
+        Triple(
+            GoBagCategories.CLOTHING,
+            "Change of clothes for each person",
+            "Isang palitang damit bawat tao"
+        ),
+        Triple(GoBagCategories.CLOTHING, "Towel, soap, and hygiene supplies", "Tuwalya, sabon, at mga kailangan sa kalinisan"),
+        Triple(
+            GoBagCategories.CLOTHING,
+            "Plastic bags for wet items and waste",
+            "Plastic na bag para sa basáng gamit at basura"
+        ),
+        Triple(GoBagCategories.SPECIAL, "Baby supplies, if applicable", "Mga pang-baby, kung may sanggol"),
+        Triple(
+            GoBagCategories.SPECIAL,
+            "Needs for seniors or persons with disabilities (medicine, glasses, mobility aids)",
+            "Pangangailangan ng matatanda o PWD (gamot, salamin, gamit sa paggalaw)"
+        ),
+        Triple(GoBagCategories.SPECIAL, "Pet food and supplies, if applicable", "Pagkain at gamit ng alagang hayop, kung mayroon")
     )
 }
 

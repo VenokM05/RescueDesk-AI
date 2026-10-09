@@ -1,9 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RescueDesk AI</string>
+
+    <!-- Navigation (PRD §4.6: four tabs) -->
     <string name="nav_home">Home</string>
     <string name="nav_guides">Guides</string>
     <string name="nav_ask_ai">Ask AI</string>
     <string name="nav_my_family">My Family</string>
     <string name="emergency_help">Emergency Help</string>
+
+    <!-- Common actions: one word each, never icon-only (PRD §4.4) -->
+    <string name="common_back">Back</string>
+    <string name="common_next">Next</string>
+    <string name="common_skip">Skip</string>
+    <string name="common_add">Add</string>
+    <string name="common_remove">Remove</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_open">Open</string>
+    <string name="common_never">Never</string>
+    <string name="common_none_saved">None saved</string>
+    <string name="common_not_started">Not started</string>
+    <string name="common_completed">✓ Completed</string>
+    <string name="common_needs_review">⚠ Needs review</string>
+    <string name="common_builtin_badge">Built-in</string>
+    <string name="common_pack_badge">Guide pack</string>
+
+    <!-- Screen E — Home -->
+    <string name="home_greeting">Are you ready for an emergency?</string>
+    <string name="home_subtitle">Your emergency guides are ready when you need them.</string>
+    <string name="home_quick_guides">Quick guides</string>
+    <string name="home_cat_typhoon">Typhoon and flood</string>
+    <string name="home_cat_typhoon_sub">Warnings, shelter, evacuation</string>
+    <string name="home_cat_earthquake">Earthquake</string>
+    <string name="home_cat_earthquake_sub">Drop, Cover, Hold On</string>
+    <string name="home_cat_fire">Fire</string>
+    <string name="home_cat_fire_sub">Get out, stay low</string>
+    <string name="home_cat_firstaid">First Aid</string>
+    <string name="home_cat_firstaid_sub">Basic care before help arrives</string>
+    <string name="home_plan_title">My Family Plan</string>
+    <string name="home_plan_not_started">Not started yet</string>
+    <string name="home_plan_continue">Continue plan</string>
+    <string name="home_ask_title">Got a question?</string>
+    <string name="home_ask_chip">Ask RescueDesk AI</string>
+    <string name="home_offline_strip">Offline: built-in emergency guides available · AI model not installed</string>
+    <string name="home_settings_desc">Settings</string>
+
+    <!-- Screens A–C — Onboarding. The welcome step is deliberately bilingual
+         (code-switched) because the language has not been chosen yet. -->
+    <string name="onboarding_welcome_title_fil" translatable="false">Handa ka na ba sa emergency?</string>
+    <string name="onboarding_welcome_title_en" translatable="false">Are you ready for an emergency?</string>
+    <string name="onboarding_feature_offline" translatable="false">✓ Gumagana nang offline — works with no internet</string>
+    <string name="onboarding_feature_account" translatable="false">✓ Walang account — no sign-up, no accounts</string>
+    <string name="onboarding_feature_guides" translatable="false">✓ Libreng gabay — free, reviewed emergency guides</string>
+    <string name="onboarding_language_title">Choose your language</string>
+    <string name="onboarding_language_sub">You can change this later in Settings.</string>
+    <string name="onboarding_language_fil_sub">Use Filipino in the app</string>
+    <string name="onboarding_language_en_sub">Use English in the app</string>
+    <string name="onboarding_textsize_title">Text size</string>
+    <string name="onboarding_textsize_sub">Pick the size that is easiest for you to read.</string>
+    <string name="onboarding_textsize_sample">Example: Go to higher ground now.</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_start_app">Start using the app</string>
+    <string name="text_size_normal">Normal</string>
+    <string name="text_size_large">Large</string>
+    <string name="text_size_extra_large">Extra large</string>
+
+    <!-- Screen F — Emergency Help -->
+    <string name="emergency_title">What is happening?</string>
+    <string name="emergency_safety_note">If you are in immediate danger, move to safety if possible and contact local emergency services.</string>
+    <string name="emergency_situation_flood">Flooding or rising water</string>
+    <string name="emergency_situation_typhoon">Typhoon or strong winds</string>
+    <string name="emergency_situation_earthquake">Earthquake</string>
+    <string name="emergency_situation_fire">Fire or smoke</string>
+    <string name="emergency_situation_injury">Injury or medical emergency</string>
+    <string name="emergency_situation_other">Other emergency</string>
+
+    <!-- Screen I — Guides library -->
+    <string name="guides_title">Emergency Guides</string>
+    <string name="guides_search_label">Search emergency guides</string>
+    <string name="guides_empty">No guides found. Try a shorter word, like \"bagyo\", \"flood\", or \"fire\". Built-in guides cover typhoon, flood, earthquake, and fire.</string>
+
+    <!-- Screen G — Guide detail -->
+    <string name="detail_not_found">Guide not found.</string>
+    <string name="detail_needs_review">⚠ Needs review — this content may be outdated. Last reviewed: %1$s.</string>
+    <string name="detail_needs_review_never">never</string>
+    <string name="detail_rights_pending">ℹ Pending review — this is preliminary content not yet approved by an authorized reviewer or agency.</string>
+    <string name="detail_do_this_first">Do this first</string>
+    <string name="detail_avoid">Avoid these actions</string>
+    <string name="detail_source">Source</string>
+    <string name="detail_meta_builtin">Language: %1$s · Version %2$d · Built-in guide</string>
+    <string name="detail_meta_pack">Language: %1$s · Version %2$d · Guide pack</string>
+    <string name="detail_related">Related guides</string>
+
+    <!-- Screen H — Ask AI fallback state -->
+    <string name="ask_title">Ask RescueDesk AI</string>
+    <string name="ask_not_ready">Offline AI is not ready on this device.</string>
+    <string name="ask_not_ready_sub">Emergency guides still work without it.</string>
+    <string name="ask_open_guides">Open emergency guides</string>
+    <string name="ask_retry_setup">Retry AI setup</string>
+    <string name="ask_chat_placeholder">Chat UI arrives with the Phase 3 runtime integration.</string>
+    <string name="ask_examples_title">Examples you can ask once AI is set up</string>
+    <string name="ask_example_1">What should I put in a go-bag?</string>
+    <string name="ask_example_2">What should my family prepare before a typhoon?</string>
+    <string name="ask_example_3">How can I prepare our house for an earthquake?</string>
+
+    <!-- Screen M — Settings and privacy -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language_section">Language</string>
+    <string name="settings_language_follow">Follow system</string>
+    <string name="settings_textsize_section">Text size</string>
+    <string name="settings_offline_section">Offline resources</string>
+    <string name="settings_offline_summary">Downloaded guides, storage used, and update checks live in one place.</string>
+    <string name="settings_offline_open">Open Offline and downloads manager</string>
+    <string name="settings_privacy_section">Privacy</string>
+    <string name="settings_privacy_body">RescueDesk AI stores everything on this device: no accounts, no location, no chat history kept, no analytics. Guides work fully offline.</string>
+    <string name="settings_about_section">About</string>
+    <string name="settings_about_body">Built-in emergency guides are preliminary and pending review by qualified Philippine responders. In a real emergency, contact local authorities and follow official instructions.</string>
+
+    <!-- Screen L — Offline and Download Manager -->
+    <string name="offline_title">Offline and downloads</string>
+    <string name="offline_status_section">Connection status</string>
+    <string name="offline_status_idle">Not checked yet on this device</string>
+    <string name="offline_status_checking">Checking for guide updates…</string>
+    <string name="offline_status_downloading">Downloading guides %1$d of %2$d…</string>
+    <string name="offline_status_applying">Applying downloaded guides…</string>
+    <string name="offline_status_updated">Update installed — %1$d new, %2$d already current</string>
+    <string name="offline_status_uptodate">Up to date — no new guides found</string>
+    <string name="offline_status_failed">Could not update: %1$s</string>
+    <string name="offline_check">Check for updates</string>
+    <string name="offline_working">Working…</string>
+    <string name="offline_pack_section">Emergency Guide Pack</string>
+    <string name="offline_pack_builtin">Built-in guides</string>
+    <string name="offline_pack_builtin_value">Always on this device, no download needed</string>
+    <string name="offline_pack_downloaded">Downloaded guides</string>
+    <string name="offline_pack_downloaded_value">%1$d guides, pack version %2$d</string>
+    <string name="offline_pack_empty_value">None yet — built-in guides still work offline</string>
+    <string name="offline_pack_storage">Storage used by downloads</string>
+    <string name="offline_pack_storage_value">~%1$s (approx.)</string>
+    <string name="offline_pack_last">Last update check</string>
+    <string name="offline_pack_note">Downloads are verified by checksum and reviewer-cleared rights before they replace anything on this device. If a download fails, your current guides are kept unchanged.</string>
+    <string name="offline_pref_section">Download preference</string>
+    <string name="offline_pref_wifi">Download guides over Wi-Fi only</string>
+    <string name="offline_pref_wifi_note">Guides are small text files, but this protects prepaid data plans. \"Check for updates\" above always runs when you press it.</string>
+    <string name="offline_model_section">AI model (Ask AI)</string>
+    <string name="offline_model_not_installed">Not installed — Ask AI shows offline guide answers only</string>
+    <string name="offline_model_note">The on-device AI model needs several times more storage and memory than the whole guide library, and its availability depends on the Phase 1 on-device performance review. Emergency guides never depend on the model: removing or skipping it keeps all guides intact.</string>
+
+    <!-- Screen J — My Family -->
+    <string name="family_title">My Family</string>
+    <string name="family_progress">%1$d of 5 sections completed. Progress saves automatically on this device.</string>
+    <string name="family_completed">Plan complete — keep it updated. Last saved %1$s.</string>
+    <string name="family_private_note">Everything you save here stays on this device unless you choose to share it.</string>
+    <string name="family_section_plan">Family Emergency Plan</string>
+    <string name="family_section_plan_sub">Household, members, special needs</string>
+    <string name="family_section_contacts">Emergency Contacts</string>
+    <string name="family_section_contacts_sub">Family and neighbors you would call</string>
+    <string name="family_section_meeting">Meeting Places</string>
+    <string name="family_section_meeting_sub">Nearby, alternate, out-of-area contact</string>
+    <string name="family_section_gobag">Go-Bag Checklist</string>
+    <string name="family_section_gobag_sub">Track what you have packed</string>
+    <string name="family_section_reminders">Important Reminders</string>
+    <string name="family_section_reminders_sub">Notes your family should remember</string>
+
+    <!-- Family Plan wizard (PRD §5.10) -->
+    <string name="wizard_step_1">Step 1: Household</string>
+    <string name="wizard_step_2">Step 2: Emergency Contacts</string>
+    <string name="wizard_step_3">Step 3: Meeting Places</string>
+    <string name="wizard_step_4">Step 4: Supplies</string>
+    <string name="wizard_step_5">Step 5: Review</string>
+    <string name="wizard_finish">Mark plan complete</string>
+    <string name="wizard_nickname_label">Household nickname (optional) — e.g. The Santos Family</string>
+    <string name="wizard_members_label">Number of household members</string>
+    <string name="wizard_needs_label">Special needs (optional) — medicines, mobility aids, infants, pets</string>
+    <string name="wizard_meeting_nearby_label">Meeting place nearby — e.g. gate of the barangay hall</string>
+    <string name="wizard_meeting_alt_label">Alternative meeting place — e.g. relative\'s house uphill</string>
+    <string name="wizard_outofarea_note">An out-of-area contact helps the family reconnect when local lines are down.</string>
+    <string name="wizard_outofarea_name_label">Out-of-area contact name (optional)</string>
+    <string name="wizard_outofarea_phone_label">Out-of-area contact phone (optional)</string>
+    <string name="wizard_supplies_body">Track your go-bag supplies. Start with water, food, medicines, flashlight, and copies of important documents.</string>
+    <string name="wizard_supplies_note">You can add supplies any time — the checklist saves immediately.</string>
+    <string name="wizard_open_gobag">Open Go-Bag Checklist</string>
+    <string name="wizard_review_household">Household</string>
+    <string name="wizard_review_members">Members</string>
+    <string name="wizard_review_contacts">Emergency contacts</string>
+    <string name="wizard_review_meeting_nearby">Meeting place (nearby)</string>
+    <string name="wizard_review_meeting_alt">Meeting place (alternate)</string>
+    <string name="wizard_review_outofarea">Out-of-area contact</string>
+    <string name="wizard_review_reminders">Important Reminders</string>
+    <string name="wizard_reminders_label">e.g. Lolo\'s medicine lasts 5 days; reunite at barangay hall first</string>
+
+    <!-- Emergency contacts (FR-06) -->
+    <string name="contacts_empty">No contacts saved yet. Add family members or neighbors you would call in an emergency.</string>
+    <string name="contacts_name_label">Name</string>
+    <string name="contacts_relationship_label">Relationship (e.g. aunt in Cebu)</string>
+    <string name="contacts_phone_label">Phone number</string>
+    <string name="contacts_add">Add contact</string>
+    <string name="contacts_call">📞 Call</string>
+    <string name="contacts_delete">Delete</string>
+    <string name="contacts_dialing_note">Calling requires working phone service. RescueDesk AI never calls or notifies anyone automatically — you always dial yourself.</string>
+    <string name="contacts_no_dialer">No dialer app available on this device.</string>
+
+    <!-- Screen K — Go-Bag Checklist -->
+    <string name="gobag_title">Prepare your emergency bag</string>
+    <string name="gobag_disclaimer">This is a general starter list — adapt it to your household and the emergencies common in your area.</string>
+    <string name="gobag_progress">%1$d of %2$d packed</string>
+    <string name="gobag_last_updated">· Last updated %1$s</string>
+    <string name="gobag_add_section">Add an item</string>
+    <string name="gobag_item_label">Item — e.g. Raincoat for each person</string>
+    <string name="gobag_cat_water">Water and Food</string>
+    <string name="gobag_cat_first_aid">First Aid and Medicines</string>
+    <string name="gobag_cat_lighting">Lighting and Communication</string>
+    <string name="gobag_cat_documents">Documents and Money</string>
+    <string name="gobag_cat_clothing">Clothing and Hygiene</string>
+    <string name="gobag_cat_special">Special Household Needs</string>
 </resources>

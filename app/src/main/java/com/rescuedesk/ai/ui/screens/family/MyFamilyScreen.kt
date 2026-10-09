@@ -15,10 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.R
 
 /**
  * Screen J — My Family (PRD §5.10). Overview of the five plan sections with
@@ -54,30 +56,33 @@ fun MyFamilyScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Text("My Family", style = MaterialTheme.typography.displaySmall)
+        Text(stringResource(R.string.family_title), style = MaterialTheme.typography.displaySmall)
         Text(
-            text = if (loadedPlan.planCompleted) "Plan complete — keep it updated. Last saved ${loadedPlan.updatedAt}."
-            else "$doneCount of 5 sections completed. Progress saves automatically on this device.",
+            text = if (loadedPlan.planCompleted) {
+                stringResource(R.string.family_completed, loadedPlan.updatedAt)
+            } else {
+                stringResource(R.string.family_progress, doneCount)
+            },
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = "Everything you save here stays on this device unless you choose to share it.",
+            text = stringResource(R.string.family_private_note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         val sections = listOf(
-            Triple("Family Emergency Plan", "Household, members, special needs", 0),
-            Triple("Emergency Contacts", "Family and neighbors you would call", 1),
-            Triple("Meeting Places", "Nearby, alternate, out-of-area contact", 2),
-            Triple("Go-Bag Checklist", "Track what you have packed", -1),
-            Triple("Important Reminders", "Notes your family should remember", 4)
+            SectionCopy(R.string.family_section_plan, R.string.family_section_plan_sub, 0),
+            SectionCopy(R.string.family_section_contacts, R.string.family_section_contacts_sub, 1),
+            SectionCopy(R.string.family_section_meeting, R.string.family_section_meeting_sub, 2),
+            SectionCopy(R.string.family_section_gobag, R.string.family_section_gobag_sub, -1),
+            SectionCopy(R.string.family_section_reminders, R.string.family_section_reminders_sub, 4)
         )
-        sections.forEachIndexed { index, (label, subtitle, wizardStep) ->
+        sections.forEachIndexed { index, section ->
             Button(
-                onClick = { if (wizardStep >= 0) onOpenWizardStep(wizardStep) else onOpenGoBag() },
+                onClick = { if (section.wizardStep >= 0) onOpenWizardStep(section.wizardStep) else onOpenGoBag() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 72.dp)
@@ -87,15 +92,21 @@ fun MyFamilyScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(Modifier.weight(1f)) {
-                        Text(label, style = MaterialTheme.typography.labelLarge)
                         Text(
-                            subtitle,
+                            stringResource(section.titleRes),
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                        Text(
+                            stringResource(section.subtitleRes),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.85f)
                         )
                     }
                     Text(
-                        if (sectionsDone[index]) "✓ Completed" else "Not started",
+                        stringResource(
+                            if (sectionsDone[index]) R.string.common_completed
+                            else R.string.common_not_started
+                        ),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -103,3 +114,10 @@ fun MyFamilyScreen(
         }
     }
 }
+
+/** One Screen J row: localized title/subtitle resources plus its wizard step (-1 = go-bag). */
+private data class SectionCopy(
+    val titleRes: Int,
+    val subtitleRes: Int,
+    val wizardStep: Int
+)

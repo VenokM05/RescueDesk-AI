@@ -25,7 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.annotation.StringRes
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.rescuedesk.ai.R
@@ -69,17 +71,17 @@ fun HomeScreen(
             IconButton(onClick = onSettings) {
                 Icon(
                     Icons.Default.Settings,
-                    contentDescription = "Settings / Mga setting",
+                    contentDescription = stringResource(R.string.home_settings_desc),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
         Text(
-            text = "Kumusta! Handa ka na ba?",
+            text = stringResource(R.string.home_greeting),
             style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = "Your emergency guides are ready when you need them.",
+            text = stringResource(R.string.home_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -92,41 +94,64 @@ fun HomeScreen(
                 .height(72.dp),
             colors = ButtonDefaults.buttonColors(containerColor = DarkRed)
         ) {
-            Text("Emergency Help", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.emergency_help), style = MaterialTheme.typography.labelLarge)
         }
 
         // Quick-access category cards (PRD §5.5): route straight to the category's guides.
-        Text("Quick guides", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.home_quick_guides), style = MaterialTheme.typography.titleLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            QuickCard("Bagyo at Baha", "Typhoon and flood", Modifier.weight(1f)) { onOpenCategory("typhoon") }
-            QuickCard("Lindol", "Earthquake", Modifier.weight(1f)) { onOpenCategory("earthquake") }
+            QuickCard(
+                R.string.home_cat_typhoon,
+                R.string.home_cat_typhoon_sub,
+                Modifier.weight(1f)
+            ) { onOpenCategory("typhoon") }
+            QuickCard(
+                R.string.home_cat_earthquake,
+                R.string.home_cat_earthquake_sub,
+                Modifier.weight(1f)
+            ) { onOpenCategory("earthquake") }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            QuickCard("Sunog", "Fire", Modifier.weight(1f)) { onOpenCategory("fire") }
-            QuickCard("First Aid", "Basic first aid", Modifier.weight(1f)) { onOpenCategory("firstaid") }
+            QuickCard(R.string.home_cat_fire, R.string.home_cat_fire_sub, Modifier.weight(1f)) {
+                onOpenCategory("fire")
+            }
+            QuickCard(
+                R.string.home_cat_firstaid,
+                R.string.home_cat_firstaid_sub,
+                Modifier.weight(1f)
+            ) { onOpenCategory("firstaid") }
         }
 
         Spacer(Modifier.height(4.dp))
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp)) {
-                Text("My Family Plan", style = MaterialTheme.typography.titleLarge)
-                Text("Not started yet", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.home_plan_title), style = MaterialTheme.typography.titleLarge)
+                Text(
+                    stringResource(R.string.home_plan_not_started),
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Spacer(Modifier.height(8.dp))
-                SuggestionChip(onClick = onMyFamily, label = { Text("Continue plan") })
+                SuggestionChip(
+                    onClick = onMyFamily,
+                    label = { Text(stringResource(R.string.home_plan_continue)) }
+                )
             }
         }
 
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp)) {
-                Text("May tanong ka?", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.home_ask_title), style = MaterialTheme.typography.titleLarge)
                 Spacer(Modifier.height(8.dp))
-                SuggestionChip(onClick = onAskAi, label = { Text("Ask RescueDesk AI") })
+                SuggestionChip(
+                    onClick = onAskAi,
+                    label = { Text(stringResource(R.string.home_ask_chip)) }
+                )
             }
         }
 
         // Offline status strip (PRD §5.5). TODO Phase 3: bind real model/pack state.
         Text(
-            text = "Offline: built-in emergency guides available · AI model not installed",
+            text = stringResource(R.string.home_offline_strip),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -134,11 +159,20 @@ fun HomeScreen(
 }
 
 @Composable
-private fun QuickCard(title: String, subtitle: String, modifier: Modifier, onClick: () -> Unit) {
+private fun QuickCard(
+    @StringRes title: Int,
+    @StringRes subtitle: Int,
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
     Card(onClick = onClick, modifier = modifier) {
         Column(Modifier.padding(16.dp)) {
-            Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-            Text(subtitle, style = MaterialTheme.typography.bodyMedium)
+            Text(
+                stringResource(title),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Text(stringResource(subtitle), style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

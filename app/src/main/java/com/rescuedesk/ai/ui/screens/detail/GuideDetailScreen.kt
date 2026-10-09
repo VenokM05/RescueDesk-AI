@@ -21,10 +21,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.Guide
 import com.rescuedesk.ai.ui.theme.Amber
 
@@ -50,9 +52,9 @@ fun GuideDetailScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        TextButton(onClick = onBack) { Text("← Bumalik (Back)") }
+        TextButton(onClick = onBack) { Text(stringResource(R.string.common_back)) }
         if (g == null) {
-            Text("Guide not found.", style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.detail_not_found), style = MaterialTheme.typography.bodyLarge)
             return@Column
         }
         GuideDetailContent(
@@ -70,21 +72,17 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
 
     // Freshness warning (PRD §5.7 + §8.3): never color-only, always a text label.
     if (guide.needsReview(java.time.LocalDate.now().toString())) {
-        WarningBanner(
-            "⚠ Needs review — this content may be outdated. " +
-                "Last reviewed: ${guide.lastReviewed ?: "never"}."
-        )
+        val reviewedLabel = guide.lastReviewed
+            ?: stringResource(R.string.detail_needs_review_never)
+        WarningBanner(stringResource(R.string.detail_needs_review, reviewedLabel))
     }
     // Unreviewed/unrights-cleared placeholder disclosure (PRD §10.3).
     if (guide.rightsStatus != "cleared") {
-        WarningBanner(
-            "ℹ Pending review — this is preliminary content not yet approved by " +
-                "an authorized reviewer or agency."
-        )
+        WarningBanner(stringResource(R.string.detail_rights_pending))
     }
 
     Text(
-        "Do this first",
+        stringResource(R.string.detail_do_this_first),
         style = MaterialTheme.typography.headlineMedium,
         color = MaterialTheme.colorScheme.primary
     )
@@ -96,7 +94,7 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
 
     if (guide.avoidList.isNotEmpty()) {
         Text(
-            "Avoid these actions",
+            stringResource(R.string.detail_avoid),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.error
         )
@@ -112,14 +110,17 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
     Spacer(Modifier.height(6.dp))
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text("Nag-mula sa / Source", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.detail_source), style = MaterialTheme.typography.titleLarge)
             Text(guide.sourceName, style = MaterialTheme.typography.bodyMedium)
             guide.sourceRef?.let {
                 Text(it, style = MaterialTheme.typography.bodyMedium)
             }
             Text(
-                "Language: ${guide.language.uppercase()} · Version ${guide.version}" +
-                    (if (guide.isBuiltin) " · Built-in guide" else " · Guide pack"),
+                stringResource(
+                    if (guide.isBuiltin) R.string.detail_meta_builtin else R.string.detail_meta_pack,
+                    guide.language.uppercase(),
+                    guide.version
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -127,7 +128,7 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
     }
 
     if (related.isNotEmpty()) {
-        Text("Related guides", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.detail_related), style = MaterialTheme.typography.titleLarge)
         related.forEach { rel ->
             SuggestionChip(
                 onClick = { onOpenGuide(rel.id) },

@@ -41,13 +41,19 @@ data class EmergencyContactEntity(
     val phone: String
 )
 
-/** One go-bag checklist item (PRD §5.11). Defaults seeded; custom items flagged. */
+/**
+ * One go-bag checklist item (PRD §5.11). Defaults are seeded in both app
+ * languages so the list follows the language setting without re-seeding;
+ * custom items carry the same user text in both label fields.
+ * [category] is a stable key resolved to a localized header by the UI.
+ */
 @Entity(tableName = "go_bag_items")
 data class GoBagItemEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val category: String,
     val label: String,
+    val labelFil: String = "",
     val checked: Boolean = false,
     val isCustom: Boolean = false,
     val updatedAt: String = ""

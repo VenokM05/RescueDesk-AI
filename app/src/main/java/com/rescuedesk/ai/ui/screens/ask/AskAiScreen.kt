@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.app.ServiceLocator
 import com.rescuedesk.ai.domain.model.ModelStatus
 
@@ -37,42 +39,45 @@ fun AskAiScreen(onOpenGuides: () -> Unit) {
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Text("Ask RescueDesk AI", style = MaterialTheme.typography.displaySmall)
+        Text(stringResource(R.string.ask_title), style = MaterialTheme.typography.displaySmall)
 
         if (modelStatus != ModelStatus.Ready) {
             // PRD §5.8 Fallback State
             Text(
-                text = "Offline AI is not ready on this device.",
+                text = stringResource(R.string.ask_not_ready),
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                text = "Emergency guides still work without it.",
+                text = stringResource(R.string.ask_not_ready_sub),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Button(onClick = onOpenGuides, modifier = Modifier.fillMaxWidth()) {
-                Text("Open emergency guides")
+                Text(stringResource(R.string.ask_open_guides))
             }
             OutlinedButton(onClick = { /* TODO Phase 3: retry AI setup flow */ }, modifier = Modifier.fillMaxWidth()) {
-                Text("Retry AI setup")
+                Text(stringResource(R.string.ask_retry_setup))
             }
         } else {
             // TODO Phase 3 (GO path): chat area, grounded answer structure
             // (short answer → steps → caution → sources), input field, send.
-            Text("Chat UI arrives with the Phase 3 runtime integration.")
+            Text(stringResource(R.string.ask_chat_placeholder))
         }
 
         // Suggested chips are visible but disabled until the model is Ready (PRD §5.8).
-        Text("Examples you can ask once AI is set up", style = MaterialTheme.typography.titleLarge)
+        Text(
+            stringResource(R.string.ask_examples_title),
+            style = MaterialTheme.typography.titleLarge
+        )
         listOf(
-            "What should I put in a go-bag?",
-            "What should my family prepare before a typhoon?",
-            "How can I prepare our house for an earthquake?"
-        ).forEach { chip ->
+            R.string.ask_example_1,
+            R.string.ask_example_2,
+            R.string.ask_example_3
+        ).forEach { chipRes ->
             SuggestionChip(
                 onClick = { },
                 enabled = modelStatus == ModelStatus.Ready,
-                label = { Text(chip) },
+                label = { Text(stringResource(chipRes)) },
                 modifier = Modifier.fillMaxWidth()
             )
         }

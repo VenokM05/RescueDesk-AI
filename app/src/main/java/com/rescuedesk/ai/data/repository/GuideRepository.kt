@@ -2,6 +2,7 @@ package com.rescuedesk.ai.data.repository
 
 import com.rescuedesk.ai.data.local.GuideDao
 import com.rescuedesk.ai.data.local.GuideEntity
+import com.rescuedesk.ai.data.local.PreferencesStore
 import com.rescuedesk.ai.data.seed.BuiltInGuideSeeder
 import com.rescuedesk.ai.domain.model.Guide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +29,8 @@ interface GuideRepository {
  */
 class RoomGuideRepository(
     private val guideDao: GuideDao,
-    private val seeder: BuiltInGuideSeeder
+    private val seeder: BuiltInGuideSeeder,
+    private val preferences: PreferencesStore
 ) : GuideRepository {
 
     private val seedMutex = Mutex()
@@ -38,7 +40,7 @@ class RoomGuideRepository(
     override fun observeGuides(): Flow<List<Guide>> =
         seeded.flatMapLatest { ready ->
             if (ready) guideDao.observeAll() else flowOf(emptyList())
-        }.mapEntities()
+        }.localized().mapEntities()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun searchGuides(query: String): Flow<List<Guide>> =
@@ -55,7 +57,7 @@ class RoomGuideRepository(
                     .joinToString(" OR ") { "$it*" }
                 guideDao.search(match)
             }
-        }.mapEntities()
+        }.localized().mapEntities()
 
     override suspend fun guideById(id: Long): Guide? = guideDao.byId(id)?.toDomain()
 
@@ -69,6 +71,29 @@ class RoomGuideRepository(
     }
 
     private fun Flow<List<GuideEntity>>.mapEntities(): Flow<List<Guide>> = map { list -> list.map { it.toDomain() } }
+
+    /**
+     * Language preference (FR-07): show the preferred-language version of each
+     * topic; fall back to whatever exists when the topic has no such version,
+     * so content coverage gaps never hide a guide.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun Flow<List<GuideEntity>>.localized(): Flow<List<GuideEntity>> =
+        preferences.languageTag.flatMapLatest { wanted -> map { selectByLanguage(it, wanted) } }
+
+    private fun selectByLanguage(entities: List<GuideEntity>, wanted: String): List<GuideEntity> {
+        if (entities.isEmpty() || wanted.isBlank()) return entities
+        return entities.groupBy { topicKey(it.publicId) }
+            .flatMap { (_, sameTopic) ->
+                sameTopic.filter { it.language == wanted }.ifEmpty { sameTopic }
+            }
+            // Stable library order (category, title) after the regrouping.
+            .sortedWith(compareBy({ it.category }, { it.title }))
+    }
+
+    /** Strips a trailing language segment so en/fil variants of one topic group. */
+    private fun topicKey(publicId: String): String =
+        publicId.replace(Regex("-(en|fil|tl|eng|filipino)$", RegexOption.IGNORE_CASE), "")
 
     private fun GuideEntity.toDomain() = Guide(
         id = id,

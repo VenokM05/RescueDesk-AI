@@ -13,7 +13,10 @@ import androidx.room.RoomDatabase
         EmergencyContactEntity::class,
         GoBagItemEntity::class
     ],
-    version = 1,
+    // v2: GoBagItemEntity gained labelFil (FR-07 bilingual checklist); category
+    // values switched from display names to stable keys. Unreleased app, so the
+    // one-time reset of dev test data is acceptable — go-bag defaults reseed.
+    version = 2,
     exportSchema = false
 )
 abstract class RescueDeskDatabase : RoomDatabase() {

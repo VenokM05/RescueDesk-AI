@@ -25,18 +25,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.HouseholdPlan
 
-private val STEP_TITLES = listOf(
-    "Step 1: Household",
-    "Step 2: Emergency Contacts",
-    "Step 3: Meeting Places",
-    "Step 4: Supplies",
-    "Step 5: Review"
+private val STEP_TITLE_RES = listOf(
+    R.string.wizard_step_1,
+    R.string.wizard_step_2,
+    R.string.wizard_step_3,
+    R.string.wizard_step_4,
+    R.string.wizard_step_5
 )
 
 /**
@@ -68,9 +70,9 @@ fun PlanWizardScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        TextButton(onClick = onBack) { Text("← Bumalik (Back)") }
+        TextButton(onClick = onBack) { Text(stringResource(R.string.common_back)) }
         Text(
-            STEP_TITLES[step],
+            stringResource(STEP_TITLE_RES[step]),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -85,10 +87,7 @@ fun PlanWizardScreen(
                 plan = current,
                 onChange = { draft = it }
             )
-            3 -> SuppliesStep(
-                planCompletedNote = "You can add supplies any time — the checklist saves immediately.",
-                onOpenGoBag = onOpenGoBag
-            )
+            3 -> SuppliesStep(onOpenGoBag = onOpenGoBag)
             else -> ReviewStep(
                 plan = current,
                 contacts = contacts,
@@ -106,7 +105,7 @@ fun PlanWizardScreen(
                 },
                 modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)
             ) {
-                Text("Susunod (Next)", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.common_next), style = MaterialTheme.typography.labelLarge)
             }
         } else {
             Button(
@@ -116,7 +115,7 @@ fun PlanWizardScreen(
                 },
                 modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)
             ) {
-                Text("Mark plan complete", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.wizard_finish), style = MaterialTheme.typography.labelLarge)
             }
         }
     }
@@ -127,7 +126,7 @@ private fun HouseholdStep(plan: HouseholdPlan, onChange: (HouseholdPlan) -> Unit
     OutlinedTextField(
         value = plan.householdNickname,
         onValueChange = { onChange(plan.copy(householdNickname = it)) },
-        label = { Text("Household nickname (optional) — e.g. The Santos Family") },
+        label = { Text(stringResource(R.string.wizard_nickname_label)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
@@ -136,7 +135,7 @@ private fun HouseholdStep(plan: HouseholdPlan, onChange: (HouseholdPlan) -> Unit
         onValueChange = { raw ->
             onChange(plan.copy(memberCount = raw.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0))
         },
-        label = { Text("Number of household members") },
+        label = { Text(stringResource(R.string.wizard_members_label)) },
         singleLine = true,
         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
             keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
@@ -146,7 +145,7 @@ private fun HouseholdStep(plan: HouseholdPlan, onChange: (HouseholdPlan) -> Unit
     OutlinedTextField(
         value = plan.householdNotes,
         onValueChange = { onChange(plan.copy(householdNotes = it)) },
-        label = { Text("Special needs (optional) — medicines, mobility aids, infants, pets") },
+        label = { Text(stringResource(R.string.wizard_needs_label)) },
         minLines = 3,
         modifier = Modifier.fillMaxWidth()
     )
@@ -157,47 +156,47 @@ private fun MeetingStep(plan: HouseholdPlan, onChange: (HouseholdPlan) -> Unit) 
     OutlinedTextField(
         value = plan.meetingNearby,
         onValueChange = { onChange(plan.copy(meetingNearby = it)) },
-        label = { Text("Meeting place nearby — e.g. gate of the barangay hall") },
+        label = { Text(stringResource(R.string.wizard_meeting_nearby_label)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
     OutlinedTextField(
         value = plan.meetingAlternate,
         onValueChange = { onChange(plan.copy(meetingAlternate = it)) },
-        label = { Text("Alternative meeting place — e.g. relative's house uphill") },
+        label = { Text(stringResource(R.string.wizard_meeting_alt_label)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
     Spacer(Modifier.height(4.dp))
     Text(
-        "An out-of-area contact helps the family reconnect when local lines are down.",
+        stringResource(R.string.wizard_outofarea_note),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
     OutlinedTextField(
         value = plan.outOfAreaName,
         onValueChange = { onChange(plan.copy(outOfAreaName = it)) },
-        label = { Text("Out-of-area contact name (optional)") },
+        label = { Text(stringResource(R.string.wizard_outofarea_name_label)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
     OutlinedTextField(
         value = plan.outOfAreaPhone,
         onValueChange = { onChange(plan.copy(outOfAreaPhone = it)) },
-        label = { Text("Out-of-area contact phone (optional)") },
+        label = { Text(stringResource(R.string.wizard_outofarea_phone_label)) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth()
     )
 }
 
 @Composable
-private fun SuppliesStep(planCompletedNote: String, onOpenGoBag: () -> Unit) {
+private fun SuppliesStep(onOpenGoBag: () -> Unit) {
     Text(
-        "Track your go-bag supplies. Start with water, food, medicines, flashlight, and copies of important documents.",
+        stringResource(R.string.wizard_supplies_body),
         style = MaterialTheme.typography.bodyLarge
     )
     Text(
-        planCompletedNote,
+        stringResource(R.string.wizard_supplies_note),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant
     )
@@ -205,7 +204,7 @@ private fun SuppliesStep(planCompletedNote: String, onOpenGoBag: () -> Unit) {
         onClick = onOpenGoBag,
         modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)
     ) {
-        Text("Open Go-Bag Checklist", style = MaterialTheme.typography.labelLarge)
+        Text(stringResource(R.string.wizard_open_gobag), style = MaterialTheme.typography.labelLarge)
     }
 }
 
@@ -216,31 +215,44 @@ private fun ReviewStep(
     onChange: (HouseholdPlan) -> Unit,
     onEditStep: (Int) -> Unit
 ) {
-    ReviewRow("Household", plan.householdNickname.ifBlank { "—" }, { onEditStep(0) })
-    ReviewRow("Members", if (plan.memberCount > 0) plan.memberCount.toString() else "—", { onEditStep(0) })
+    ReviewRow(stringResource(R.string.wizard_review_household), plan.householdNickname.ifBlank { "—" }, { onEditStep(0) })
     ReviewRow(
-        "Emergency contacts",
-        if (contacts.isEmpty()) "None saved" else contacts.joinToString(", ") { "${it.name} · ${it.phone}" },
+        stringResource(R.string.wizard_review_members),
+        if (plan.memberCount > 0) plan.memberCount.toString() else "—",
+        { onEditStep(0) }
+    )
+    ReviewRow(
+        stringResource(R.string.wizard_review_contacts),
+        if (contacts.isEmpty()) stringResource(R.string.common_none_saved)
+        else contacts.joinToString(", ") { "${it.name} · ${it.phone}" },
         { onEditStep(1) }
     )
-    ReviewRow("Meeting place (nearby)", plan.meetingNearby.ifBlank { "—" }, { onEditStep(2) })
-    ReviewRow("Meeting place (alternate)", plan.meetingAlternate.ifBlank { "—" }, { onEditStep(2) })
     ReviewRow(
-        "Out-of-area contact",
+        stringResource(R.string.wizard_review_meeting_nearby),
+        plan.meetingNearby.ifBlank { "—" },
+        { onEditStep(2) }
+    )
+    ReviewRow(
+        stringResource(R.string.wizard_review_meeting_alt),
+        plan.meetingAlternate.ifBlank { "—" },
+        { onEditStep(2) }
+    )
+    ReviewRow(
+        stringResource(R.string.wizard_review_outofarea),
         listOf(plan.outOfAreaName, plan.outOfAreaPhone).filter { it.isNotBlank() }
             .joinToString(" · ").ifBlank { "—" },
         { onEditStep(2) }
     )
 
     Text(
-        "Important Reminders",
+        stringResource(R.string.wizard_review_reminders),
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold
     )
     OutlinedTextField(
         value = plan.reminders,
         onValueChange = { onChange(plan.copy(reminders = it)) },
-        label = { Text("e.g. Lolo's medicine lasts 5 days; reunite at barangay hall first") },
+        label = { Text(stringResource(R.string.wizard_reminders_label)) },
         minLines = 3,
         modifier = Modifier.fillMaxWidth()
     )
@@ -260,6 +272,6 @@ private fun ReviewRow(label: String, value: String, onEdit: () -> Unit) {
             )
             Text(value, style = MaterialTheme.typography.bodyLarge)
         }
-        TextButton(onClick = onEdit) { Text("Edit") }
+        TextButton(onClick = onEdit) { Text(stringResource(R.string.common_edit)) }
     }
 }

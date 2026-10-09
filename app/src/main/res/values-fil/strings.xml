@@ -1,9 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RescueDesk AI</string>
+    <!-- Navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_guides">Mga Gabay</string>
-    <string name="nav_ask_ai">Magtanong sa AI</string>
-    <string name="nav_my_family">Pamilya Ko</string>
-    <string name="emergency_help">Tulong Emerhensiya</string>
+    <string name="nav_ask_ai">Magtanong</string>
+    <string name="nav_my_family">Aking Pamilya</string>
+    <string name="emergency_help">Tulong sa Emergency</string>
+
+    <!-- Common actions -->
+    <string name="common_back">Bumalik</string>
+    <string name="common_next">Susunod</string>
+    <string name="common_skip">Laktawan</string>
+    <string name="common_add">Idagdag</string>
+    <string name="common_remove">Alisin</string>
+    <string name="common_edit">Baguhin</string>
+    <string name="common_open">Buksan</string>
+    <string name="common_never">Hindi pa</string>
+    <string name="common_none_saved">Walang naka-save</string>
+    <string name="common_not_started">Hindi pa nagsisimula</string>
+    <string name="common_completed">✓ Tapos na</string>
+    <string name="common_needs_review">⚠ Kailangang i-review</string>
+    <string name="common_builtin_badge">Kasama sa app</string>
+    <string name="common_pack_badge">Download na gabay</string>
+
+    <!-- Screen E — Home -->
+    <string name="home_greeting">Handa ka na ba sa emergency?</string>
+    <string name="home_subtitle">Handa ang iyong mga emergency guide kapag kailangan mo ito.</string>
+    <string name="home_quick_guides">Mabilisang gabay</string>
+    <string name="home_cat_typhoon">Bagyo at baha</string>
+    <string name="home_cat_typhoon_sub">Babala, pagtatakpan, pag-evacuate</string>
+    <string name="home_cat_earthquake">Lindol</string>
+    <string name="home_cat_earthquake_sub">Drop, Cover, Hold On</string>
+    <string name="home_cat_fire">Sunog</string>
+    <string name="home_cat_fire_sub">Lumabas, gumapang sa mababa</string>
+    <string name="home_cat_firstaid">Unang lunas</string>
+    <string name="home_cat_firstaid_sub">Paggagamot bago dumating ang tulong</string>
+    <string name="home_plan_title">Plano ng Aking Pamilya</string>
+    <string name="home_plan_not_started">Hindi pa nagsisimula</string>
+    <string name="home_plan_continue">Ituloy ang plano</string>
+    <string name="home_ask_title">May tanong ka?</string>
+    <string name="home_ask_chip">Magtanong sa RescueDesk AI</string>
+    <string name="home_offline_strip">Offline: available ang mga built-in na emergency guide · Walang naka-install na AI model</string>
+    <string name="home_settings_desc">Mga setting</string>
+
+    <!-- Screens A–C — Onboarding -->
+    <string name="onboarding_language_title">Piliin ang wika</string>
+    <string name="onboarding_language_sub">Maaari itong baguhin mamaya sa Settings.</string>
+    <string name="onboarding_language_fil_sub">Gumamit ng Filipino sa app</string>
+    <string name="onboarding_language_en_sub">Gumamit ng English sa app</string>
+    <string name="onboarding_textsize_title">Laki ng teksto</string>
+    <string name="onboarding_textsize_sub">Piliin ang sukat na madaling mong mabasa.</string>
+    <string name="onboarding_textsize_sample">Halimbawa: Lumikas papuntang matataas na lugar.</string>
+    <string name="onboarding_get_started">Magsimula</string>
+    <string name="onboarding_start_app">Simulan na ang app</string>
+    <string name="text_size_normal">Normal</string>
+    <string name="text_size_large">Malaki</string>
+    <string name="text_size_extra_large">Napakalaki</string>
+
+    <!-- Screen F — Emergency Help -->
+    <string name="emergency_title">Ano ang nangyayari?</string>
+    <string name="emergency_safety_note">Kung nasa agarang panganib ka, lumipat sa ligtas na lugar kung maaari at tumawag sa lokal na emergency services.</string>
+    <string name="emergency_situation_flood">Baha o tumataas na tubig</string>
+    <string name="emergency_situation_typhoon">Bagyo o malakas na hangin</string>
+    <string name="emergency_situation_earthquake">Lindol</string>
+    <string name="emergency_situation_fire">Sunog o usok</string>
+    <string name="emergency_situation_injury">Pagsugata o medical emergency</string>
+    <string name="emergency_situation_other">Iba pang emergency</string>
+
+    <!-- Screen I — Guides library -->
+    <string name="guides_title">Mga Gabay sa Emergency</string>
+    <string name="guides_search_label">Maghanap ng gabay sa emergency</string>
+    <string name="guides_empty">Walang natagpuang gabay. Subukan ang mas maikling salita, tulad ng \"bagyo\", \"baha\", o \"sunog\". Kasama sa built-in guides ang bagyo, baha, lindol, at sunog.</string>
+
+    <!-- Screen G — Guide detail -->
+    <string name="detail_not_found">Hindi natagpuan ang gabay.</string>
+    <string name="detail_needs_review">⚠ Kailangang i-review — maaaring lumuma ang content na ito. Huling nire-review: %1$s.</string>
+    <string name="detail_needs_review_never">hindi pa</string>
+    <string name="detail_rights_pending">ℹ Nasa pag-review pa — preliminary content ito na hindi pa aprubado ng may-katayuang reviewer o ahensya.</string>
+    <string name="detail_do_this_first">Gawin ito agad</string>
+    <string name="detail_avoid">Iwasan ang mga ito</string>
+    <string name="detail_source">Pinagmulan</string>
+    <string name="detail_meta_builtin">Wika: %1$s · Bersyon %2$d · Kasama sa app</string>
+    <string name="detail_meta_pack">Wika: %1$s · Bersyon %2$d · Download na gabay</string>
+    <string name="detail_related">Mga kaugnay na gabay</string>
+
+    <!-- Screen H — Ask AI -->
+    <string name="ask_title">Magtanong sa RescueDesk AI</string>
+    <string name="ask_not_ready">Hindi pa handa ang offline AI sa device na ito.</string>
+    <string name="ask_not_ready_sub">Gumagana pa rin ang mga emergency guide kahit walang ito.</string>
+    <string name="ask_open_guides">Buksan ang mga emergency guide</string>
+    <string name="ask_retry_setup">Subukang muling i-setup ang AI</string>
+    <string name="ask_chat_placeholder">Darating ang chat UI kasama ng Phase 3 runtime integration.</string>
+    <string name="ask_examples_title">Mga halimbawang matatanong kapag naka-setup na ang AI</string>
+    <string name="ask_example_1">Ano ang ilalagay ko sa go-bag?</string>
+    <string name="ask_example_2">Ano ang dapat ihanda ng pamilya ko bago ang bagyo?</string>
+    <string name="ask_example_3">Paano ihahanda ang bahay namin para sa lindol?</string>
+
+    <!-- Screen M — Settings -->
+    <string name="settings_title">Mga Setting</string>
+    <string name="settings_language_section">Wika</string>
+    <string name="settings_language_follow">Sundan ang system</string>
+    <string name="settings_textsize_section">Laki ng teksto</string>
+    <string name="settings_offline_section">Mga offline na resource</string>
+    <string name="settings_offline_summary">Dito makikita ang mga na-download na gabay, storage na nagamit, at mga update check.</string>
+    <string name="settings_offline_open">Buksan ang Offline at Download Manager</string>
+    <string name="settings_privacy_section">Pagkapribado</string>
+    <string name="settings_privacy_body">Nakaimbak sa device na ito ang lahat ng RescueDesk AI: walang account, walang location, walang iniipon na chat history, walang analytics. Gumagana ang mga gabay nang buong offline.</string>
+    <string name="settings_about_section">Tungkol sa app</string>
+    <string name="settings_about_body">Ang mga built-in na emergency guide ay preliminary at nasa pag-review pa ng mga kwalipikadong responder sa Pilipinas. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
+
+    <!-- Screen L — Offline and Download Manager -->
+    <string name="offline_title">Offline at downloads</string>
+    <string name="offline_status_section">Kalagayan ng koneksyon</string>
+    <string name="offline_status_idle">Hindi pa na-check sa device na ito</string>
+    <string name="offline_status_checking">Tinitingnan kung may update sa mga gabay…</string>
+    <string name="offline_status_downloading">Iginagawa ang download ng gabay %1$d ng %2$d…</string>
+    <string name="offline_status_applying">Ipinapataw ang mga na-download na gabay…</string>
+    <string name="offline_status_updated">Nai-install ang update — %1$d bago, %2$d ay kasalukuyan na</string>
+    <string name="offline_status_uptodate">Kasalukuyan — walang bagong gabay na natagpuan</string>
+    <string name="offline_status_failed">Hindi ma-update: %1$s</string>
+    <string name="offline_check">Tingnan kung may update</string>
+    <string name="offline_working">Ginagawa…</string>
+    <string name="offline_pack_section">Emergency Guide Pack</string>
+    <string name="offline_pack_builtin">Built-in na mga gabay</string>
+    <string name="offline_pack_builtin_value">Palaging nasa device na ito, walang kailangan i-download</string>
+    <string name="offline_pack_downloaded">Mga na-download na gabay</string>
+    <string name="offline_pack_downloaded_value">%1$d na gabay, pack version %2$d</string>
+    <string name="offline_pack_empty_value">Wala pa — gumagana pa rin ang built-in guides offline</string>
+    <string name="offline_pack_storage">Storage na nagamit ng downloads</string>
+    <string name="offline_pack_storage_value">~%1$s (mga)</string>
+    <string name="offline_pack_last">Huling update check</string>
+    <string name="offline_pack_note">Ang mga download ay beripikahin ng checksum at ng karapatang binigay ng reviewer bago pumalit ng anumang nasa device. Kung mabigo ang download, nananatili ang kasalukuyan mong mga gabay.</string>
+    <string name="offline_pref_section">Kagustuhan sa download</string>
+    <string name="offline_pref_wifi">I-download ang mga gabay sa Wi-Fi lamang</string>
+    <string name="offline_pref_wifi_note">Maliliit na text file ang mga gabay, ngunit nakakatipid ito sa load ng prepaid data. Ang \"Tingnan kung may update\" sa itaas ay laging gumagana kapag pindutin mo.</string>
+    <string name="offline_model_section">AI model (Magtanong)</string>
+    <string name="offline_model_not_installed">Hindi naka-install — ang Magtanong ay nagpapakita lamang ng offline na sagot mula sa mga gabay</string>
+    <string name="offline_model_note">Ang on-device AI model ay nangangailangan ng ilang beses na mas maraming storage at memorya kaysa sa buong guide library, at ang pagkakaroon nito ay depende sa Phase 1 on-device performance review. Hindi depende sa model ang mga emergency guide: mananatili ang lahat ng gabay kahit alisin o husgahan ito.</string>
+
+    <!-- Screen J — My Family -->
+    <string name="family_title">Aking Pamilya</string>
+    <string name="family_progress">%1$d ng 5 seksyon ang tapos na. Awtomatikong naka-save ang progreso sa device na ito.</string>
+    <string name="family_completed">Kumpleto ang plano — panatilihing updated. Huling naka-save %1$s.</string>
+    <string name="family_private_note">Ang lahat ng ini-save mo rito ay nananatili sa device na ito maliban kung ikaw ang pumiling ibahagi.</string>
+    <string name="family_section_plan">Plano ng Pamilya sa Emergency</string>
+    <string name="family_section_plan_sub">Sambahayan, miyembro, espesyal na pangangailangan</string>
+    <string name="family_section_contacts">Emergency Contacts</string>
+    <string name="family_section_contacts_sub">Pamilya at kapitbahay na tatawagan mo</string>
+    <string name="family_section_meeting">Mga Tagpuan</string>
+    <string name="family_section_meeting_sub">Malapit, alternatibo, contact sa ibang lugar</string>
+    <string name="family_section_gobag">Go-Bag Checklist</string>
+    <string name="family_section_gobag_sub">Subaybayan ang mga na-ibot mo</string>
+    <string name="family_section_reminders">Mahahalagang Paalala</string>
+    <string name="family_section_reminders_sub">Mga nota na dapat tatandaan ng pamilya</string>
+
+    <!-- Family Plan wizard -->
+    <string name="wizard_step_1">Hakbang 1: Sambahayan</string>
+    <string name="wizard_step_2">Hakbang 2: Emergency Contacts</string>
+    <string name="wizard_step_3">Hakbang 3: Mga Tagpuan</string>
+    <string name="wizard_step_4">Hakbang 4: Mga Suplay</string>
+    <string name="wizard_step_5">Hakbang 5: Review</string>
+    <string name="wizard_finish">Markahang kumpleto ang plano</string>
+    <string name="wizard_nickname_label">Balbal na pangalan ng sambahayan (opsyonal) — hal. Pamilya Santos</string>
+    <string name="wizard_members_label">Bilang ng miyembro ng sambahayan</string>
+    <string name="wizard_needs_label">Espesyal na pangangailangan (opsyonal) — gamot, gamit sa paggalaw, sanggol, alagang hayop</string>
+    <string name="wizard_meeting_nearby_label">Tagpuan sa malapit — hal. gate ng barangay hall</string>
+    <string name="wizard_meeting_alt_label">Alternatibong tagpuan — hal. bahay ng kamag-anak sa itaas</string>
+    <string name="wizard_outofarea_note">Ang contact sa ibang lugar ay nakatutulong na muling makontak ang pamilya kapag abala ang lokal na linya.</string>
+    <string name="wizard_outofarea_name_label">Pangalan ng contact sa ibang lugar (opsyonal)</string>
+    <string name="wizard_outofarea_phone_label">Numero ng contact sa ibang lugar (opsyonal)</string>
+    <string name="wizard_supplies_body">Subaybayan ang suplay sa go-bag. Magsimula sa tubig, pagkain, gamot, flashlight, at kopya ng mga mahahalagang dokumento.</string>
+    <string name="wizard_supplies_note">Maaari kang magdagdag ng suplay anumang oras — agarang naka-save ang checklist.</string>
+    <string name="wizard_open_gobag">Buksan ang Go-Bag Checklist</string>
+    <string name="wizard_review_household">Sambahayan</string>
+    <string name="wizard_review_members">Miyembro</string>
+    <string name="wizard_review_contacts">Emergency contacts</string>
+    <string name="wizard_review_meeting_nearby">Tagpuan (malapit)</string>
+    <string name="wizard_review_meeting_alt">Tagpuan (alternatibo)</string>
+    <string name="wizard_review_outofarea">Contact sa ibang lugar</string>
+    <string name="wizard_review_reminders">Mahahalagang Paalala</string>
+    <string name="wizard_reminders_label">hal. 5 araw sapat ang gamot ni Lolo; magkita muna sa barangay hall</string>
+
+    <!-- Emergency contacts -->
+    <string name="contacts_empty">Wala pang naka-save na contact. Magdagdag ng miyembro ng pamilya o kapitbahay na tatawagan mo sa emergency.</string>
+    <string name="contacts_name_label">Pangalan</string>
+    <string name="contacts_relationship_label">Kamag-anak (hal. Tita sa Cebu)</string>
+    <string name="contacts_phone_label">Numero ng telepono</string>
+    <string name="contacts_add">Idagdag ang contact</string>
+    <string name="contacts_call">📞 Tawagan</string>
+    <string name="contacts_delete">Tanggalin</string>
+    <string name="contacts_dialing_note">Kailangan ng gumaganang serbisyo sa telepono ang pagtawag. Hindi bumubuo o nagbibigay-abiso nang awtomatiko ang RescueDesk AI — ikaw ang palaging tumatawag.</string>
+    <string name="contacts_no_dialer">Walang dialer app sa device na ito.</string>
+
+    <!-- Screen K — Go-Bag Checklist -->
+    <string name="gobag_title">Ihanda ang emergency bag</string>
+    <string name="gobag_disclaimer">Ito ay pangkalahatang starter list — iangkop sa iyong sambahayan at sa mga emergency na karaniwan sa inyong lugar.</string>
+    <string name="gobag_progress">%1$d ng %2$d ang naibot</string>
+    <string name="gobag_last_updated">· Huling na-update %1$s</string>
+    <string name="gobag_add_section">Magdagdag ng item</string>
+    <string name="gobag_item_label">Item — hal. Ubrakan (raincoat) para sa bawat tao</string>
+    <string name="gobag_cat_water">Tubig at Pagkain</string>
+    <string name="gobag_cat_first_aid">Unang Lunas at Gamot</string>
+    <string name="gobag_cat_lighting">Ilaw at Komunikasyon</string>
+    <string name="gobag_cat_documents">Mga Dokumento at Pera</string>
+    <string name="gobag_cat_clothing">Damit at Kalinisan</string>
+    <string name="gobag_cat_special">Espesyal na Pangangailangan</string>
 </resources>

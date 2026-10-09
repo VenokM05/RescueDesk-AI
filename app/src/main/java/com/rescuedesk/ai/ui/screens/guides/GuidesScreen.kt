@@ -15,9 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.Guide
 
 /**
@@ -38,18 +40,17 @@ fun GuidesScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text("Emergency Guides", style = MaterialTheme.typography.displaySmall)
+        Text(stringResource(R.string.guides_title), style = MaterialTheme.typography.displaySmall)
         OutlinedTextField(
             value = query,
             onValueChange = viewModel::onQueryChange,
-            label = { Text("Search emergency guides") },
+            label = { Text(stringResource(R.string.guides_search_label)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         if (guides.isEmpty()) {
             Text(
-                text = "No guides found. Try a shorter word, like \"bagyo\", \"flood\", or \"fire\". " +
-                    "Built-in guides cover typhoon, flood, earthquake, and fire.",
+                text = stringResource(R.string.guides_empty),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -70,13 +71,16 @@ private fun GuideRow(guide: Guide, onClick: () -> Unit) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 // Status is never color-only (PRD §4.2): labels carry the meaning.
                 Text(
-                    text = if (guide.isBuiltin) "Built-in" else "Guide pack",
+                    text = stringResource(
+                        if (guide.isBuiltin) R.string.common_builtin_badge
+                        else R.string.common_pack_badge
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (guide.needsReview(java.time.LocalDate.now().toString())) {
                     Text(
-                        text = "⚠ Needs review",
+                        text = stringResource(R.string.common_needs_review),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error
                     )

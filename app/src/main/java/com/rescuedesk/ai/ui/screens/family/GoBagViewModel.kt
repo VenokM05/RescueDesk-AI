@@ -16,6 +16,10 @@ class GoBagViewModel : ViewModel() {
     val items: StateFlow<List<GoBagItem>> = repository.observeGoBag()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
+    /** Resolved language tag so seeded checklist text follows the setting (FR-07). */
+    val languageTag: StateFlow<String> = ServiceLocator.preferencesStore.languageTag
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "en")
+
     fun toggle(id: Long, checked: Boolean) {
         viewModelScope.launch { repository.setGoBagChecked(id, checked) }
     }

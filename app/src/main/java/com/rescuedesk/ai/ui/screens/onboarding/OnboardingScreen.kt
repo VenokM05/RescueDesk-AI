@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -39,6 +40,7 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.app.ServiceLocator
 import com.rescuedesk.ai.data.local.AppLanguage
 import com.rescuedesk.ai.data.local.TextSize
+import com.rescuedesk.ai.ui.labelRes
 import kotlinx.coroutines.launch
 
 /**
@@ -70,25 +72,31 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Handa ka na ba sa emergency?",
+                    stringResource(R.string.onboarding_welcome_title_fil),
                     style = MaterialTheme.typography.displaySmall
                 )
                 Text(
-                    "Are you ready for an emergency?",
+                    stringResource(R.string.onboarding_welcome_title_en),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                FeatureLine("✓ Gumagana nang offline — works with no internet")
-                FeatureLine("✓ Walang account — no sign-up, no accounts")
-                FeatureLine("✓ Libreng gabay — free, reviewed emergency guides")
+                FeatureLine(stringResource(R.string.onboarding_feature_offline))
+                FeatureLine(stringResource(R.string.onboarding_feature_account))
+                FeatureLine(stringResource(R.string.onboarding_feature_guides))
             }
             1 -> Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("Piliin ang wika", style = MaterialTheme.typography.displaySmall)
-                Text("Choose your language", style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    stringResource(R.string.onboarding_language_title),
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Text(
+                    stringResource(R.string.onboarding_language_sub),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 ChoiceCard(
-                    title = "Filipino",
-                    subtitle = "Gumamit ng Filipino sa app",
+                    title = AppLanguage.FILIPINO.label,
+                    subtitle = stringResource(R.string.onboarding_language_fil_sub),
                     selected = language == AppLanguage.FILIPINO,
                     onClick = {
                         language = AppLanguage.FILIPINO
@@ -96,8 +104,8 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
                     }
                 )
                 ChoiceCard(
-                    title = "English",
-                    subtitle = "Use English in the app",
+                    title = AppLanguage.ENGLISH.label,
+                    subtitle = stringResource(R.string.onboarding_language_en_sub),
                     selected = language == AppLanguage.ENGLISH,
                     onClick = {
                         language = AppLanguage.ENGLISH
@@ -106,13 +114,19 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
                 )
             }
             else -> Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Text("Laki ng teksto", style = MaterialTheme.typography.displaySmall)
-                Text("Text size", style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(
+                    stringResource(R.string.onboarding_textsize_title),
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Text(
+                    stringResource(R.string.onboarding_textsize_sub),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 TextSize.entries.forEach { size ->
                     ChoiceCard(
-                        title = size.label,
-                        subtitle = "Halimbawa: Lumikas papuntang matataas na lugar",
+                        title = stringResource(size.labelRes()),
+                        subtitle = stringResource(R.string.onboarding_textsize_sample),
                         subtitleScale = size.factor,
                         selected = textSize == size,
                         onClick = {
@@ -137,17 +151,19 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
             modifier = Modifier.fillMaxWidth().height(64.dp)
         ) {
             Text(
-                text = when (step) {
-                    0 -> "Magsimula (Get started)"
-                    1 -> "Susunod (Next)"
-                    else -> "Simulan na (Start using the app)"
-                },
+                text = stringResource(
+                    when (step) {
+                        0 -> R.string.onboarding_get_started
+                        1 -> R.string.common_next
+                        else -> R.string.onboarding_start_app
+                    }
+                ),
                 style = MaterialTheme.typography.labelLarge
             )
         }
         if (step > 0) {
             TextButton(onClick = { step-- }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                Text("Bumalik (Back)")
+                Text(stringResource(R.string.common_back))
             }
         }
         // Skippable: onboarding must never gate emergency content (PRD §5.2).
@@ -160,7 +176,7 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
-            Text("Laktawan (Skip)", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.common_skip), color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

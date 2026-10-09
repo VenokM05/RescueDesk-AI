@@ -1,0 +1,28 @@
+{
+  "publicId": "builtin-typhoon-fil",
+  "title": "Bagyo: Ano ang gagawin",
+  "category": "typhoon",
+  "language": "fil",
+  "summary": "Mga agarang hakbang bago at habang may bagyo. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD §8.3, §10.3).",
+  "steps": [
+    "Subaybayan ang opisyal na babala ng PAGASA kung may koneksyon, at tandaan ang pinakabagong signal number sa inyong lugar.",
+    "Itakda o pagtibayin ang bubong, bintana, at mga kalat sa labas na maaaring tangayin ng hangin.",
+    "Ihanda ang go-bag: tubig, pagkain, gamot, flashlight, baterya, at kopya ng mga mahahalagang dokumento.",
+    "I-charge ang mga cellphone at power bank habang may kuryente pa.",
+    "Alamin ang evacuation route at meeting point ng inyong pamilya.",
+    "Habang may bagyo: manatili sa loob, malayo sa bintana, hanggang sa opisyal na all-clear para sa inyong lugar."
+  ],
+  "avoid": [
+    "Huwag lumabas para tingnan ang anumang bagay habang malakas ang hangin at ulan.",
+    "Huwag magtago sa ilalim ng puno, billboard, o mahinang estruktura.",
+    "Huwag maglakad o magmaneho sa tubig-baha na hindi alam ang lalim.",
+    "Huwag ituring na tapos na ang bagyo dahil tahimik na — ang pinakamalakas na hangin ay babalik mula sa kabilang direksyon."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

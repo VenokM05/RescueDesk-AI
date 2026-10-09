@@ -1,0 +1,28 @@
+{
+  "publicId": "builtin-earthquake-fil",
+  "title": "Lindol: Ano ang gagawin",
+  "category": "earthquake",
+  "language": "fil",
+  "summary": "Drop, Cover, Hold at ang gagawin pagtapos ng pagyanig. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD §8.3, §10.3).",
+  "steps": [
+    "DROP — yumuko sa mga tuhod at palad bago ka madapa ng pag-yanig.",
+    "Magtago sa ilalim ng matibay na mesa o desk at protektahan ang ulo at leeg. Kung walang malapit na takpan, takpan ang ulo sa mga braso at lumayo sa salamin.",
+    "HOLD ON — kumapit sa inyong takpan hanggang tumigil ang pag-yanig.",
+    "Kung nasa labas, lumipat sa bukas na lugar na malayo sa mga gusali, poste, at wires.",
+    "Pagtapos ng pag-yanig: maghanda para sa mga aftershock, tingnan kung may sugatan, at suriin ang gas, wires, at istruktura bago ilipat ang mga basag na bagay.",
+    "Kung nasa baybayin ang inyong lugar at malakas o matagal ang pag-yanig, umakyat agad sa mas mataas na lugar — huwag hintayin ang opisyal na tsunami advisory."
+  ],
+  "avoid": [
+    "Huwag tumakbo palabas habang humihilos pa ang lupa.",
+    "Huwag gumamit ng elevator bago, habang, o kasunod agad ng pag-yanig.",
+    "Huwag tumayo sa tabi ng mga istanteng hindi nakapigil, salamin, o mabibigat na bagay na maaaring matumba.",
+    "Huwag mag-sindi ng match o lighter hangga't hindi tiyak na walang gas leak."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

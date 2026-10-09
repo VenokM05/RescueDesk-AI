@@ -29,12 +29,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.GoBagCategories
 import com.rescuedesk.ai.domain.model.GoBagItem
+import com.rescuedesk.ai.ui.goBagCategoryLabelRes
 
 /**
  * Screen K — Go-Bag Checklist (PRD §5.11). Grouped categories, large
@@ -47,6 +50,7 @@ fun GoBagScreen(
     viewModel: GoBagViewModel = viewModel()
 ) {
     val items by viewModel.items.collectAsStateWithLifecycle()
+    val languageTag by viewModel.languageTag.collectAsStateWithLifecycle()
     val packed = items.count { it.checked }
     val lastUpdated = items.map { it.updatedAt }.filter { it.isNotEmpty() }.maxOrNull()
 
@@ -58,19 +62,21 @@ fun GoBagScreen(
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                TextButton(onClick = onBack) { Text("← Bumalik (Back)") }
+                TextButton(onClick = onBack) { Text(stringResource(R.string.common_back)) }
                 Text(
-                    "Prepare your emergency bag",
+                    stringResource(R.string.gobag_title),
                     style = MaterialTheme.typography.displaySmall
                 )
                 Text(
-                    "This is a general starter list — adapt it to your household and the emergencies common in your area.",
+                    stringResource(R.string.gobag_disclaimer),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "$packed of ${items.size} packed" +
-                        (lastUpdated?.let { " · Last updated $it" } ?: ""),
+                    text = stringResource(R.string.gobag_progress, packed, items.size) +
+                        (lastUpdated?.let {
+                            stringResource(R.string.gobag_last_updated, it)
+                        } ?: ""),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -88,8 +94,9 @@ fun GoBagScreen(
             val inCategory = items.filter { it.category == category }
             if (inCategory.isNotEmpty()) {
                 item {
+                    val labelRes = goBagCategoryLabelRes(category)
                     Text(
-                        category,
+                        if (labelRes != null) stringResource(labelRes) else category,
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top = 10.dp)
@@ -97,6 +104,7 @@ fun GoBagScreen(
                 }
                 items(inCategory, key = { it.id }) { item ->
                     GoBagRow(
+                        label = item.labelFor(languageTag),
                         item = item,
                         onToggle = { viewModel.toggle(item.id, it) },
                         onRemove = { viewModel.remove(item.id) }
@@ -109,7 +117,12 @@ fun GoBagScreen(
 }
 
 @Composable
-private fun GoBagRow(item: GoBagItem, onToggle: (Boolean) -> Unit, onRemove: () -> Unit) {
+private fun GoBagRow(
+    label: String,
+    item: GoBagItem,
+    onToggle: (Boolean) -> Unit,
+    onRemove: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,13 +138,13 @@ private fun GoBagRow(item: GoBagItem, onToggle: (Boolean) -> Unit, onRemove: () 
                 .width(56.dp)
         )
         Text(
-            item.label,
+            label,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f)
         )
         if (item.isCustom) {
             TextButton(onClick = onRemove) {
-                Text("Remove", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.common_remove), color = MaterialTheme.colorScheme.error)
             }
         }
     }
@@ -142,15 +155,21 @@ private fun AddItemRow(onAdd: (String, String) -> Unit) {
     var label by remember { mutableStateOf("") }
     var category by remember { mutableStateOf(GoBagCategories.ALL.last()) }
 
-    Text("Add an item", style = MaterialTheme.typography.titleLarge)
+    Text(stringResource(R.string.gobag_add_section), style = MaterialTheme.typography.titleLarge)
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.horizontalScroll(rememberScrollState())
     ) {
         GoBagCategories.ALL.forEach { cat ->
+            val labelRes = goBagCategoryLabelRes(cat)
             SuggestionChip(
                 onClick = { category = cat },
-                label = { Text(cat.substringBefore(" "), fontWeight = if (cat == category) FontWeight.Bold else FontWeight.Normal) }
+                label = {
+                    Text(
+                        if (labelRes != null) stringResource(labelRes) else cat,
+                        fontWeight = if (cat == category) FontWeight.Bold else FontWeight.Normal
+                    )
+                }
             )
         }
     }
@@ -158,7 +177,7 @@ private fun AddItemRow(onAdd: (String, String) -> Unit) {
         OutlinedTextField(
             value = label,
             onValueChange = { label = it },
-            label = { Text("Item — e.g. Raincoat for each person") },
+            label = { Text(stringResource(R.string.gobag_item_label)) },
             singleLine = true,
             modifier = Modifier.weight(1f)
         )
@@ -170,7 +189,7 @@ private fun AddItemRow(onAdd: (String, String) -> Unit) {
             },
             modifier = Modifier.heightIn(min = 56.dp)
         ) {
-            Text("Add")
+            Text(stringResource(R.string.common_add))
         }
     }
 }

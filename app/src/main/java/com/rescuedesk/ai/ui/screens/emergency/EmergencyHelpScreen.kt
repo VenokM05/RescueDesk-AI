@@ -15,8 +15,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.theme.Amber
 
 /**
@@ -33,13 +35,13 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Text("What is happening?", style = MaterialTheme.typography.displaySmall)
+        Text(stringResource(R.string.emergency_title), style = MaterialTheme.typography.displaySmall)
 
         // Standing safety note (PRD §5.6). Emergency numbers appear only when the
         // content pipeline records source + applicability + review date (§8.2) —
         // none are cleared yet, so no number is shown here.
         Text(
-            text = "If you are in immediate danger, move to safety if possible and contact local emergency services.",
+            text = stringResource(R.string.emergency_safety_note),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             color = Amber
@@ -48,14 +50,14 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
         // Each situation routes straight to its guide category (PRD §5.6:
         // direct taps, no typing, no AI dependency).
         val situations = listOf(
-            "Flooding or rising water" to "flood",
-            "Typhoon or strong winds" to "typhoon",
-            "Earthquake" to "earthquake",
-            "Fire or smoke" to "fire",
-            "Injury or medical emergency" to "firstaid",
-            "Other emergency" to ""
+            R.string.emergency_situation_flood to "flood",
+            R.string.emergency_situation_typhoon to "typhoon",
+            R.string.emergency_situation_earthquake to "earthquake",
+            R.string.emergency_situation_fire to "fire",
+            R.string.emergency_situation_injury to "firstaid",
+            R.string.emergency_situation_other to ""
         )
-        situations.forEach { (label, category) ->
+        situations.forEach { (labelRes, category) ->
             Button(
                 onClick = { onOpenCategory(category) },
                 modifier = Modifier
@@ -63,12 +65,12 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
                     .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text(label, style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(labelRes), style = MaterialTheme.typography.labelLarge)
             }
         }
 
         OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
-            Text("Back")
+            Text(stringResource(R.string.common_back))
         }
     }
 }

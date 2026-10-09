@@ -49,7 +49,8 @@ object ServiceLocator {
         preferencesStore = PreferencesStore(context)
         guideRepository = RoomGuideRepository(
             guideDao = db.guideDao(),
-            seeder = BuiltInGuideSeeder(context, db.guideDao())
+            seeder = BuiltInGuideSeeder(context, db.guideDao()),
+            preferences = preferencesStore
         )
         familyRepository = RoomFamilyRepository(
             planDao = db.familyPlanDao(),
