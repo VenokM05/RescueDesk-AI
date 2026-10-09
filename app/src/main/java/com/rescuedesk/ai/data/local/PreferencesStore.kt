@@ -35,7 +35,7 @@ data class AppSettings(
     val wifiOnlyDownloads: Boolean = true,
     val lastPackSync: String? = null,
     /**
-     * Debug-only switch to route Ask AI through the on-device Gemma 2 2B IT
+     * Debug-only switch to route Ask Juan through the on-device Gemma 2 2B IT
      * adapter (MediaPipe). Off by default so the retrieval-grounded path stays
      * the shipping behaviour and the Phase 1 Go/No-Go gate is not pre-empted.
      */

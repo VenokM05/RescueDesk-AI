@@ -34,7 +34,7 @@ interface AiEngine {
 
 /**
  * Default scaffold implementation: no runtime bundled yet. Renders the PRD section 5.8
- * fallback state wherever Ask AI is surfaced.
+ * fallback state wherever Ask Juan is surfaced.
  */
 class UnavailableAiEngine : AiEngine {
 

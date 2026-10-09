@@ -41,8 +41,13 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
          */
         data object MedicalEscalation : AskResult
 
-        /** Nothing in the local library matched. */
-        data object NoMatch : AskResult
+        /**
+         * Nothing in the local library matched directly. Instead of a dead-end
+         * canned line, carries the REAL topics this device can answer right now
+         * (id + title of actual installed guides, in the user's language), so
+         * the UI can offer tappable wayfinding into the guide library.
+         */
+        data class NoMatch(val topics: List<Pair<Long, String>>) : AskResult
     }
 
     suspend fun answer(question: String): AskResult {
@@ -54,7 +59,15 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
         if (isOutOfScope(q)) return AskResult.ScopeRefusal
 
         val matches = guideRepository.searchGuides(question).first()
-        if (matches.isEmpty()) return AskResult.NoMatch
+        if (matches.isEmpty()) {
+            // Not a dead end: show what the library genuinely covers.
+            val topics = runCatching {
+                guideRepository.observeGuides().first()
+                    .take(MAX_TOPIC_FALLBACK)
+                    .map { it.id to it.title }
+            }.getOrDefault(emptyList())
+            return AskResult.NoMatch(topics)
+        }
 
         val best = matches.first()
         val lead = best.summary.ifBlank { best.title }
@@ -121,5 +134,7 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
     private companion object {
         const val MAX_STEPS = 4
         const val MAX_SOURCES = 3
+        // Cap the "I can help with…" wayfinding list so the bubble stays scannable.
+        const val MAX_TOPIC_FALLBACK = 6
     }
 }

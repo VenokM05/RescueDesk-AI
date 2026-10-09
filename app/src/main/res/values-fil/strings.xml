@@ -3,7 +3,7 @@
     <!-- Navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_guides">Mga Gabay</string>
-    <string name="nav_ask_ai">Magtanong</string>
+    <string name="nav_ask_ai">Ask Juan</string>
     <string name="nav_my_family">Aking Pamilya</string>
     <string name="emergency_help">Tulong sa Emergency</string>
 
@@ -39,7 +39,7 @@
     <string name="home_plan_not_started">Hindi pa nagsisimula</string>
     <string name="home_plan_continue">Ituloy ang plano</string>
     <string name="home_ask_title">May tanong ka?</string>
-    <string name="home_ask_chip">Magtanong sa RescueDesk AI</string>
+    <string name="home_ask_chip">Magtanong kay Juan</string>
     <string name="home_offline_strip">Offline: available ang mga built-in na emergency guide · Walang naka-install na AI model</string>
     <string name="home_settings_desc">Mga setting</string>
 
@@ -84,10 +84,10 @@
     <string name="detail_meta_pack">Wika: %1$s · Bersyon %2$d · Download na gabay</string>
     <string name="detail_related">Mga kaugnay na gabay</string>
 
-    <!-- Screen H — Ask AI -->
-    <string name="ask_title">Magtanong sa RescueDesk AI</string>
-    <string name="ask_local_note">Gumagana nang offline. Ang bawat sagot ay direkta mula sa mga emergency guide sa device na ito — walang hula-hula, at walang naipapadala sa internet ang inyong tinatayp.</string>
-    <string name="ask_hint">Magtanong tungkol sa bagyo, baha, lindol, sunog, first aid, go-bag…</string>
+    <!-- Screen H — Ask Juan -->
+    <string name="ask_title">Ask Juan</string>
+    <string name="ask_local_note">Gumagana nang offline. Direkta mula sa mga emergency guide sa device na ito ang bawat sagot ni Juan — walang hula-hula, at walang naipapadala sa internet ang inyong tinatayp.</string>
+    <string name="ask_hint">Magtanong kay Juan tungkol sa bagyo, baha, lindol, sunog, first aid, go-bag…</string>
     <string name="ask_send">Ipadala</string>
     <string name="ask_you">Ikaw</string>
     <string name="ask_sources">Mula sa mga gabay na ito</string>
@@ -95,15 +95,11 @@
     <string name="ask_thinking">Hinahanap sa mga gabay…</string>
     <string name="ask_live_refusal">Hindi ko kaya\'t tingnan ang kasalukuyang kalagayan — walang internet o sensor para dito, at mabilis magbago ang emergency info. Para sa nangyayari ngayon (storm signal, ulan, kalagayan ng kalsada, aftershock), tingnan ang PAGASA, PHIVOLCS, NDRRMC, o ang opisyal na channel ng inyong lokal na pamahalaan. Matutulong pa rin ako sa mga hakbang ng paghahanda mula sa mga gabay.</string>
     <string name="ask_scope_refusal">Iyan ay lampas sa saklaw ng matutulongan ko. Sumasagot lang ako sa mga tanong sa emergency preparedness gamit ang mga nireview na guide sa device na ito. Subukan ang itanong tungkol sa bagyo, baha, lindol, sunog, first aid, o paggawa ng family plan at go-bag.</string>
-    <string name="ask_nomatch">Hindi ko nakita iyon sa mga gabay sa device na ito. Subukan ang ibang salita (halimbawa “bagyo”, “baha”, “lindol”, “sunog”, “first aid”, “go-bag”), o tingnan ang buong aklatan ng mga gabay.</string>
+    <string name="ask_nomatch">Hindi ko nakita iyon sa mga gabay sa device na ito — pero ito ang mga kayang tulungan ni Juan ngayon. Pindutin ang gabay sa ibaba para basahin ito, o subukan ang mas maiikling salita tulad ng “bagyo”, “baha”, o “lindol”.</string>
     <string name="ask_medical_note">Mukhang nangangailangan ito ng propesyonal na medikal na pangangalaga na hindi mapapalitan ng mga gabay sa device na ito. Kung ito ay mapanganib sa buhay, tumawag agad sa 911 (emergency hotline sa Pilipinas) o pumunta sa pinakamalapit na ospital. Panatilihing kalmado at hindi gumagalaw ang tao, at huwag magbigay ng pagkain, inumin, o gamot maliban kung utos ng isang medikal na propesyonal. Maibabahagi ko ang pangkalahatang hakbang sa first-aid preparedness mula sa mga gabay, ngunit sa aktibong emergency, humingi ng tulong sa tao.</string>
     <string name="ask_llm_badge">Isinulat muli ng lokal na AI (eksperimental) — ang nilalaman ay galing pa rin sa mga gabay</string>
-    <string name="ask_not_ready">Hindi pa handa ang offline AI sa device na ito.</string>
-    <string name="ask_not_ready_sub">Gumagana pa rin ang mga emergency guide kahit walang ito.</string>
     <string name="ask_open_guides">Buksan ang mga emergency guide</string>
-    <string name="ask_retry_setup">Subukang muling i-setup ang AI</string>
-    <string name="ask_chat_placeholder">Darating ang chat UI kasama ng Phase 3 runtime integration.</string>
-    <string name="ask_examples_title">Subukang itanong</string>
+    <string name="ask_examples_title">Subukang itanong kay Juan</string>
     <string name="ask_example_1">Ano ang ilalagay ko sa go-bag?</string>
     <string name="ask_example_2">Ano ang dapat ihanda ng pamilya ko bago ang bagyo?</string>
     <string name="ask_example_3">Paano ihahanda ang bahay namin para sa lindol?</string>
@@ -145,7 +141,7 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="settings_delete_cancel">Kanselahin</string>
     <string name="settings_delete_done">Nabura na sa device na ito ang lahat ng personal na impormasyon.</string>
     <string name="settings_llm_section">Eksperimental — lokal na AI model</string>
-    <string name="settings_llm_body">I-on ito para hayaan ang Gemma 2 2B IT na language model sa device na ito na isulat muli ang grounded na sagot sa mas maikling, natural na talata. Ito ay para sa Phase 1 candidate evaluation lamang. Anuman ang setting na ito, ang sagot ay galing pa rin sa mga gabay, at lahat ng safety refusal (live claim, out-of-scope, medical emergency) ay ipinapatupad bago tanungin ang model. Kung ito ay naka-off, babalik ang Magtanong sa default na composed na sagot; walang epekto sa mga gabay.</string>
+    <string name="settings_llm_body">I-on ito para hayaan ang Gemma 2 2B IT na language model sa device na ito na isulat muli ang grounded na sagot sa mas maikling, natural na talata. Ito ay para sa Phase 1 candidate evaluation lamang. Anuman ang setting na ito, ang sagot ay galing pa rin sa mga gabay, at lahat ng safety refusal (live claim, out-of-scope, medical emergency) ay ipinapatupad bago tanungin ang model. Kung ito ay naka-off, babalik ang Ask Juan sa default na composed na sagot; walang epekto sa mga gabay.</string>
     <string name="settings_llm_toggle_label">Subukan ang lokal na LLM (Gemma 2 2B IT)</string>
     <string name="settings_llm_status_not_installed">Hindi naka-install sa device na ito</string>
     <string name="settings_llm_status_loading">Ikinakarga ang model…</string>
@@ -184,8 +180,8 @@ Koponan: ELOHIM Creator</string>
     <string name="offline_pref_section">Kagustuhan sa download</string>
     <string name="offline_pref_wifi">I-download ang mga gabay sa Wi-Fi lamang</string>
     <string name="offline_pref_wifi_note">Maliliit na text file ang mga gabay, ngunit nakakatipid ito sa load ng prepaid data. Ang \"Tingnan kung may update\" sa itaas ay laging gumagana kapag pindutin mo.</string>
-    <string name="offline_model_section">AI model (Magtanong)</string>
-    <string name="offline_model_not_installed">Hindi naka-install — ang Magtanong ay nagpapakita lamang ng offline na sagot mula sa mga gabay</string>
+    <string name="offline_model_section">AI model (Ask Juan)</string>
+    <string name="offline_model_not_installed">Hindi naka-install — ang Ask Juan ay nagpapakita lamang ng offline na sagot mula sa mga gabay</string>
     <string name="offline_model_ready">Naka-load sa device na ito (Gemma 2 2B IT, ~2.7 GB)</string>
     <string name="offline_model_loading">Ikinakarga ang model…</string>
     <string name="offline_model_incompatible">Hindi tugma ang model sa device na ito</string>

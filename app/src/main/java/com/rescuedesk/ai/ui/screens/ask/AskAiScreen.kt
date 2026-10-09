@@ -46,7 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rescuedesk.ai.R
 
 /**
- * Screen H — Ask RescueDesk AI (PRD section 5.8), running in the offline
+ * Screen H — Ask Juan (PRD section 5.8), running in the offline
  * retrieval-grounded local mode (docs/ARCHITECTURE.md section 4, PRD section 7.3). Answers
  * come only from the on-device guides, are cited, and refuse live/out-of-scope
  * requests. The generative-LLM path stays gated in :poc until Phase 1 GO.

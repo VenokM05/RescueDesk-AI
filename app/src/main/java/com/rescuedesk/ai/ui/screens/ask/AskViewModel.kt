@@ -69,7 +69,14 @@ class AskViewModel : ViewModel() {
                 AskResult.LiveRefusal -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_live_refusal)
                 AskResult.ScopeRefusal -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_scope_refusal)
                 AskResult.MedicalEscalation -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_medical_note)
-                AskResult.NoMatch -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_nomatch)
+                // No dead-end: pair the short not-found note with the actual
+                // guides installed on this device as tappable source chips.
+                is AskResult.NoMatch -> ChatMessage(
+                    id = placeholderId,
+                    fromUser = false,
+                    cannedRes = R.string.ask_nomatch,
+                    sources = result.topics.map { (id, title) -> SourceRef(id, title) }
+                )
             }
             _messages.value = _messages.value.map { if (it.id == placeholderId) answer else it }
 
