@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -100,7 +103,13 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
         )
         guide.avoidList.forEach { item ->
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
-                Text("✗", color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
+                // Decorative mark — the section header already carries the meaning
+                // (PRD §4.2: status not color/glyph-only; text label is the source of truth).
+                Icon(
+                    Icons.Default.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
                 Spacer(Modifier.width(10.dp))
                 Text(item, style = MaterialTheme.typography.bodyLarge)
             }

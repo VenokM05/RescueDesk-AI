@@ -122,11 +122,15 @@ private fun ContactRow(contact: EmergencyContact, onCall: () -> Unit, onDelete: 
             }
             TextButton(
                 onClick = onCall,
-                modifier = Modifier.heightIn(min = 48.dp)
+                modifier = Modifier.heightIn(min = 56.dp)
             ) {
                 Text(stringResource(R.string.contacts_call), style = MaterialTheme.typography.labelLarge)
             }
-            TextButton(onClick = onDelete) {
+            TextButton(
+                onClick = onDelete,
+                // Match Call for consistent tap target size (PRD §4.4).
+                modifier = Modifier.heightIn(min = 56.dp)
+            ) {
                 Text(stringResource(R.string.contacts_delete), color = MaterialTheme.colorScheme.error)
             }
         }

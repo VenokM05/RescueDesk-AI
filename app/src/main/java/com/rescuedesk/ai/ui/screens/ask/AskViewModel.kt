@@ -57,6 +57,7 @@ class AskViewModel : ViewModel() {
                 is AskResult.Grounded -> groundedMessage(placeholderId, result)
                 AskResult.LiveRefusal -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_live_refusal)
                 AskResult.ScopeRefusal -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_scope_refusal)
+                AskResult.MedicalEscalation -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_medical_note)
                 AskResult.NoMatch -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_nomatch)
             }
             _messages.value = _messages.value.map { if (it.id == placeholderId) answer else it }

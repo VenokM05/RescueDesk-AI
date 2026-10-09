@@ -3,6 +3,7 @@ package com.rescuedesk.ai.data.repository
 import com.rescuedesk.ai.data.local.GuideDao
 import com.rescuedesk.ai.data.local.GuideEntity
 import com.rescuedesk.ai.data.local.PreferencesStore
+import com.rescuedesk.ai.data.search.FilipinoQueryExpander
 import com.rescuedesk.ai.data.seed.BuiltInGuideSeeder
 import com.rescuedesk.ai.domain.model.Guide
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,11 +52,16 @@ class RoomGuideRepository(
                 guideDao.observeAll()
             } else {
                 // Prefix matching per token, OR-joined for forgiving local typing
-                // (PRD §5.9: show results before a complete question is typed).
-                val match = cleaned.split(Regex("\\s+"))
+                // (PRD §5.9: show results before a complete question is typed),
+                // with conservative Filipino morphology expansion so conjugated
+                // forms still reach guide roots (data/search/FilipinoQueryExpander).
+                val terms = cleaned.split(Regex("\\s+"))
                     .filter { it.isNotBlank() }
+                    .flatMap { FilipinoQueryExpander.candidates(it) }
+                    .distinct()
+                    .take(MAX_QUERY_TERMS)
                     .joinToString(" OR ") { "$it*" }
-                guideDao.search(match)
+                if (terms.isBlank()) guideDao.observeAll() else guideDao.search(terms)
             }
         }.localized().mapEntities()
 
@@ -68,6 +74,11 @@ class RoomGuideRepository(
                 seeded.value = true
             }
         }
+    }
+
+    private companion object {
+        // Guard against a pathological long query exploding the MATCH string.
+        const val MAX_QUERY_TERMS = 24
     }
 
     private fun Flow<List<GuideEntity>>.mapEntities(): Flow<List<Guide>> = map { list -> list.map { it.toDomain() } }

@@ -110,7 +110,7 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 - [ ] Emergency Help (Screen F) and Guide Detail (Screen G), including the Section 8.3 freshness warning and source/review chrome.
 - [ ] Guides Library (Screen I) with local search, Filipino + English, and graceful handling of Taglish queries.
 - [ ] Settings shell (Screen M): language, text size, privacy deletion entry points.
-- [ ] TalkBack pass at maximum font scale on all implemented screens.
+- [x] TalkBack pass at maximum font scale on all implemented screens (code-side a11y pass shipped: roles + selected state on onboarding choices, decorative icons marked, stable field descriptions, live region on Ask thread, minimum tap targets on chips + Call/Delete). Field verification on a physical device with TalkBack enabled is still scheduled for Phase 5.
 
 **Definition of check:** a fresh install in airplane mode is a fully usable guide app (PRD §13.2 first cases pass).
 
@@ -134,7 +134,7 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 ### Phase 3 — NO-GO alternative track (1 week)
 
 - [x] Enhanced guide categorization and curated question→guide routing (keyword-based "Ask" that jumps to guides instead of generating text).
-- [ ] Polish search morphology handling for Filipino.
+- [x] Polish search morphology handling for Filipino (`data/search/FilipinoQueryExpander`: conservative prefix / infix / suffix stripping + de-reduplication; exact original token is always preserved first so precision is never lost).
 
 ### Local retrieval-grounded Ask (shipped, gate-independent)
 
@@ -145,6 +145,20 @@ refusals. It needs no model and no network, so it is safe under both the GO
 and NO-GO paths and does **not** pre-empt the Phase 1 gate. The generative
 LLM path (Gemma / llama.cpp) remains the `:poc` experiment until the gate
 returns GO and a winning runtime × model pair is named.
+
+**Safety additions (this pass):**
+
+- **Medical-emergency escalation** — symptom / urgency wording ("bleeding",
+  "unconscious", "lagnat", "kagat ng aso", "gamot sa", …) is detected before
+  retrieval and answered with a seek-professional-help message (calls 911 / nearest
+  hospital) instead of a bland no-match. Deliberately conservative — over-
+  escalating is the safe direction (PRD §13.4).
+- **Live-claim refusal refinements** — dropped the over-broad `raised` marker
+  (was misfiring on preparedness-ordering questions like "…when a typhoon
+  signal #4 is raised"), added `signal number` / `storm signal` variants.
+- **Filipino morphology** — Tagalog verbs ("bumaha", "maglilindol",
+  "umuuulan") now reach their guide roots ("baha", "lindol", "ulan") via the
+  query expander above.
 
 ---
 

@@ -30,6 +30,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,6 +55,8 @@ fun GoBagScreen(
     val languageTag by viewModel.languageTag.collectAsStateWithLifecycle()
     val packed = items.count { it.checked }
     val lastUpdated = items.map { it.updatedAt }.filter { it.isNotEmpty() }.maxOrNull()
+    // Hoist for use inside the non-composable semantics lambda below.
+    val progressDesc = stringResource(R.string.gobag_progress, packed, items.size)
 
     LazyColumn(
         modifier = Modifier
@@ -82,7 +86,12 @@ fun GoBagScreen(
                 )
                 LinearProgressIndicator(
                     progress = { if (items.isEmpty()) 0f else packed.toFloat() / items.size },
-                    modifier = Modifier.fillMaxWidth().height(12.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(12.dp)
+                        // Progress bar is decoration; text label above carries the meaning,
+                        // but announce a live snapshot so TalkBack reads it when it changes.
+                        .semantics { contentDescription = progressDesc }
                 )
                 Spacer(Modifier.height(6.dp))
                 AddItemRow(onAdd = viewModel::add)
@@ -169,7 +178,9 @@ private fun AddItemRow(onAdd: (String, String) -> Unit) {
                         if (labelRes != null) stringResource(labelRes) else cat,
                         fontWeight = if (cat == category) FontWeight.Bold else FontWeight.Normal
                     )
-                }
+                },
+                // PRD §4.4: minimum 48dp tap target even at small text scale.
+                modifier = Modifier.heightIn(min = 48.dp)
             )
         }
     }

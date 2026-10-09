@@ -17,7 +17,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,6 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -208,6 +216,13 @@ private fun ChoiceCard(
                 else MaterialTheme.colorScheme.outline,
                 shape = shape
             )
+            // Selection must not be color-only (PRD §4.2). Announce the option,
+            // the radio-group role, and the selected state to TalkBack.
+            .semantics(mergeDescendants = true) {
+                role = Role.RadioButton
+                this.selected = selected
+                contentDescription = title
+            }
             .clickable(onClick = onClick)
     ) {
         Row(
@@ -226,10 +241,11 @@ private fun ChoiceCard(
                 )
             }
             if (selected) {
-                Text(
-                    "✓",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary
+                // Decorative check — the semantics above already announce "selected".
+                Icon(
+                    Icons.Default.Check,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }

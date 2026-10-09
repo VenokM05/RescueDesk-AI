@@ -2,13 +2,18 @@ package com.rescuedesk.ai.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -108,8 +113,17 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 )
             }
             // Plain-language privacy notice in the current language (PRD §10.1).
+            // Chevron gives a visual disclosure affordance; TalkBack still reads
+            // the label alone (icon is decorative).
             TextButton(onClick = { showPrivacyNotice = !showPrivacyNotice }) {
-                Text(stringResource(R.string.settings_privacy_notice_title))
+                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text(stringResource(R.string.settings_privacy_notice_title))
+                    Icon(
+                        imageVector = if (showPrivacyNotice) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                        contentDescription = null,
+                        modifier = androidx.compose.ui.Modifier.padding(start = 6.dp)
+                    )
+                }
             }
             if (showPrivacyNotice) {
                 Text(

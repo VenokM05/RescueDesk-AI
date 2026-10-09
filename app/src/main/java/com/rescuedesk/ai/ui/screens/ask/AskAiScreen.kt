@@ -35,6 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -78,7 +82,14 @@ fun AskAiScreen(
 
         LazyColumn(
             state = listState,
-            modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                // Announce new assistant turns politely (PRD §4.6 TalkBack).
+                .semantics {
+                    liveRegion = LiveRegionMode.Polite
+                },
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 16.dp)
         ) {
@@ -110,11 +121,17 @@ fun AskAiScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            // Hoisted so the semantics lambda (non-composable) can capture it.
+            val hint = stringResource(R.string.ask_hint)
             OutlinedTextField(
                 value = input,
                 onValueChange = { input = it },
-                placeholder = { Text(stringResource(R.string.ask_hint)) },
-                modifier = Modifier.weight(1f),
+                placeholder = { Text(hint) },
+                // Placeholder disappears once text is entered — pin a stable
+                // field description for TalkBack instead (PRD §4.6).
+                modifier = Modifier
+                    .weight(1f)
+                    .semantics { contentDescription = hint },
                 maxLines = 4
             )
             IconButton(

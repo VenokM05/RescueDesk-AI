@@ -34,13 +34,23 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
         /** Question is outside emergency-preparedness scope (PRD §5.8). */
         data object ScopeRefusal : AskResult
 
+        /**
+         * A possible medical emergency. The app holds no first-aid/clinical
+         * content, so it must escalate to professional help rather than answer
+         * or return a generic no-match (PRD §5.8 first-aid scope + §13.4).
+         */
+        data object MedicalEscalation : AskResult
+
         /** Nothing in the local library matched. */
         data object NoMatch : AskResult
     }
 
     suspend fun answer(question: String): AskResult {
         val q = question.lowercase()
+        // Order matters: a live or medical emergency outranks everything else;
+        // an out-of-scope question must not be misread as a grounded request.
         if (isLiveClaim(q)) return AskResult.LiveRefusal
+        if (isMedicalEmergency(q)) return AskResult.MedicalEscalation
         if (isOutOfScope(q)) return AskResult.ScopeRefusal
 
         val matches = guideRepository.searchGuides(question).first()
@@ -69,10 +79,30 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
     private fun isLiveClaim(q: String): Boolean {
         val markers = listOf(
             "right now", "as of", "currently", "today", "tonight", "this morning",
-            "latest", "is it raining", "will it rain", "is signal", "signal no.", "raised",
-            "is the road", "road open", "open now", "aftershock", "happening now",
-            "current status", "ngayon", "ngayong", "kasalukuyan", "ngayong gabi",
-            "ngayong umaga", "anong oras", "umuuulan", "bumabagyo"
+            "latest", "is it raining", "will it rain", "is signal", "signal no",
+            "signal number", "storm signal", "is the road", "road open", "open now",
+            "aftershock", "happening now", "current status", "live status",
+            "ngayon", "ngayong", "kasalukuyan", "ngayong gabi", "ngayong umaga",
+            "anong oras", "umuuulan", "bumabagyo"
+        )
+        return markers.any { q.contains(it) }
+    }
+
+    /**
+     * Possible medical emergency presenters. Keyed on symptom/urgency wording
+     * (not the word "first aid", which is a legitimate preparedness topic) so
+     * we escalate real emergencies to professional care instead of answering
+     * from general guides. Deliberately conservative — over-escalating is the
+     * safe direction (PRD §13.4).
+     */
+    private fun isMedicalEmergency(q: String): Boolean {
+        val markers = listOf(
+            "bleed", "won't stop bleeding", "unconscious", "not breathing",
+            "can't breathe", "difficulty breathing", "seizure", "convulsion",
+            "chest pain", "choking", "broken bone", "fracture", "snake bite",
+            "spider bite", "dog bite", "kagat ng aso", "drowning", "drown",
+            "second degree burn", "third degree burn", "lagnat", "fever",
+            "pangingilabot", "namamaga", "gamot sa", "may buntis", "labor"
         )
         return markers.any { q.contains(it) }
     }
