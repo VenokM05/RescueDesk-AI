@@ -1,0 +1,18 @@
+# Built artifacts
+*.iml
+.gradle/
+build/
+local.properties
+.idea/
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.keystore
+!debug.keystore
+
+# Secrets must never enter the repo (PRD §9: keys stay out of the app)
+*.env
+secrets*

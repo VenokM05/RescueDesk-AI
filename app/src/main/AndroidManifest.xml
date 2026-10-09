@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- MVP permission surface (PRD §10.2): INTERNET only.
+         No location. No CALL_PHONE — contacts dial via ACTION_DIAL.
+         Foreground service type will be added with the download manager. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".app.RescueDeskApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RescueDesk">
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compose owns all in-app styling (PRD §4 tokens in ui/theme).
+         This platform theme only removes the action bar for the host activity. -->
+    <style name="Theme.RescueDesk" parent="@android:style/Theme.Material.Light.NoActionBar" />
+</resources>

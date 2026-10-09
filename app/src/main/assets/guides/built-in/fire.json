@@ -1,0 +1,22 @@
+{
+  "publicId": "builtin-fire-en",
+  "title": "Fire: What to do",
+  "category": "fire",
+  "language": "en",
+  "summary": "Get out, stay low, and safe evacuation actions for home fires. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD §8.3, §10.3).",
+  "steps": [
+    "Get out immediately — do not stop to collect belongings.",
+    "Stay low under smoke; cleaner air is near the floor.",
+    "Before opening a door, touch it with the back of your hand. If hot, use your planned alternative exit.",
+    "Close doors behind you as you leave to slow the spread of fire and smoke.",
+    "Once out, stay out and call for help from outside.",
+    "If your clothes catch fire: STOP, DROP, and ROLL, covering your face with your hands."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RescueDesk AI</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_guides">Mga Gabay</string>
+    <string name="nav_ask_ai">Magtanong sa AI</string>
+    <string name="nav_my_family">Pamilya Ko</string>
+    <string name="emergency_help">Tulong Emerhensiya</string>
+</resources>

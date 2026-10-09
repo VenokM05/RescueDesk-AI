@@ -1,0 +1,22 @@
+{
+  "publicId": "builtin-flood-en",
+  "title": "Flooding: What to do",
+  "category": "flood",
+  "language": "en",
+  "summary": "Immediate actions for rising water and flooded areas. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD §8.3, §10.3).",
+  "steps": [
+    "Move away from rising water when it is safe to do so.",
+    "Follow official evacuation instructions applicable to your area.",
+    "Do not walk or drive through floodwater — even shallow moving water can knock you down or stall a vehicle.",
+    "If water enters your home, switch off the electricity at the main breaker if safe to reach.",
+    "Move to higher ground or the safest upper floor; avoid enclosed attics without a way out.",
+    "Return home only after authorities declare it safe for your area."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

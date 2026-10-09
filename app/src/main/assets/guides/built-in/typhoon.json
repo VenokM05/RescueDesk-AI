@@ -1,0 +1,22 @@
+{
+  "publicId": "builtin-typhoon-en",
+  "title": "Typhoon: What to do",
+  "category": "typhoon",
+  "language": "en",
+  "summary": "Immediate actions before and during a typhoon. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD §8.3, §10.3).",
+  "steps": [
+    "Monitor official PAGASA warnings when connectivity allows and note the latest signal number for your area.",
+    "Secure or reinforce the roof, windows, and loose outdoor items.",
+    "Prepare your go-bag: water, food, medicines, flashlight, batteries, and copied important documents.",
+    "Charge phones and power banks while electricity is still available.",
+    "Know your household evacuation route and meeting point.",
+    "During the typhoon: stay indoors, away from windows, until the official all-clear for your area."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}

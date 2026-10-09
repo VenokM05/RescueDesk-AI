@@ -1,0 +1,22 @@
+{
+  "publicId": "builtin-earthquake-en",
+  "title": "Earthquake: What to do",
+  "category": "earthquake",
+  "language": "en",
+  "summary": "Drop, Cover, Hold, and what to do after shaking stops. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD §8.3, §10.3).",
+  "steps": [
+    "DROP onto your hands and knees before the shaking throws you down.",
+    "Take COVER under a sturdy table or desk, protecting your head and neck. If no shelter is nearby, cover your head with your arms and stay away from glass.",
+    "HOLD ON to your shelter until the shaking stops.",
+    "If outdoors, move to an open area away from buildings, poles, and wires.",
+    "After shaking stops: expect aftershocks, check for injuries, and inspect gas, wires, and structure before moving broken items.",
+    "If your area is coastal and shaking was strong or long, move to higher ground immediately — do not wait for an official tsunami advisory."
+  ],
+  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceRef": null,
+  "publishedDate": null,
+  "lastReviewed": null,
+  "nextReview": null,
+  "version": 1,
+  "rightsStatus": "pending"
+}
