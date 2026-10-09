@@ -27,6 +27,8 @@ included in any release artifact of the main app. Full plan:
 5. Pull evidence: `adb shell run-as com.rescuedesk.poc cat files/results/poc-*.jsonl`
    → paste metrics into the §7 results sheet; send JSONL to the two raters.
 
+## Behavior before native bindings are wired
+
 Until the native bindings exist the app still runs end-to-end: the bank
 executes, every row records the load/generate failure, and the JSONL lands on
 disk — proving harness plumbing on a real device before any model ships.
