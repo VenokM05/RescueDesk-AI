@@ -19,6 +19,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,11 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rescuedesk.ai.R
+import com.rescuedesk.ai.ai.engine.MediaPipeEngine
 import com.rescuedesk.ai.app.ServiceLocator
 import com.rescuedesk.ai.data.local.AppLanguage
 import com.rescuedesk.ai.data.local.TextSize
 import com.rescuedesk.ai.ui.labelRes
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Screen M — Settings (PRD section 5.13): language, text size, offline manager
@@ -50,6 +54,19 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
     val context = LocalContext.current
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showPrivacyNotice by remember { mutableStateOf(false) }
+
+    // Experimental LLM: probe for a locally placed model file once per visit, and
+    // expose a Re-check action so the user can register a file they just moved in
+    // with the Files app WITHOUT restarting the app. Detection reads the filesystem
+    // only (never loads the 2.7 GB model), so it stays on the IO dispatcher.
+    val llmEngine = ServiceLocator.mediaPipeEngine
+    var llmDetected by remember { mutableStateOf<MediaPipeEngine.DetectedModel?>(null) }
+    val recheckModel = {
+        scope.launch {
+            llmDetected = withContext(Dispatchers.IO) { llmEngine?.detectModel() }
+        }
+    }
+    LaunchedEffect(Unit) { recheckModel() }
 
     Column(
         modifier = Modifier
@@ -158,7 +175,6 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
         // Experimental on-device LLM toggle (Phase 1 candidate evaluation).
         // Off by default so the shipping retrieval-grounded path is unaffected.
         val llmOn = current.llmEnabled
-        val llmEngine = ServiceLocator.mediaPipeEngine
         val llmStatus by (llmEngine?.status ?: kotlinx.coroutines.flow.MutableStateFlow(
             com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled
         )).collectAsStateWithLifecycle(initialValue = com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled)
@@ -221,6 +237,26 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                         color = MaterialTheme.colorScheme.error
                     )
                 }
+            }
+            // Runtime presence: path + size when a complete file is found, or a
+            // truncation warning when only a partial file is present. Shown in every
+            // state so the user always knows what the app can actually see.
+            llmDetected?.let { d ->
+                val sizeLabel = android.text.format.Formatter.formatShortFileSize(context, d.bytes)
+                Text(
+                    text = if (d.valid) {
+                        stringResource(R.string.settings_llm_detected, d.path, sizeLabel)
+                    } else {
+                        stringResource(R.string.settings_llm_truncated, sizeLabel)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (d.valid) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.error
+                )
+            }
+            // Register a file the user just moved in, without restarting the app.
+            TextButton(onClick = { recheckModel() }) {
+                Text(stringResource(R.string.settings_llm_recheck))
             }
         }
     }

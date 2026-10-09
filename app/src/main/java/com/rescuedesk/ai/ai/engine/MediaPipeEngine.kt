@@ -142,6 +142,29 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
     /** Absolute path MediaPipe will actually use, for the status card. */
     fun modelPathOrNull(): String? = locateModelFile()?.absolutePath
 
+    /**
+     * Lightweight presence probe for Settings -> Experimental. Does NOT load the
+     * 2.7 GB model. Returns the active model path + size when a complete file is
+     * found (valid = true). If only a too-small file exists — the classic sign of
+     * an interrupted browser download or a truncated `adb push` — it is returned
+     * flagged valid = false so the UI can warn instead of silently saying
+     * "not installed" and leaving the user guessing.
+     */
+    fun detectModel(): DetectedModel? {
+        locateModelFile()?.let { return DetectedModel(it.absolutePath, it.length(), valid = true) }
+        val external = context.getExternalFilesDir(null)
+        val candidates = buildList {
+            add(File(context.filesDir, "models/$MODEL_FILENAME"))
+            if (external != null) add(File(external, "models/$MODEL_FILENAME"))
+            add(File(DEBUG_TMP_DIR, MODEL_FILENAME))
+        }
+        val partial = candidates.firstOrNull { it.exists() && it.length() > 0L }
+        return partial?.let { DetectedModel(it.absolutePath, it.length(), valid = false) }
+    }
+
+    /** Presence result surfaced in Settings -> Experimental (no model load). */
+    data class DetectedModel(val path: String, val bytes: Long, val valid: Boolean)
+
     private fun locateModelFile(): File? {
         val external = context.getExternalFilesDir(null)
         val candidates = buildList {
@@ -159,8 +182,9 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
         const val MIN_VALID_BYTES = 500L * 1024L * 1024L
         const val MAX_TOKENS = 600
         const val ERROR_NO_FILE =
-            "Gemma 2 2B IT model file not found. Push it to " +
-                "$DEBUG_TMP_DIR/$MODEL_FILENAME (see Settings → Experimental)."
+            "Gemma 2 2B IT model file not found. Download it on the phone and place " +
+                "it at <app files>/models/$MODEL_FILENAME, or push it to " +
+                "$DEBUG_TMP_DIR/$MODEL_FILENAME, then tap Re-check (see Settings -> Experimental)."
     }
 }
 

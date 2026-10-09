@@ -71,7 +71,30 @@ your file manager — expected for test builds).
 
 ### Optional: enable the experimental local LLM
 
-The Gemma 2 2B IT `.task` file is **not** in the APK.
+The Gemma 2 2B IT `.task` file is **not** in the APK, and is deliberately **not
+tracked in this Git repo** either. Committing a 2.7 GB binary is not viable here:
+GitHub hard-rejects any single file over 100 MB (and the free LFS tier is only
+1 GiB of storage total, so the weights could not land even via LFS); forcing
+every clone, CI run, and pilot reviewer to pull 2.7 GB contradicts a
+low-bandwidth, offline-first app; and most importantly the **Gemma Terms of Use
+restrict redistributing the weights** — the file lives behind a Hugging Face
+license gate for exactly that reason. So we ship the *app*, and each user
+authenticates against Google's official gated source with their own account.
+
+**Cable-free method (no computer, no `adb push`) — recommended for testing:**
+
+1. On the phone, open
+   [`litert-community/Gemma2-2B-IT`](https://huggingface.co/litert-community/Gemma2-2B-IT)
+   in a browser, log in, and tap *Agree and access repository* once.
+2. Download `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` (~2.7 GB).
+3. In the phone's **Files** app, move it to
+   `Android/data/com.rescuedesk.ai/files/models/` and rename it to `gemma2b.task`.
+4. Open the app → **Settings → Experimental → Re-check for model**. The card
+   shows the detected path + size, then toggle **Try local LLM** → *Ready*.
+
+> Some Android 13+ builds stop third-party file managers from writing into
+> `Android/data/…`. If step 3 is blocked on your device, use the USB method
+> below instead — the app also reads `/data/local/tmp/rescuedesk/gemma2b.task`.
 
 **Verified source (Oct 2026):** Google's MediaPipe LLM Inference docs link
 "Download Gemma-2 2B" to the Hugging Face repo
