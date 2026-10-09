@@ -33,9 +33,21 @@ class PackRepository(
     private val _status = MutableStateFlow<PackStatus>(PackStatus.Idle)
     val status: StateFlow<PackStatus> = _status.asStateFlow()
 
-    /** Pack guide count as a live flow for Screen L. */
-    val packGuideCount: Flow<Int> =
-        guideDao.observeAll().map { list -> list.count { !it.isBuiltin } }
+    /** Installed-pack stats for Screen L (PRD 5.12: version, count, storage). */
+    data class PackInfo(val guideCount: Int, val latestVersion: Int, val approxBytes: Long)
+
+    val packInfo: Flow<PackInfo> =
+        guideDao.observeAll().map { list ->
+            val packs = list.filter { !it.isBuiltin }
+            PackInfo(
+                guideCount = packs.size,
+                latestVersion = packs.maxOfOrNull { it.packVersion } ?: 0,
+                approxBytes = packs.sumOf { entity ->
+                    (entity.title.length + entity.summary.length + entity.body.length +
+                        entity.avoid.length + entity.sourceName.length) * 2L
+                }
+            )
+        }
 
     suspend fun lastSyncDate(): String? = preferences.lastPackSync()
 

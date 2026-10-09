@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
  * arrive with Phase 4.
  */
 @Composable
-fun SettingsScreen(onBack: () -> Unit) {
+fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
     val store = ServiceLocator.preferencesStore
     val settings by store.settings.collectAsStateWithLifecycle(initialValue = null)
     val scope = rememberCoroutineScope()
@@ -69,6 +69,15 @@ fun SettingsScreen(onBack: () -> Unit) {
                     onClick = { scope.launch { store.setTextSize(size) } }
                 )
             }
+        }
+
+        SectionCard("Offline resources") {
+            Text(
+                "Downloaded guides, storage used, and update checks live in one place.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            TextButton(onClick = onOpenOffline) { Text("Open Offline & downloads manager") }
         }
 
         SectionCard("Privacy") {

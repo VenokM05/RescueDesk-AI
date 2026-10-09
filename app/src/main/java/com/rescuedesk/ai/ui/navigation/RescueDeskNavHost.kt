@@ -34,6 +34,7 @@ import com.rescuedesk.ai.ui.screens.family.MyFamilyScreen
 import com.rescuedesk.ai.ui.screens.family.PlanWizardScreen
 import com.rescuedesk.ai.ui.screens.guides.GuidesScreen
 import com.rescuedesk.ai.ui.screens.home.HomeScreen
+import com.rescuedesk.ai.ui.screens.offline.OfflineScreen
 import com.rescuedesk.ai.ui.screens.settings.SettingsScreen
 
 object Routes {
@@ -45,6 +46,7 @@ object Routes {
     const val MY_FAMILY = "my_family"
     const val EMERGENCY_HELP = "emergency_help"
     const val SETTINGS = "settings"
+    const val OFFLINE = "offline"
     const val GO_BAG = "go_bag"
     const val PLAN_WIZARD_PATTERN = "plan_wizard?step={step}"
     const val GUIDE_DETAIL_ARG = "guideId"
@@ -168,7 +170,13 @@ fun RescueDeskApp() {
                 )
             }
             composable(Routes.SETTINGS) {
-                SettingsScreen(onBack = { navController.popBackStack() })
+                SettingsScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenOffline = { navController.navigate(Routes.OFFLINE) }
+                )
+            }
+            composable(Routes.OFFLINE) {
+                OfflineScreen(onBack = { navController.popBackStack() })
             }
             composable(
                 route = Routes.GUIDE_DETAIL,
