@@ -30,13 +30,16 @@ interface GuideDao {
     /**
      * Keyword search (PRD §7.3 "start with local keyword retrieval").
      * Callers must sanitize the query (strip quotes) before passing it in.
+     * NOTE: Room's FTS4 validator does not expose the `rank` pseudo-column, so
+     * ordering falls back to rowid. Relevance ranking (bm25 via FTS5 custom
+     * SQLite build) is a Phase 1 PoC item — see docs/ARCHITECTURE.md §9.2.
      */
     @Query(
         """
         SELECT g.* FROM guides AS g
-        JOIN guides_fts AS f ON g.id = f.rowid
+        JOIN guides_fts ON guides_fts.rowid = g.id
         WHERE guides_fts MATCH :query
-        ORDER BY f.rank
+        ORDER BY guides_fts.rowid
         """
     )
     fun search(query: String): Flow<List<GuideEntity>>
