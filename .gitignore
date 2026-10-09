@@ -16,6 +16,6 @@ captures/
 *.keystore
 !debug.keystore
 
-# Secrets must never enter the repo (PRD §9: keys stay out of the app)
+# Secrets must never enter the repo (PRD section 9: keys stay out of the app)
 *.env
 secrets*

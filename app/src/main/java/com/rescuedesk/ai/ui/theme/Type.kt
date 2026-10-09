@@ -7,9 +7,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * PRD §4.3 typography scale — body defaults to 18 sp and emergency
+ * PRD section 4.3 typography scale — body defaults to 18 sp and emergency
  * instructions to 20–24 sp. System font scaling is layered on top by
- * the platform; screens must reflow, not clip, at large scales (§4.3).
+ * the platform; screens must reflow, not clip, at large scales (section 4.3).
  */
 val RescueDeskTypography = Typography(
     displaySmall = TextStyle(
@@ -51,7 +51,7 @@ val RescueDeskTypography = Typography(
 )
 
 /**
- * Applies the in-app text size multiplier (PRD §5.3) on top of the base scale.
+ * Applies the in-app text size multiplier (PRD section 5.3) on top of the base scale.
  * System font scaling still layers on top; layouts must reflow, not clip.
  */
 fun scaledTypography(factor: Float): Typography {

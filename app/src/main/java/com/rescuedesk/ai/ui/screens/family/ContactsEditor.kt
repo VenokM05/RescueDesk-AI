@@ -28,7 +28,7 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.EmergencyContact
 
 /**
- * Shared contacts editor (FR-06, PRD §5.10 "Emergency Contacts Behavior"):
+ * Shared contacts editor (FR-06, PRD section 5.10 "Emergency Contacts Behavior"):
  * deliberate call action via the system dialer, number always visible, and
  * explicit wording that nobody is notified automatically.
  */
@@ -113,7 +113,7 @@ private fun ContactRow(contact: EmergencyContact, onCall: () -> Unit, onDelete: 
                 if (contact.relationship.isNotBlank()) {
                     Text(contact.relationship, style = MaterialTheme.typography.bodyMedium)
                 }
-                // Number shown before dialing (PRD §5.10).
+                // Number shown before dialing (PRD section 5.10).
                 Text(
                     contact.phone,
                     style = MaterialTheme.typography.bodyLarge,
@@ -128,7 +128,7 @@ private fun ContactRow(contact: EmergencyContact, onCall: () -> Unit, onDelete: 
             }
             TextButton(
                 onClick = onDelete,
-                // Match Call for consistent tap target size (PRD §4.4).
+                // Match Call for consistent tap target size (PRD section 4.4).
                 modifier = Modifier.heightIn(min = 56.dp)
             ) {
                 Text(stringResource(R.string.contacts_delete), color = MaterialTheme.colorScheme.error)

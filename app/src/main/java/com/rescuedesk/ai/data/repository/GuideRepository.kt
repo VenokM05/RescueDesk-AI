@@ -52,7 +52,7 @@ class RoomGuideRepository(
                 guideDao.observeAll()
             } else {
                 // Prefix matching per token, OR-joined for forgiving local typing
-                // (PRD §5.9: show results before a complete question is typed),
+                // (PRD section 5.9: show results before a complete question is typed),
                 // with conservative Filipino morphology expansion so conjugated
                 // forms still reach guide roots (data/search/FilipinoQueryExpander).
                 val terms = cleaned.split(Regex("\\s+"))

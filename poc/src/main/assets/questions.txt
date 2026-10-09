@@ -1,8 +1,8 @@
-# PoC seed question bank — 24 questions, docs/PHASE1-MODEL-POC.md §6.
+# PoC seed question bank — 24 questions, docs/PHASE1-MODEL-POC.md section 6.
 # Format (pipe-delimited, '#' lines and blanks ignored):
 #   id|category|lang|question|expected_behavior|context_chunk_A~~context_chunk_B
 # context chunks are placeholder excerpts mirroring built-in guide text;
-# REPLACE with real FTS chunks exported from :app before Week-2 scoring (§5.2).
+# REPLACE with real FTS chunks exported from :app before Week-2 scoring (section 5.2).
 # expected_behavior: grounded | out_of_scope_refuse | live_data_refuse | misconception_correct | medical_escalate
 
 1|grounded|en|What should I do during an earthquake if I'm on the 3rd floor?|grounded|Drop, cover, and hold until the shaking stops. Do not run downstairs during strong shaking.~~Stay away from windows and heavy objects that could fall. Evacuate only after the shaking stops, checking for damage.

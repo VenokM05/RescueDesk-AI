@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * An answer produced by the on-device model, grounded in retrieved local chunks.
  * [sourceGuideIds] must always be a subset of the guides actually retrieved for
- * the prompt — the safety layer rejects anything else (PRD FR-04, docs/ARCHITECTURE.md §5.2).
+ * the prompt — the safety layer rejects anything else (PRD FR-04, docs/ARCHITECTURE.md section 5.2).
  */
 data class GroundedAnswer(
     val text: String,
@@ -17,7 +17,7 @@ data class GroundedAnswer(
 )
 
 /**
- * Abstraction over the Phase 1 runtime decision (PRD §7.2). Only the concrete
+ * Abstraction over the Phase 1 runtime decision (PRD section 7.2). Only the concrete
  * adapter may touch native inference libraries; UI, retrieval, and safety code
  * stay engine-agnostic so the guide-only NO-GO path requires zero rework.
  */
@@ -33,7 +33,7 @@ interface AiEngine {
 }
 
 /**
- * Default scaffold implementation: no runtime bundled yet. Renders the PRD §5.8
+ * Default scaffold implementation: no runtime bundled yet. Renders the PRD section 5.8
  * fallback state wherever Ask AI is surfaced.
  */
 class UnavailableAiEngine : AiEngine {

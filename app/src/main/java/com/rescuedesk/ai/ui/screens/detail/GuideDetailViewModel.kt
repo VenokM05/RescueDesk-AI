@@ -20,7 +20,7 @@ class GuideDetailViewModel(savedState: SavedStateHandle) : ViewModel() {
             .map { list -> list.firstOrNull { it.id == guideId } }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    /** Same-category guides offered as "Related" at the bottom (PRD §5.7). */
+    /** Same-category guides offered as "Related" at the bottom (PRD section 5.7). */
     val related: StateFlow<List<Guide>> =
         ServiceLocator.guideRepository.observeGuides()
             .map { list ->

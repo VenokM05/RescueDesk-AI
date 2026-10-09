@@ -12,7 +12,7 @@ import com.rescuedesk.ai.data.pack.PackStatus
 import java.util.concurrent.TimeUnit
 
 /**
- * Daily background guide-pack check (PRD §5.12). Respects the user's
+ * Daily background guide-pack check (PRD section 5.12). Respects the user's
  * Wi-Fi-only preference; a manual "Check for updates" in Screen L bypasses
  * the periodic schedule but runs the same serialized sync.
  */

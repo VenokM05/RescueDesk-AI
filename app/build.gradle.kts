@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.rescuedesk.ai"
         // minSdk 26 is a scaffold assumption — confirm against the Phase 1 runtime
-        // and FTS results before freezing (docs/ARCHITECTURE.md §9.3).
+        // and FTS results before freezing (docs/ARCHITECTURE.md section 9.3).
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

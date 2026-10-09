@@ -23,7 +23,7 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.domain.model.Guide
 
 /**
- * Screen I — Guides Library (PRD §5.9).
+ * Screen I — Guides Library (PRD section 5.9).
  * Works fully offline; usable even when the AI model is absent (acceptance criterion).
  */
 @Composable
@@ -63,13 +63,13 @@ fun GuidesScreen(
 
 @Composable
 private fun GuideRow(guide: Guide, onClick: () -> Unit) {
-    // Screen G opens on tap; the row itself stays a summary only (PRD §5.9).
+    // Screen G opens on tap; the row itself stays a summary only (PRD section 5.9).
     Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Text(guide.title, style = MaterialTheme.typography.titleLarge)
             Text(guide.summary, style = MaterialTheme.typography.bodyMedium)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                // Status is never color-only (PRD §4.2): labels carry the meaning.
+                // Status is never color-only (PRD section 4.2): labels carry the meaning.
                 Text(
                     text = stringResource(
                         if (guide.isBuiltin) R.string.common_builtin_badge

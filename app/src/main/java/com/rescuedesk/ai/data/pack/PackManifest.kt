@@ -3,7 +3,7 @@ package com.rescuedesk.ai.data.pack
 import org.json.JSONObject
 
 /**
- * Guide-pack manifest (docs/ARCHITECTURE.md §7). Served as plain JSON from a
+ * Guide-pack manifest (docs/ARCHITECTURE.md section 7). Served as plain JSON from a
  * first-party static endpoint — no backend service required at runtime.
  *
  * Schema (schemaVersion 1):
@@ -12,7 +12,7 @@ import org.json.JSONObject
  *   "guides": [ { "publicId", "language", "version", "url", "sha256" } ] }
  * ```
  * Each `url` points to a guide JSON with the same shape as the built-in
- * asset guides (steps[], avoid[], full PRD §8.2 metadata).
+ * asset guides (steps[], avoid[], full PRD section 8.2 metadata).
  */
 data class PackGuideRef(
     val publicId: String,

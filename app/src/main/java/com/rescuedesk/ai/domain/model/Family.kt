@@ -30,7 +30,7 @@ data class EmergencyContact(
     val phone: String
 )
 
-/** Go-bag checklist item (PRD §5.11). */
+/** Go-bag checklist item (PRD section 5.11). */
 data class GoBagItem(
     val id: Long,
     val category: String,
@@ -46,7 +46,7 @@ data class GoBagItem(
 }
 
 /**
- * Checklist category keys in display order (PRD §5.11). Keys are stable
+ * Checklist category keys in display order (PRD section 5.11). Keys are stable
  * identifiers stored in the database; the UI maps them to localized headers.
  */
 object GoBagCategories {

@@ -46,8 +46,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rescuedesk.ai.R
 
 /**
- * Screen H — Ask RescueDesk AI (PRD §5.8), running in the offline
- * retrieval-grounded local mode (docs/ARCHITECTURE.md §4, PRD §7.3). Answers
+ * Screen H — Ask RescueDesk AI (PRD section 5.8), running in the offline
+ * retrieval-grounded local mode (docs/ARCHITECTURE.md section 4, PRD section 7.3). Answers
  * come only from the on-device guides, are cited, and refuse live/out-of-scope
  * requests. The generative-LLM path stays gated in :poc until Phase 1 GO.
  */
@@ -71,7 +71,7 @@ fun AskAiScreen(
             .fillMaxSize()
             .imePadding()
     ) {
-        // Persistent honesty banner: local mode, grounded to guides (PRD §5.8).
+        // Persistent honesty banner: local mode, grounded to guides (PRD section 5.8).
         Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
             Text(
                 text = stringResource(R.string.ask_local_note),
@@ -86,7 +86,7 @@ fun AskAiScreen(
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                // Announce new assistant turns politely (PRD §4.6 TalkBack).
+                // Announce new assistant turns politely (PRD section 4.6 TalkBack).
                 .semantics {
                     liveRegion = LiveRegionMode.Polite
                 },
@@ -128,7 +128,7 @@ fun AskAiScreen(
                 onValueChange = { input = it },
                 placeholder = { Text(hint) },
                 // Placeholder disappears once text is entered — pin a stable
-                // field description for TalkBack instead (PRD §4.6).
+                // field description for TalkBack instead (PRD section 4.6).
                 modifier = Modifier
                     .weight(1f)
                     .semantics { contentDescription = hint },
@@ -197,7 +197,7 @@ private fun MessageRow(message: ChatMessage, onOpenGuide: (Long) -> Unit) {
                         }
                         // Experimental LLM paragraph — a small badge makes it
                         // obvious the wording came from the on-device Gemma
-                        // model, not the guide text verbatim (PRD §5.8 honesty).
+                        // model, not the guide text verbatim (PRD section 5.8 honesty).
                         message.llmText?.let { text ->
                             Text(
                                 stringResource(R.string.ask_llm_badge),

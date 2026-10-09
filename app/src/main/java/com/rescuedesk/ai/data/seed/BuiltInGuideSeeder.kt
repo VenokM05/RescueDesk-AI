@@ -8,13 +8,13 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 /**
- * Seeds the built-in minimum guide set (PRD §5.4) from APK assets into Room on
+ * Seeds the built-in minimum guide set (PRD section 5.4) from APK assets into Room on
  * first launch, so guide access and search work with zero network and zero downloads.
  *
  * WARNING: the scaffold asset guides under assets/guides/built-in/ are
  * UNREVIEWED PLACEHOLDER text with rightsStatus "pending". They demonstrate the
  * data path only and must be replaced with reviewer-approved, rights-cleared
- * content before any release build (PRD §8.3, §10.3).
+ * content before any release build (PRD section 8.3, section 10.3).
  */
 class BuiltInGuideSeeder(
     private val context: Context,

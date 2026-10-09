@@ -108,7 +108,7 @@
     <string name="ask_example_2">Ano ang dapat ihanda ng pamilya ko bago ang bagyo?</string>
     <string name="ask_example_3">Paano ihahanda ang bahay namin para sa lindol?</string>
 
-    <!-- Privacy notice (PRD §10.1, RA 10173) -->
+    <!-- Privacy notice (PRD section 10.1, RA 10173) -->
     <string name="settings_privacy_notice_title">Basahin ang privacy notice</string>
     <string name="settings_privacy_notice_body">Ang RescueDesk AI ay ginawa para sa emergency at ang layunin ay ingatan ang inyong impormasyon.
 
@@ -154,6 +154,9 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="settings_llm_status_error">May error — tingnan ang detalye sa ibaba</string>
     <string name="settings_llm_install_hint">Para subukan sa tunay na telepono: pumayag sa Gemma license sa huggingface.co/litert-community/Gemma2-2B-IT, i-download ang `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` (~2.7 GB) gamit ang Hugging Face CLI, palitan ng pangalan na `gemma2b.task`, pagkatapos `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Magkaroon ng hindi bababa sa 3 GB na libreng storage; nirerekomenda ang teleponong may 8 GB RAM. Tinitingnan ng app ang `/data/local/tmp/rescuedesk/gemma2b.task`, pagkatapos ang `files/models/` ng app.</string>
     <string name="settings_about_section">Tungkol sa app</string>
+    <string name="settings_about_mission">Bakit gumawa ng app na ito: sa emergency, bawat segundo nang walang malinaw na gabay ay naglalagay sa panganib ang isang pamilya. Ang Pilipinas ay humaharap sa humigit-kumulang dalawampung bagyo bawat taon, kasama ang lindol, sunog, at baha — ngunit marami sa impormasyong makakapagligtas ng buhay ay nasa mga app na nangangailangan ng internet, account, o data plan. Inilalagay ng RescueDesk AI ang mga sinuriang gabay sa emergency nang buo sa device na ito, sa Filipino at Ingles, na dinisenyo para sa lahat ng edad at paningin. Walang account. Walang pagsubaybay. Walang iniu-upload tungkol sa iyo o sa iyong pamilya. Sapagkat ang paghahanda ay hindi dapat nakadepende sa lakas ng signal.</string>
+    <string name="settings_about_author">Ginawa ni Elvin Manuel
+Koponan: ELOHIM Creator</string>
     <string name="settings_about_body">Ang mga built-in na emergency guide ay preliminary at nasa pag-review pa ng mga kwalipikadong responder sa Pilipinas. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
 
     <!-- Screen L — Offline and Download Manager -->

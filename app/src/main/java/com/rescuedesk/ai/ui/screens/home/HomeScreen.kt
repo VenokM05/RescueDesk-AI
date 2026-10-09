@@ -34,7 +34,7 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.theme.DarkRed
 
 /**
- * Screen E — Home Dashboard (PRD §5.5).
+ * Screen E — Home Dashboard (PRD section 5.5).
  * Placeholder layout honoring the hierarchy rules: Emergency Help dominates;
  * guides are reachable without opening AI; the screen is not a dashboard of analytics.
  */
@@ -54,7 +54,7 @@ fun HomeScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Brand lockup (PRD §5.5 top section): logo + accessible name label.
+        // Brand lockup (PRD section 5.5 top section): logo + accessible name label.
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
@@ -86,7 +86,7 @@ fun HomeScreen(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        // Primary emergency action — must stay more prominent than optional features (PRD §5.5).
+        // Primary emergency action — must stay more prominent than optional features (PRD section 5.5).
         Button(
             onClick = onEmergencyHelp,
             modifier = Modifier
@@ -97,7 +97,7 @@ fun HomeScreen(
             Text(stringResource(R.string.emergency_help), style = MaterialTheme.typography.labelLarge)
         }
 
-        // Quick-access category cards (PRD §5.5): route straight to the category's guides.
+        // Quick-access category cards (PRD section 5.5): route straight to the category's guides.
         Text(stringResource(R.string.home_quick_guides), style = MaterialTheme.typography.titleLarge)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             QuickCard(
@@ -149,7 +149,7 @@ fun HomeScreen(
             }
         }
 
-        // Offline status strip (PRD §5.5). TODO Phase 3: bind real model/pack state.
+        // Offline status strip (PRD section 5.5). TODO Phase 3: bind real model/pack state.
         Text(
             text = stringResource(R.string.home_offline_strip),
             style = MaterialTheme.typography.bodyMedium,

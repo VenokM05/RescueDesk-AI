@@ -12,8 +12,8 @@ This document expands the PRD roadmap into an executable phase plan with entry/e
 
 1. **Preparedness app first, AI assistant second.** Every phase must keep the guide-only path shippable.
 2. **Gate before build.** Phase 1 ends in a documented GO/NO-GO decision on on-device AI; no Phase 3 AI work starts before a GO.
-3. **Safety defects block release.** Any critical unsafe AI output or missing safety instruction blocks the pilot gate (PRD §13.5).
-4. **Nothing ships without rights.** A content item ships only when its rights status is *cleared* (PRD §10.3).
+3. **Safety defects block release.** Any critical unsafe AI output or missing safety instruction blocks the pilot gate (PRD section 13.5).
+4. **Nothing ships without rights.** A content item ships only when its rights status is *cleared* (PRD section 10.3).
 
 ---
 
@@ -50,9 +50,9 @@ Week:  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
 Tasks:
 
 - [ ] Install JDK 17 + Android Studio; open the scaffolded project; run one successful debug build on a physical device.
-- [ ] Register or designate the app's operator identity (needed for the privacy notice, PRD §10.1) and Philippine counsel contact for RA 10173 confirmation.
-- [ ] Send written redistribution-permission requests to PAGASA, DOST-PHIVOLCS, OCD/NDRRMC, BFP, DOH, and Philippine Red Cross (PRD §10.3). Track responses in the rights register.
-- [ ] Recruit the content review roles (PRD §8.3): at least one Subject-Matter Reviewer and one Approving Authority for first-aid content.
+- [ ] Register or designate the app's operator identity (needed for the privacy notice, PRD section 10.1) and Philippine counsel contact for RA 10173 confirmation.
+- [ ] Send written redistribution-permission requests to PAGASA, DOST-PHIVOLCS, OCD/NDRRMC, BFP, DOH, and Philippine Red Cross (PRD section 10.3). Track responses in the rights register.
+- [ ] Recruit the content review roles (PRD section 8.3): at least one Subject-Matter Reviewer and one Approving Authority for first-aid content.
 - [ ] Assemble the pilot device list: minimum two 6 GB-class and one 4 GB-class Android phones representative of the Philippine market.
 
 **Exit:** Build runs on a device; permission requests sent; reviewers named; devices on hand or scheduled.
@@ -68,20 +68,20 @@ Tasks:
 - [ ] Evaluate Google LiteRT-LM and llama.cpp/MLC-style alternatives against the target devices.
 - [ ] Test Gemma 3 1B IT (quantized) and Qwen3-0.6B as candidates; record tokens/sec, peak RSS memory, battery drain over 10 consecutive queries, and surface temperature on each pilot device.
 - [ ] Verify each model license for redistribution of quantized derivatives; produce the **license matrix** deliverable.
-- [ ] Build a keyword-retrieval prototype over 3 sample reviewed guides (PRD §7.3 "start with local keyword retrieval").
-- [ ] Draft the initial seed safety test set (PRD §13.4): 25+ Filipino/English questions including out-of-scope and dangerous-misconception cases.
+- [ ] Build a keyword-retrieval prototype over 3 sample reviewed guides (PRD section 7.3 "start with local keyword retrieval").
+- [ ] Draft the initial seed safety test set (PRD section 13.4): 25+ Filipino/English questions including out-of-scope and dangerous-misconception cases.
 
 ### Track B — Content & storage foundations
 
-- [ ] Author the four built-in minimum guides (Typhoon, Flood, Earthquake, Fire) with full metadata (PRD §8.2); submit for review.
-- [ ] Validate Room + FTS4/FTS5 build support, app-private model storage sizing, and resumable download approach (PRD §7.4) in throwaway code.
+- [ ] Author the four built-in minimum guides (Typhoon, Flood, Earthquake, Fire) with full metadata (PRD section 8.2); submit for review.
+- [ ] Validate Room + FTS4/FTS5 build support, app-private model storage sizing, and resumable download approach (PRD section 7.4) in throwaway code.
 
 ### Track C — Rights & legal
 
-- [ ] Confirm with counsel: NPC registration presumption for a no-upload app (PRD §10.1).
+- [ ] Confirm with counsel: NPC registration presumption for a no-upload app (PRD section 10.1).
 - [ ] Confirm Play target-API requirements for the chosen minSdk/compileSdk.
 
-### 🔴 Phase 1 Gate — Go/No-Go (PRD §14.2)
+### 🔴 Phase 1 Gate — Go/No-Go (PRD section 14.2)
 
 Decision recorded in writing with test data attached — use the scorecard at
 `docs/PHASE1-GATE.md`. GO requires **all five**:
@@ -105,7 +105,7 @@ Decision recorded in writing with test data attached — use the scorecard at
 
 **Entry:** Gate decision recorded (Phase 2 does not depend on it).
 
-- [ ] Implement the design system: color tokens (PRD §4.2), typography scale (PRD §4.3), 48/56 dp touch targets (§4.4), status-with-label+icon rule (§4.2).
+- [ ] Implement the design system: color tokens (PRD section 4.2), typography scale (PRD section 4.3), 48/56 dp touch targets (section 4.4), status-with-label+icon rule (section 4.2).
 - [ ] Onboarding flow: Welcome → Language → Accessibility → Download/Offline Setup (Screens A–D), including the "built-in guides available now" messaging.
 - [ ] Home dashboard (Screen E) with Emergency Help as the dominant action.
 - [ ] Emergency Help (Screen F) and Guide Detail (Screen G), including the Section 8.3 freshness warning and source/review chrome.
@@ -113,7 +113,7 @@ Decision recorded in writing with test data attached — use the scorecard at
 - [ ] Settings shell (Screen M): language, text size, privacy deletion entry points.
 - [x] TalkBack pass at maximum font scale on all implemented screens (code-side a11y pass shipped: roles + selected state on onboarding choices, decorative icons marked, stable field descriptions, live region on Ask thread, minimum tap targets on chips + Call/Delete). Field verification on a physical device with TalkBack enabled is still scheduled for Phase 5.
 
-**Definition of check:** a fresh install in airplane mode is a fully usable guide app (PRD §13.2 first cases pass).
+**Definition of check:** a fresh install in airplane mode is a fully usable guide app (PRD section 13.2 first cases pass).
 
 **Exit:** Usable Android application **without requiring the AI model**; guide-only path demoable to stakeholders.
 
@@ -137,14 +137,14 @@ Decision recorded in writing with test data attached — use the scorecard at
   load or inference error Ask AI silently stays on the composed
   retrieval-grounded answer. This gives the Phase 1 gate a real candidate to
   evaluate on physical hardware without pre-empting the decision.
-- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD §5.4, §13.3). **Note for model file specifically:** the experimental path expects `adb push gemma2b.task /data/local/tmp/rescuedesk/`; a proper download flow is post-gate work.
-- [ ] On-device inference session management: load-on-demand, unload under memory pressure, no app-level crashes (PRD §FR-02). **Partially covered** — `MediaPipeEngine` is lazy (loads only on Settings toggle → on) and can `unload()` when the switch flips off; on-OS memory-pressure callback is still missing.
-- [x] Retrieval layer: keyword index over the content pack, source metadata retained end-to-end (PRD §7.3, FR-04).
+- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD section 5.4, section 13.3). **Note for model file specifically:** the experimental path expects `adb push gemma2b.task /data/local/tmp/rescuedesk/`; a proper download flow is post-gate work.
+- [ ] On-device inference session management: load-on-demand, unload under memory pressure, no app-level crashes (PRD FR-02). **Partially covered** — `MediaPipeEngine` is lazy (loads only on Settings toggle → on) and can `unload()` when the switch flips off; on-OS memory-pressure callback is still missing.
+- [x] Retrieval layer: keyword index over the content pack, source metadata retained end-to-end (PRD section 7.3, FR-04).
 - [x] Ask RescueDesk AI (Screen H): grounded response structure (short answer → steps → caution → sources), fallback state, model-readiness indicator.
-- [x] Prompt hardening + refusal behaviors per PRD §5.8 AI Safety Behavior; verify against the seed safety set continuously (this is a standing test, not a one-time check).
+- [x] Prompt hardening + refusal behaviors per PRD section 5.8 AI Safety Behavior; verify against the seed safety set continuously (this is a standing test, not a one-time check).
 - [x] Offline & Download Manager screen (Screen L) incl. model removal preserving guides and user data.
 
-**Exit:** Working local assistant answering only from cleared, reviewed content, with visible source cards; all §13.3 download tests pass; no critical unsafe outputs in the safety set.
+**Exit:** Working local assistant answering only from cleared, reviewed content, with visible source cards; all section 13.3 download tests pass; no critical unsafe outputs in the safety set.
 
 ### Phase 3 — NO-GO alternative track (1 week)
 
@@ -155,7 +155,7 @@ Decision recorded in writing with test data attached — use the scorecard at
 
 Screen H now runs a **local answer engine** (`ai/ask/LocalAskEngine`): FTS
 retrieval over the on-device guides → structured answer composed strictly
-from guide text, with citations and the PRD §5.8 live-claim / out-of-scope
+from guide text, with citations and the PRD section 5.8 live-claim / out-of-scope
 refusals. It needs no model and no network, so it is safe under both the GO
 and NO-GO paths and does **not** pre-empt the Phase 1 gate. The generative
 LLM path (Gemma / llama.cpp) remains the `:poc` experiment until the gate
@@ -167,7 +167,7 @@ returns GO and a winning runtime × model pair is named.
   "unconscious", "lagnat", "kagat ng aso", "gamot sa", …) is detected before
   retrieval and answered with a seek-professional-help message (calls 911 / nearest
   hospital) instead of a bland no-match. Deliberately conservative — over-
-  escalating is the safe direction (PRD §13.4).
+  escalating is the safe direction (PRD section 13.4).
 - **Live-claim refusal refinements** — dropped the over-broad `raised` marker
   (was misfiring on preparedness-ordering questions like "…when a typhoon
   signal #4 is raised"), added `signal number` / `storm signal` variants.
@@ -180,9 +180,9 @@ returns GO and a winning runtime × model pair is named.
 ## Phase 4 — Household Features (1 week)
 
 - [x] My Family (Screen J) five-step plan wizard with autosave (FR-05).
-- [x] Emergency contacts with ACTION_DIAL deliberate-call flow (FR-06, PRD §10.2).
+- [x] Emergency contacts with ACTION_DIAL deliberate-call flow (FR-06, PRD section 10.2).
 - [x] Meeting places and out-of-area contact.
-- [x] Go-bag checklist (Screen K) with custom items (Should-have per PRD §14.1 — first item to cut if the schedule slips).
+- [x] Go-bag checklist (Screen K) with custom items (Should-have per PRD section 14.1 — first item to cut if the schedule slips).
 - [x] Local persistence, edit, and delete paths; "delete all personal information" wired end-to-end (FR-07 privacy side, Screen M).
 
 **Exit:** Plan survives app restart; deletion removes data completely including any auto-backup surface decided in Phase 0.
@@ -191,13 +191,13 @@ returns GO and a winning runtime × model pair is named.
 
 ## Phase 5 — Safety, Accessibility & Field Testing (1–2 weeks)
 
-- [ ] Full device compatibility matrix run (PRD §13.2, §11.1) on the pilot device list.
-- [ ] Complete AI safety evaluation against the expanded reviewed test set; Filipino + English + Taglish (PRD §13.4).
-- [ ] Moderated usability sessions: seniors, first-time smartphone users, parents; record metrics per the Measurement Plan (PRD §2.3). **No telemetry — observer checklists and manual logs only.**
+- [ ] Full device compatibility matrix run (PRD section 13.2, section 11.1) on the pilot device list.
+- [ ] Complete AI safety evaluation against the expanded reviewed test set; Filipino + English + Taglish (PRD section 13.4).
+- [ ] Moderated usability sessions: seniors, first-time smartphone users, parents; record metrics per the Measurement Plan (PRD section 2.3). **No telemetry — observer checklists and manual logs only.**
 - [ ] Content freeze: all shipped items *cleared* rights + reviewer recorded; quarterly review calendar started.
-- [ ] Legal pass: privacy notice text (Filipino + English), Play Data Safety form draft, store listing claims scrubbed against PRD §8.5 prohibited claims.
+- [ ] Legal pass: privacy notice text (Filipino + English), Play Data Safety form draft, store listing claims scrubbed against PRD section 8.5 prohibited claims.
 
-### 🔴 Pilot Release Gate (PRD §13.5)
+### 🔴 Pilot Release Gate (PRD section 13.5)
 
 All must be true before broader distribution:
 
@@ -226,7 +226,7 @@ All must be true before broader distribution:
 
 ---
 
-## Deliverables Checklist (PRD §15 mapped to phases)
+## Deliverables Checklist (PRD section 15 mapped to phases)
 
 | Deliverable | Due |
 | --- | --- |

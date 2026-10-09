@@ -20,12 +20,12 @@ import kotlinx.coroutines.withContext
  * `litert-community/Gemma2-2B-IT`; renamed locally to `gemma2b.task`).
  *
  * Wired behind Settings → Experimental → "Try local LLM" so it never replaces
- * the shipping retrieval-grounded path (PRD §7.2 keeps this decision pending
+ * the shipping retrieval-grounded path (PRD section 7.2 keeps this decision pending
  * the Phase 1 gate). Google has marked MediaPipe LLM Inference "maintenance-only"
  * and steers new work to LiteRT-LM; keeping it here lets us evaluate the model
  * on real phones before committing to a runtime.
  *
- * **Safety contract (PRD §5.8, §13.4):** this engine is only ever called with
+ * **Safety contract (PRD section 5.8, section 13.4):** this engine is only ever called with
  * (a) a question that [com.rescuedesk.ai.ai.ask.LocalAskEngine] has already
  * cleared as in-scope AND (b) grounded context chunks retrieved from on-device
  * guides. Live-claim, out-of-scope, and medical-emergency queries short-circuit
@@ -165,7 +165,7 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
 }
 
 /**
- * Strict safety-first prompt. Grounding rule (PRD §5.8): Gemma sees ONLY the
+ * Strict safety-first prompt. Grounding rule (PRD section 5.8): Gemma sees ONLY the
  * retrieved guide chunks, never free-form. Refusal string is fixed so we can
  * detect and swap in the localized no-match if the model complies.
  */

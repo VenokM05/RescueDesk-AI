@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Household data stays on-device (PRD §9 / §10.2). Backup and device-transfer
+<!-- Household data stays on-device (PRD section 9 / section 10.2). Backup and device-transfer
      are fully excluded until the backup decision is reviewed before release. -->
 <data-extraction-rules>
     <cloud-backup disableIfNoEncryptionCapabilities="true">

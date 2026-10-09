@@ -2,7 +2,7 @@
 
 **Purpose:** request written permission to adapt official Philippine emergency guidance
 into RescueDesk AI's offline guides, and invite each agency to designate a technical
-reviewer (PRD §8.3, §10.3). This file contains one master letter plus per-agency
+reviewer (PRD section 8.3, section 10.3). This file contains one master letter plus per-agency
 customizations and a short email version.
 
 **How to use:** fill the `[BRACKETS]`, attach the one-page project summary (bottom),

@@ -14,14 +14,14 @@ import kotlinx.coroutines.sync.withLock
 import org.json.JSONObject
 
 /**
- * Guide-pack sync pipeline (docs/ARCHITECTURE.md §7, PRD §5.12):
+ * Guide-pack sync pipeline (docs/ARCHITECTURE.md section 7, PRD section 5.12):
  *
  *   manifest → per-guide download → sha256 verify → rights gate →
  *   build full new set (fresh + unchanged existing rows) → atomic activation
  *   in one transaction → record last-sync date.
  *
  * Failure at any step before activation leaves the previously installed pack
- * untouched. Built-in guides (PRD §5.4) are never modified here.
+ * untouched. Built-in guides (PRD section 5.4) are never modified here.
  */
 class PackRepository(
     private val guideDao: GuideDao,
@@ -81,7 +81,7 @@ class PackRepository(
                     )
                 }
                 val entity = parseGuideJson(String(bytes, Charsets.UTF_8), ref)
-                // Rights gate (PRD §10.3): only reviewer-cleared content may be installed.
+                // Rights gate (PRD section 10.3): only reviewer-cleared content may be installed.
                 if (entity.rightsStatus != "cleared") {
                     throw PackDownloader.PackDownloadException(
                         "Guide ${ref.publicId} is not rights-cleared; pack rejected"

@@ -34,7 +34,7 @@ import com.rescuedesk.ai.domain.model.Guide
 import com.rescuedesk.ai.ui.theme.Amber
 
 /**
- * Screen G — Guide Detail (PRD §5.7). Fixed reading order:
+ * Screen G — Guide Detail (PRD section 5.7). Fixed reading order:
  * title → freshness/rights notices → "Do this first" → "Avoid these actions"
  * → sources and review dates → related guides. Large text, no hidden steps.
  */
@@ -73,13 +73,13 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
     Text(guide.title, style = MaterialTheme.typography.displaySmall)
     Text(guide.summary, style = MaterialTheme.typography.bodyLarge)
 
-    // Freshness warning (PRD §5.7 + §8.3): never color-only, always a text label.
+    // Freshness warning (PRD section 5.7 + section 8.3): never color-only, always a text label.
     if (guide.needsReview(java.time.LocalDate.now().toString())) {
         val reviewedLabel = guide.lastReviewed
             ?: stringResource(R.string.detail_needs_review_never)
         WarningBanner(stringResource(R.string.detail_needs_review, reviewedLabel))
     }
-    // Unreviewed/unrights-cleared placeholder disclosure (PRD §10.3).
+    // Unreviewed/unrights-cleared placeholder disclosure (PRD section 10.3).
     if (guide.rightsStatus != "cleared") {
         WarningBanner(stringResource(R.string.detail_rights_pending))
     }
@@ -104,7 +104,7 @@ fun GuideDetailContent(guide: Guide, related: List<Guide>, onOpenGuide: (Long) -
         guide.avoidList.forEach { item ->
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
                 // Decorative mark — the section header already carries the meaning
-                // (PRD §4.2: status not color/glyph-only; text label is the source of truth).
+                // (PRD section 4.2: status not color/glyph-only; text label is the source of truth).
                 Icon(
                     Icons.Default.Close,
                     contentDescription = null,

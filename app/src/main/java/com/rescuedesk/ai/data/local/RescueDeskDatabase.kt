@@ -33,7 +33,7 @@ abstract class RescueDeskDatabase : RoomDatabase() {
         fun create(context: Context): RescueDeskDatabase =
             Room.databaseBuilder(context, RescueDeskDatabase::class.java, "rescuedesk.db")
                 // Scaffold convenience only. Replace with real migrations before any
-                // pilot build; destructive migration of household data is prohibited (PRD §5.12).
+                // pilot build; destructive migration of household data is prohibited (PRD section 5.12).
                 .fallbackToDestructiveMigration()
                 .build()
     }

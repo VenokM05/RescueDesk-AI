@@ -2,7 +2,7 @@ package com.rescuedesk.ai.data.search
 
 /**
  * Lightweight, conservative morphology helper for Filipino/Taglish queries
- * (PRD §5.9 "handle simple spelling mistakes / support Filipino"; roadmap
+ * (PRD section 5.9 "handle simple spelling mistakes / support Filipino"; roadmap
  * Phase 3 NO-GO "polish search morphology"). Not a full stemmer — it only
  * widens recall so a conjugated verb (e.g. "bumaha", "maglilindol",
  * "umuuulan") still reaches the root that appears in guide text ("baha",

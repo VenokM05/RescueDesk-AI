@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- MVP permission surface (PRD §10.2): INTERNET only.
+    <!-- MVP permission surface (PRD section 10.2): INTERNET only.
          No location. No CALL_PHONE — contacts dial via ACTION_DIAL.
          Foreground service type will be added with the download manager. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,6 +19,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:theme="@style/Theme.RescueDesk.Splash"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

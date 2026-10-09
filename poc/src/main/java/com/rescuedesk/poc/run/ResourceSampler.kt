@@ -7,8 +7,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 /**
- * Harness piece §5.3: 1 Hz memory + thermal capture during runs, plus the
- * §5.4 unload-discipline check (RSS must return to baseline after unload).
+ * Harness piece section 5.3: 1 Hz memory + thermal capture during runs, plus the
+ * section 5.4 unload-discipline check (RSS must return to baseline after unload).
  */
 class ResourceSampler(private val context: Context) {
 
@@ -41,7 +41,7 @@ class ResourceSampler(private val context: Context) {
 
     fun baselineRssKb(): Long = baselineRssKb
 
-    /** §5.4: after unload(), poll RSS up to 10 s; returns residual delta kB. */
+    /** section 5.4: after unload(), poll RSS up to 10 s; returns residual delta kB. */
     suspend fun waitForRelease(): Long {
         repeat(10) {
             val delta = rssKb() - baselineRssKb

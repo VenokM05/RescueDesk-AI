@@ -43,9 +43,9 @@ class PocViewModel(application: Application) : AndroidViewModel(application) {
 
     var choice by mutableStateOf(EngineChoice.LITERT)
     var busy by mutableStateOf(false)
-    var log by mutableStateOf("Idle. Push a model file into files/models/ first (see README in docs/PHASE1-MODEL-POC.md §5.1).")
+    var log by mutableStateOf("Idle. Push a model file into files/models/ first (see README in docs/PHASE1-MODEL-POC.md section 5.1).")
 
-    // App-private files dir — target of `adb push ... files/models/` (§5.1).
+    // App-private files dir — target of `adb push ... files/models/` (section 5.1).
     // Created on access so adb push never fails on a missing directory.
     val modelDir: File
         get() = File(getApplication<Application>().filesDir, "models").apply { mkdirs() }

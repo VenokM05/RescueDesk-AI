@@ -22,9 +22,9 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.theme.Amber
 
 /**
- * Screen F — Emergency Help (PRD §5.6).
+ * Screen F — Emergency Help (PRD section 5.6).
  * Direct taps only — no typing, no AI dependency, no confirmation dialogs
- * before instructions (PRD §5.6 requirements).
+ * before instructions (PRD section 5.6 requirements).
  */
 @Composable
 fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
@@ -37,8 +37,8 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
     ) {
         Text(stringResource(R.string.emergency_title), style = MaterialTheme.typography.displaySmall)
 
-        // Standing safety note (PRD §5.6). Emergency numbers appear only when the
-        // content pipeline records source + applicability + review date (§8.2) —
+        // Standing safety note (PRD section 5.6). Emergency numbers appear only when the
+        // content pipeline records source + applicability + review date (section 8.2) —
         // none are cleared yet, so no number is shown here.
         Text(
             text = stringResource(R.string.emergency_safety_note),
@@ -47,7 +47,7 @@ fun EmergencyHelpScreen(onBack: () -> Unit, onOpenCategory: (String) -> Unit) {
             color = Amber
         )
 
-        // Each situation routes straight to its guide category (PRD §5.6:
+        // Each situation routes straight to its guide category (PRD section 5.6:
         // direct taps, no typing, no AI dependency).
         val situations = listOf(
             R.string.emergency_situation_flood to "flood",

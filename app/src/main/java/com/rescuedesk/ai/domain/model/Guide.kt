@@ -1,6 +1,6 @@
 package com.rescuedesk.ai.domain.model
 
-/** Runtime/installation state of the on-device model (PRD §5.8 model readiness indicator). */
+/** Runtime/installation state of the on-device model (PRD section 5.8 model readiness indicator). */
 enum class ModelStatus { NotInstalled, Installing, Ready, Incompatible, Error }
 
 /** A guide as the UI and retrieval layers consume it. */
@@ -21,14 +21,14 @@ data class Guide(
     val rightsStatus: String,
     val isBuiltin: Boolean
 ) {
-    /** "Do this first" steps, ready for the Screen G layout (PRD §5.7). */
+    /** "Do this first" steps, ready for the Screen G layout (PRD section 5.7). */
     val steps: List<String> get() = body.lines().map { it.trim() }.filter { it.isNotEmpty() }
 
-    /** Actions the guide warns against (PRD §5.7 "Avoid these actions"). */
+    /** Actions the guide warns against (PRD section 5.7 "Avoid these actions"). */
     val avoidList: List<String> get() = avoid.lines().map { it.trim() }.filter { it.isNotEmpty() }
 
     /**
-     * PRD §8.3 freshness threshold: warning shows when next_review_date has passed
+     * PRD section 8.3 freshness threshold: warning shows when next_review_date has passed
      * or more than 12 months elapsed since the last approved review.
      * Flagged items stay readable but are excluded from AI grounding.
      */

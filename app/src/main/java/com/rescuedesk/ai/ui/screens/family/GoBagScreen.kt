@@ -42,7 +42,7 @@ import com.rescuedesk.ai.domain.model.GoBagItem
 import com.rescuedesk.ai.ui.goBagCategoryLabelRes
 
 /**
- * Screen K — Go-Bag Checklist (PRD §5.11). Grouped categories, large
+ * Screen K — Go-Bag Checklist (PRD section 5.11). Grouped categories, large
  * checkboxes, immediate save, add/remove custom items, last-updated date,
  * and wording that avoids one-size-fits-all claims.
  */
@@ -179,7 +179,7 @@ private fun AddItemRow(onAdd: (String, String) -> Unit) {
                         fontWeight = if (cat == category) FontWeight.Bold else FontWeight.Normal
                     )
                 },
-                // PRD §4.4: minimum 48dp tap target even at small text scale.
+                // PRD section 4.4: minimum 48dp tap target even at small text scale.
                 modifier = Modifier.heightIn(min = 48.dp)
             )
         }

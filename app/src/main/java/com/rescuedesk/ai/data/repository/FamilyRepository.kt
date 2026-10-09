@@ -28,7 +28,7 @@ interface FamilyRepository {
     suspend fun ensureGoBagSeeded()
 
     /**
-     * PRD §5.13 + roadmap Phase 4: wipe every personal table atomically.
+     * PRD section 5.13 + roadmap Phase 4: wipe every personal table atomically.
      * Guide content is not personal data and stays installed.
      */
     suspend fun deleteAllPersonalData()
@@ -36,7 +36,7 @@ interface FamilyRepository {
 
 /**
  * Local-only household data (FR-05, FR-06). Nothing here leaves the device;
- * deletion is a plain row delete — no server calls to make (PRD §2.2).
+ * deletion is a plain row delete — no server calls to make (PRD section 2.2).
  */
 class RoomFamilyRepository(
     private val planDao: FamilyPlanDao,
@@ -129,7 +129,7 @@ class RoomFamilyRepository(
 }
 
 /**
- * Starter list from PRD §5.10 step 4 + §5.11 categories; general, not a
+ * Starter list from PRD section 5.10 step 4 + section 5.11 categories; general, not a
  * substitute for household-specific planning. Seeded in both app languages
  * (category key, English, Filipino).
  */

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         // Separate applicationId so the spike installs side-by-side with :app
-        // and can never leak into the release path (docs/PHASE1-MODEL-POC.md §5).
+        // and can never leak into the release path (docs/PHASE1-MODEL-POC.md section 5).
         applicationId = "com.rescuedesk.poc"
         minSdk = 26
         targetSdk = 35

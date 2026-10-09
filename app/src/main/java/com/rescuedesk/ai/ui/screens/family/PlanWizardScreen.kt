@@ -42,7 +42,7 @@ private val STEP_TITLE_RES = listOf(
 )
 
 /**
- * Family Plan Wizard (PRD §5.10): five short steps instead of one long form.
+ * Family Plan Wizard (PRD section 5.10): five short steps instead of one long form.
  * Each step saves on "Next" (FR-05: progress saves locally, survives restart).
  */
 @Composable

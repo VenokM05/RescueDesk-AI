@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Compose owns all in-app styling (PRD §4 tokens in ui/theme).
+    <!-- Compose owns all in-app styling (PRD section 4 tokens in ui/theme).
          This platform theme only removes the action bar for the host activity. -->
     <style name="Theme.RescueDesk" parent="@android:style/Theme.Material.Light.NoActionBar" />
+
+    <!-- Cold-start splash (androidx.core:core-splashscreen). Shows the app
+         logo on the brand background while language settings load, then
+         swaps to Theme.RescueDesk. windowSplashScreenAnimatedIcon is the
+         system icon slot, so the PNG scales icon-only — no text baked in. -->
+    <style name="Theme.RescueDesk.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.RescueDesk</item>
+    </style>
 </resources>

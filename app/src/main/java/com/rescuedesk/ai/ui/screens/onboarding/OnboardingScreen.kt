@@ -52,7 +52,7 @@ import com.rescuedesk.ai.ui.labelRes
 import kotlinx.coroutines.launch
 
 /**
- * Screens A–C — first-run onboarding (PRD §5.2, §5.3): welcome, language
+ * Screens A–C — first-run onboarding (PRD section 5.2, section 5.3): welcome, language
  * choice, and text-size choice. Skippable; never blocks access to content.
  * Choices apply immediately via PreferencesStore.
  */
@@ -174,7 +174,7 @@ fun OnboardingScreen(settings: AppSettingsSnapshot, onFinished: () -> Unit) {
                 Text(stringResource(R.string.common_back))
             }
         }
-        // Skippable: onboarding must never gate emergency content (PRD §5.2).
+        // Skippable: onboarding must never gate emergency content (PRD section 5.2).
         TextButton(
             onClick = {
                 scope.launch {
@@ -216,7 +216,7 @@ private fun ChoiceCard(
                 else MaterialTheme.colorScheme.outline,
                 shape = shape
             )
-            // Selection must not be color-only (PRD §4.2). Announce the option,
+            // Selection must not be color-only (PRD section 4.2). Announce the option,
             // the radio-group role, and the selected state to TalkBack.
             .semantics(mergeDescendants = true) {
                 role = Role.RadioButton

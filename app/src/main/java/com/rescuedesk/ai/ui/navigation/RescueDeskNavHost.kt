@@ -69,7 +69,7 @@ private data class TabSpec(
     val icon: ImageVector
 )
 
-// PRD §4.6: exactly four tab destinations. Emergency Help is a prominent
+// PRD section 4.6: exactly four tab destinations. Emergency Help is a prominent
 // action, never a hidden fifth tab.
 private val tabs = listOf(
     TabSpec(Routes.HOME, Routes.HOME, R.string.nav_home, Icons.Filled.Home),
@@ -104,7 +104,7 @@ fun RescueDeskApp() {
                             },
                             icon = { Icon(tab.icon, contentDescription = null) },
                             // Labels always shown: icon-only navigation is prohibited
-                            // for important actions (PRD §3.1, §4.4).
+                            // for important actions (PRD section 3.1, section 4.4).
                             label = {
                                 Text(
                                     stringResource(tab.labelRes),

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-/** App language choices (PRD §5.2): Filipino or English; null = follow system. */
+/** App language choices (PRD section 5.2): Filipino or English; null = follow system. */
 enum class AppLanguage(val tag: String, val label: String) {
     FILIPINO("fil", "Filipino"),
     ENGLISH("en", "English");
@@ -20,7 +20,7 @@ enum class AppLanguage(val tag: String, val label: String) {
     }
 }
 
-/** In-app text size multiplier choices (PRD §5.3, complements system font scale). */
+/** In-app text size multiplier choices (PRD section 5.3, complements system font scale). */
 enum class TextSize(val factor: Float, val label: String) {
     NORMAL(1.0f, "Normal"),
     LARGE(1.15f, "Large"),
@@ -31,7 +31,7 @@ data class AppSettings(
     val language: AppLanguage? = null,
     val textSize: TextSize = TextSize.NORMAL,
     val onboardingCompleted: Boolean = false,
-    /** PRD §5.12: background guide downloads wait for unmetered networks. */
+    /** PRD section 5.12: background guide downloads wait for unmetered networks. */
     val wifiOnlyDownloads: Boolean = true,
     val lastPackSync: String? = null,
     /**
@@ -46,7 +46,7 @@ private val Context.dataStore by preferencesDataStore(name = "settings")
 
 /**
  * Small preferences layer: language, text size, onboarding state.
- * All values are device-local; nothing here is ever synced or logged (PRD §2.2).
+ * All values are device-local; nothing here is ever synced or logged (PRD section 2.2).
  */
 class PreferencesStore(private val context: Context) {
 
@@ -103,7 +103,7 @@ class PreferencesStore(private val context: Context) {
     }
 
     /**
-     * Companion of delete-all-personal-data (PRD §5.13): the onboarding
+     * Companion of delete-all-personal-data (PRD section 5.13): the onboarding
      * consent/completion stamp and the sync history are device records about
      * the user, so they reset too. Language and text size are accessibility
      * choices, not personal data — they are deliberately KEPT so the user

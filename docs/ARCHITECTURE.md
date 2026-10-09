@@ -35,7 +35,7 @@ Single Gradle module (`:app`) with enforced package layers — right-sized for o
 com.rescuedesk.ai
 ├── app/                 Application, ServiceLocator (manual DI), deep-link entry
 ├── ui/
-│   ├── theme/           Design tokens from PRD §4 (colors, type scale, spacing)
+│   ├── theme/           Design tokens from PRD section 4 (colors, type scale, spacing)
 │   ├── navigation/      Bottom-nav graph: Home · Guides · Ask AI · My Family
 │   │                    + Emergency Help & detail routes outside the tab stack
 │   └── screens/         One package per PRD Screen A–M; each = Screen + ViewModel
@@ -43,7 +43,7 @@ com.rescuedesk.ai
 │   ├── model/           Guide, GuideChunk, FamilyPlan, EmergencyContact,
 │   │                    GoBagItem, ModelStatus, PackStatus, ReviewFlags
 │   └── usecase/         SearchGuides, GetGuideByCategory, BuildGroundedAnswer,
-│                        CompletePlanStep, CheckFreshness (PRD §8.3 rules)
+│                        CompletePlanStep, CheckFreshness (PRD section 8.3 rules)
 ├── data/
 │   ├── local/           Room db, DAOs, DataStore (settings), entity definitions
 │   ├── repository/      GuideRepository, PlanRepository, ContactRepository,
@@ -65,23 +65,23 @@ com.rescuedesk.ai
 
 | Entity | Key fields | Notes |
 | --- | --- | --- |
-| `guide` | id, publicId, title, category, summary, body, language, sourceName, sourceRef, publishedDate, lastReviewed, nextReview, version, rightsStatus, isBuiltin, packVersion | PRD §8.2 metadata is *stored, not display-derived* |
+| `guide` | id, publicId, title, category, summary, body, language, sourceName, sourceRef, publishedDate, lastReviewed, nextReview, version, rightsStatus, isBuiltin, packVersion | PRD section 8.2 metadata is *stored, not display-derived* |
 | `guide_fts` | title, body, category (virtual) | Room `@Fts4` (FTS5 needs a custom SQLite build — evaluate in PoC; FTS4 is the safe default) |
 | `family_plan` | id, nickname, memberCount, notes, stepStatus, completedAt, updatedAt | Wizard progress autosaved per step (FR-05) |
 | `meeting_place` | id, planId?, label, details | Nearby / alternative / out-of-area |
-| `emergency_contact` | id, name, relationship, phone, isSecondary | Never auto-dialed; ACTION_DIAL only (PRD §10.2) |
-| `go_bag_item` | id, category, label, quantity, checked, custom | Six PRD §5.11 categories + user items |
-| `chat_session` / `chat_message` | role, text, sourcesJson, createdAt | Local only; clearable from Settings; **never included in logs or crash reports** (PRD §9) |
-| `model_state` | name, version, path, checksum, status | Points into app-private files dir, never cache (PRD §7.4) |
+| `emergency_contact` | id, name, relationship, phone, isSecondary | Never auto-dialed; ACTION_DIAL only (PRD section 10.2) |
+| `go_bag_item` | id, category, label, quantity, checked, custom | Six PRD section 5.11 categories + user items |
+| `chat_session` / `chat_message` | role, text, sourcesJson, createdAt | Local only; clearable from Settings; **never included in logs or crash reports** (PRD section 9) |
+| `model_state` | name, version, path, checksum, status | Points into app-private files dir, never cache (PRD section 7.4) |
 
 ### 3.2 Freshness & rights as runtime state
 
-`ReviewFlags` is computed on read by `CheckFreshness` + rights filter (PRD §8.3):
+`ReviewFlags` is computed on read by `CheckFreshness` + rights filter (PRD section 8.3):
 
 - `needsReview` → `nextReview` passed **or** >12 months since `lastReviewed` **or** pending event-driven review ⇒ UI warning banner (Screen G) **and** automatic exclusion from AI retrieval grounding.
 - `rightsStatus != CLEARED` ⇒ item excluded from downloadable pack builds; built-in items can never ship in this state (release-check enforced).
 
-Built-in guides (PRD §5.4) are seeded from `assets/guides/built-in/*.json` into the same tables on first launch with `isBuiltin = true`, so search, detail, and grounding treat built-in and pack content uniformly. An installed pack supersedes the built-in row with the same `publicId`.
+Built-in guides (PRD section 5.4) are seeded from `assets/guides/built-in/*.json` into the same tables on first launch with `isBuiltin = true`, so search, detail, and grounding treat built-in and pack content uniformly. An installed pack supersedes the built-in row with the same `publicId`.
 
 ### 3.3 Settings (DataStore, not Room)
 
@@ -97,13 +97,13 @@ manifest.json (version, files[], sha256, sizes, minAppVersion)
       │  3. sha256 verify    ✗ → delete .part, surface retry
       │  4. unpack to staging dir, validate schema/index integrity
       │  5. atomic activation: rename staging → active, flip pointer in Room
-      │  6. keep previous active version until step 5 succeeds (PRD §5.4)
+      │  6. keep previous active version until step 5 succeeds (PRD section 5.4)
       └ 7. GC superseded versions when storage is tight (never the active one)
 ```
 
 - WorkManager handles background continuation; a foreground service shows progress for large model downloads.
 - Model and pack pipelines share this code path with different manifests.
-- **Failure modes are user-visible and recoverable**: insufficient storage (need/available/skippable, PRD §5.4), checksum mismatch, interrupted update (previous version still active), incompatible model for device (compatibility status from PoC ruleset).
+- **Failure modes are user-visible and recoverable**: insufficient storage (need/available/skippable, PRD section 5.4), checksum mismatch, interrupted update (previous version still active), incompatible model for device (compatibility status from PoC ruleset).
 - Deleting the model (Screen L) removes only model files; guides, plans, contacts untouched (FR-03).
 
 ## 5. On-Device AI Subsystem
@@ -119,9 +119,9 @@ interface AiEngine {
 }
 ```
 
-The runtime adapter (LiteRT-LM, llama.cpp-on-Android, or other — **Phase 1 decides**) is the only code allowed to touch native libraries. Everything else — UI, retrieval, safety — is engine-agnostic, which is what makes the PRD's guide-only NO-GO path cheap: the adapter is never written, the interface is never implemented, and `Ask AI` renders the PRD §5.8 fallback state.
+The runtime adapter (LiteRT-LM, llama.cpp-on-Android, or other — **Phase 1 decides**) is the only code allowed to touch native libraries. Everything else — UI, retrieval, safety — is engine-agnostic, which is what makes the PRD's guide-only NO-GO path cheap: the adapter is never written, the interface is never implemented, and `Ask AI` renders the PRD section 5.8 fallback state.
 
-### 5.2 Grounded RAG flow (PRD §7.3)
+### 5.2 Grounded RAG flow (PRD section 7.3)
 
 ```
 question → normalize (lowercase, light Taglish tokenization)
@@ -145,18 +145,18 @@ Load model lazily on first question in a session; unload on screen exit + timeou
 
 ## 6. UI Architecture
 
-- **Navigation:** single `NavHost`; bottom tabs (Home, Guides, Ask AI, My Family) preserved via nested graph; Emergency Help and Guide Detail are routes reachable from anywhere but **never require AI state** (PRD §4.6, principle 1).
+- **Navigation:** single `NavHost`; bottom tabs (Home, Guides, Ask AI, My Family) preserved via nested graph; Emergency Help and Guide Detail are routes reachable from anywhere but **never require AI state** (PRD section 4.6, principle 1).
 - **State:** per-screen `ViewModel` + immutable `UiState`; no framework types in domain models.
-- **Design tokens:** PRD §4.2 palette as `ColorScheme`; red reserved for genuine urgency per PRD rule; every status color paired with label+icon (color-not-alone rule, §4.2/§4.5).
+- **Design tokens:** PRD section 4.2 palette as `ColorScheme`; red reserved for genuine urgency per PRD rule; every status color paired with label+icon (color-not-alone rule, section 4.2/section 4.5).
 - **Accessibility as an architectural feature:** `fontScale` buckets applied through our own `Type` (plus system scaling respected), `ContentDescription`/`semantics` on all icon actions, minimum 48/56 dp targets enforced via a custom `Button` component library so screens can't opt out.
-- **Read-aloud:** one `TtsController` at `ui` layer wrapping Android `TextToSpeech`; absent engine ⇒ feature hidden, content still readable (PRD §5.3).
+- **Read-aloud:** one `TtsController` at `ui` layer wrapping Android `TextToSpeech`; absent engine ⇒ feature hidden, content still readable (PRD section 5.3).
 
 ## 7. Privacy & Security Architecture
 
 | Concern | Design decision |
 | --- | --- |
-| Personal data at rest | Room in app-private storage; SQLCipher evaluation logged as a post-MVP decision (PRD §9 acknowledges local storage limits) |
-| Backups | Explicit `dataExtractionRules`: household tables excluded from cloud/device-transfer backup until reviewed (PRD §10.2 last bullet) |
+| Personal data at rest | Room in app-private storage; SQLCipher evaluation logged as a post-MVP decision (PRD section 9 acknowledges local storage limits) |
+| Backups | Explicit `dataExtractionRules`: household tables excluded from cloud/device-transfer backup until reviewed (PRD section 10.2 last bullet) |
 | Deletion | Single `UserPurge` use case: plan + contacts + checklist + chat history + model files, invoked from Settings; verified by re-query post-delete |
 | Logging | No logging of chat bodies or household fields; crash reports scrubbed allowlist-only |
 | Network | HTTPS-only; no keys embedded (manifest endpoints need no auth); TLS validation default |
@@ -167,18 +167,18 @@ Load model lazily on first question in a session; unload on screen exit + timeou
 | FR | Where implemented |
 | --- | --- |
 | FR-01 Offline library | `guide`/`guide_fts`, seed pipeline, Screen I; works with zero network from first launch |
-| FR-02 On-device AI | `ai/engine` adapter + status states; error isolation requirement in §5.3 |
-| FR-03 Downloadable model | §4 pipeline, `model_state`, Screen L |
-| FR-04 Grounded responses | §5.2 flow + `safety` post-validation; source cards from stored metadata |
+| FR-02 On-device AI | `ai/engine` adapter + status states; error isolation requirement in section 5.3 |
+| FR-03 Downloadable model | section 4 pipeline, `model_state`, Screen L |
+| FR-04 Grounded responses | section 5.2 flow + `safety` post-validation; source cards from stored metadata |
 | FR-05 Household plan | `family_plan` + wizard state machine, autosave per step |
 | FR-06 Emergency contacts | `emergency_contact` + ACTION_DIAL flow |
 | FR-07 Language/accessibility | DataStore settings, `ui/theme` type scale, semantics rules |
-| FR-08 Content updates | Manifest/pack pipeline §4, freshness rules §3.2 |
+| FR-08 Content updates | Manifest/pack pipeline section 4, freshness rules section 3.2 |
 
 ## 9. Open Decisions (tracked to Phase 1 gate)
 
 1. **Inference runtime + model artifact** (LiteRT-LM vs alternatives; Gemma 3 1B vs Qwen3-0.6B vs third candidate) — gate owns this; `AiEngine` isolates the blast radius.
 2. **FTS5 via custom SQLite build vs FTS4 via Room** — try FTS5 in PoC; fall back to FTS4 (Room-supported) without schema change.
 3. **minSdk** — 26 assumed in scaffold; confirm against runtime + FTS requirements before freezing.
-4. **Embedding-based retrieval** — deferred per PRD §7.3 unless keyword retrieval measurably fails on the Filipino/Taglish test set.
+4. **Embedding-based retrieval** — deferred per PRD section 7.3 unless keyword retrieval measurably fails on the Filipino/Taglish test set.
 5. **External distribution (APK sideloading for LGU/school deployments)** — architecture permits it (no Play-only dependencies in core paths); policy and integrity story to be defined before any institutional pilot.

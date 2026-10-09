@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Sampler reads other-process stats only via our own process; no extra perms.
-         Model files arrive via `adb push` into the app-specific files dir (§5.1). -->
+         Model files arrive via `adb push` into the app-specific files dir (section 5.1). -->
     <application
         android:allowBackup="false"
         android:label="RescueDesk PoC"

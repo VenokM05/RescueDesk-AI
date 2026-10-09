@@ -40,7 +40,7 @@ class FamilyViewModel : ViewModel() {
     }
 
     /**
-     * FR-06 + PRD §10.2: ACTION_DIAL opens the system dialer pre-filled; the
+     * FR-06 + PRD section 10.2: ACTION_DIAL opens the system dialer pre-filled; the
      * user still presses call there. No CALL_PHONE permission, and we never
      * claim the contact was reached.
      */

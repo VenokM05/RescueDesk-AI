@@ -38,9 +38,9 @@ import com.rescuedesk.ai.ui.labelRes
 import kotlinx.coroutines.launch
 
 /**
- * Screen M — Settings (PRD §5.13): language, text size, offline manager
+ * Screen M — Settings (PRD section 5.13): language, text size, offline manager
  * entry, privacy posture, and the FR-07 "delete all locally saved personal
- * information" tool (Phase 4, PRD §10.1 data-subject-rights entry point).
+ * information" tool (Phase 4, PRD section 10.1 data-subject-rights entry point).
  */
 @Composable
 fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
@@ -104,7 +104,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 stringResource(R.string.settings_privacy_body),
                 style = MaterialTheme.typography.bodyLarge
             )
-            // Destructive actions must be confirmed (PRD §4.4); the dialog names
+            // Destructive actions must be confirmed (PRD section 4.4); the dialog names
             // exactly what is wiped and what survives.
             TextButton(onClick = { showDeleteDialog = true }) {
                 Text(
@@ -113,7 +113,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            // Plain-language privacy notice in the current language (PRD §10.1).
+            // Plain-language privacy notice in the current language (PRD section 10.1).
             // Chevron gives a visual disclosure affordance; TalkBack still reads
             // the label alone (icon is decorative).
             TextButton(onClick = { showPrivacyNotice = !showPrivacyNotice }) {
@@ -136,10 +136,22 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
         }
 
         SectionCard(stringResource(R.string.settings_about_section)) {
+            // Mission statement — why the project exists (user-facing, PRD section 2.1 spirit).
+            Text(
+                stringResource(R.string.settings_about_mission),
+                style = MaterialTheme.typography.bodyLarge
+            )
             Text(
                 stringResource(R.string.settings_about_body),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            // Author / team credit.
+            Text(
+                stringResource(R.string.settings_about_author),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.primary
             )
         }
 

@@ -23,7 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rescuedesk.ai.R
 
 /**
- * Screen J — My Family (PRD §5.10). Overview of the five plan sections with
+ * Screen J — My Family (PRD section 5.10). Overview of the five plan sections with
  * honest completion status; each opens the wizard step (or the go-bag list).
  * Everything shown here is stored on this device only.
  */
@@ -39,7 +39,7 @@ fun MyFamilyScreen(
     val goBagItems by goBagViewModel.items.collectAsStateWithLifecycle()
     val loadedPlan = plan ?: return
 
-    // Section completion, derived — never optimistic (PRD §5.10).
+    // Section completion, derived — never optimistic (PRD section 5.10).
     val sectionsDone = listOf(
         loadedPlan.householdDone,
         contacts.isNotEmpty(),

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
  * Grounded answer shape mirrored from com.rescuedesk.ai.ai.engine (app module).
  * The PoC deliberately does NOT depend on :app — copy the contract, not the
  * module, so the spike can never affect the release build
- * (docs/PHASE1-MODEL-POC.md §5). Keep in sync manually; the app interface is
+ * (docs/PHASE1-MODEL-POC.md section 5). Keep in sync manually; the app interface is
  * frozen for Phase 1.
  */
 data class GroundedAnswer(
@@ -19,7 +19,7 @@ data class GroundedAnswer(
 
 enum class EngineStatus { NotInstalled, Loading, Ready, Failed }
 
-/** Mirror of the app's AiEngine interface (docs/ARCHITECTURE.md §4). */
+/** Mirror of the app's AiEngine interface (docs/ARCHITECTURE.md section 4). */
 interface AiEngine {
     val status: StateFlow<EngineStatus>
     suspend fun ensureLoaded(): Result<Unit>
@@ -33,7 +33,7 @@ interface AiEngine {
 
 /**
  * Base for the two candidate adapters: shared status plumbing and a
- * well-formed prompt template so both runtimes see identical input (§1:
+ * well-formed prompt template so both runtimes see identical input (section 1:
  * grounding quality is compared across runtimes, so the prompt is fixed).
  */
 abstract class PromptedEngine(private val modelPath: String) : AiEngine {
@@ -53,7 +53,7 @@ abstract class PromptedEngine(private val modelPath: String) : AiEngine {
         appendLine("ANSWER:")
     }
 
-    /** PRD architecture §5.3: RSS must return to baseline after every run. */
+    /** PRD architecture section 5.3: RSS must return to baseline after every run. */
     override fun unload() {
         _status.value = EngineStatus.NotInstalled
     }

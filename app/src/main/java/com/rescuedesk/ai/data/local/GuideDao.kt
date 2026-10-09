@@ -29,11 +29,11 @@ interface GuideDao {
     suspend fun byId(id: Long): GuideEntity?
 
     /**
-     * Keyword search (PRD §7.3 "start with local keyword retrieval").
+     * Keyword search (PRD section 7.3 "start with local keyword retrieval").
      * Callers must sanitize the query (strip quotes) before passing it in.
      * NOTE: Room's FTS4 validator does not expose the `rank` pseudo-column, so
      * ordering falls back to rowid. Relevance ranking (bm25 via FTS5 custom
-     * SQLite build) is a Phase 1 PoC item — see docs/ARCHITECTURE.md §9.2.
+     * SQLite build) is a Phase 1 PoC item — see docs/ARCHITECTURE.md section 9.2.
      */
     @Query(
         """
@@ -58,7 +58,7 @@ interface GuideDao {
     suspend fun clearPackGuides()
 
     /**
-     * Atomic pack activation (docs/ARCHITECTURE.md §7): the previous pack set
+     * Atomic pack activation (docs/ARCHITECTURE.md section 7): the previous pack set
      * stays intact unless every new row applies cleanly in this transaction.
      * Built-in guides are never touched.
      */

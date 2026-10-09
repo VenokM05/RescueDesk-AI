@@ -36,7 +36,7 @@ import com.rescuedesk.ai.data.pack.PackRepository
 import com.rescuedesk.ai.data.pack.PackStatus
 
 /**
- * Screen L — Offline and Download Manager (PRD §5.12).
+ * Screen L — Offline and Download Manager (PRD section 5.12).
  *
  * Connection status is never color-only: every state pairs an icon with a
  * text label. The AI-model section stays an honest placeholder until the
@@ -233,7 +233,7 @@ private fun AiModelCard() {
             )
         }
         // Update / Remove buttons appear only once a model is installable
-        // (PRD §5.12); the guide library is deliberately unaffected by them.
+        // (PRD section 5.12); the guide library is deliberately unaffected by them.
     }
 }
 

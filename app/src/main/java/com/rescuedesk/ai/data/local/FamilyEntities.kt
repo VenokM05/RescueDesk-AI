@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Household plan (FR-05). Single-row table: one plan per device, stored
- * locally only — never synced, never uploaded (PRD §5.10 privacy).
+ * locally only — never synced, never uploaded (PRD section 5.10 privacy).
  */
 @Entity(tableName = "family_plan")
 data class FamilyPlanEntity(
@@ -43,7 +43,7 @@ data class EmergencyContactEntity(
 )
 
 /**
- * One go-bag checklist item (PRD §5.11). Defaults are seeded in both app
+ * One go-bag checklist item (PRD section 5.11). Defaults are seeded in both app
  * languages so the list follows the language setting without re-seeding;
  * custom items carry the same user text in both label fields.
  * [category] is a stable key resolved to a localized header by the UI.
@@ -72,7 +72,7 @@ interface FamilyPlanDao {
     suspend fun clear()
 
     /**
-     * FR-07 / PRD §5.13 "Delete all locally saved personal information":
+     * FR-07 / PRD section 5.13 "Delete all locally saved personal information":
      * every personal table in one transaction so deletion is all-or-nothing
      * (Room shares one DB connection per in-memory database, so the nested
      * DAO calls run inside this transaction).

@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 /**
  * Minimal HTTPS fetcher for pack content. Deliberately no third-party HTTP
  * dependency while the surface is text-only; switch to a resumable client
- * when Phase 3 adds multi-GB model files (docs/ARCHITECTURE.md §7).
+ * when Phase 3 adds multi-GB model files (docs/ARCHITECTURE.md section 7).
  *
  * Safety posture: HTTPS-only, hard byte caps, sha256 verification by caller.
  */

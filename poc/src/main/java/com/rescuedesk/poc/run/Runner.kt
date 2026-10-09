@@ -16,11 +16,11 @@ data class PocQuestion(
 )
 
 /**
- * Harness piece §5.2: replays the question bank through the engine and dumps
+ * Harness piece section 5.2: replays the question bank through the engine and dumps
  * JSONL rows {question, retrieved_chunks, raw_answer, validated_citations,
- * tok_per_s, ttfb_ms, rss_kb, thermal} for the §7 results sheet and dual-rater
+ * tok_per_s, ttfb_ms, rss_kb, thermal} for the section 7 results sheet and dual-rater
  * scoring. The app's real FTS retrieval replaces the asset chunks before
- * Week-2 measurement; until then chunks come from questions.txt (§6 note).
+ * Week-2 measurement; until then chunks come from questions.txt (section 6 note).
  */
 class Runner(
     private val engine: AiEngine,
@@ -93,7 +93,7 @@ class Runner(
                 writer.flush() // live-tailable over `adb logcat`/run-as even if a generation crashes
             }
 
-            // §5.4 unload discipline: engine already unloaded per generate-loop
+            // section 5.4 unload discipline: engine already unloaded per generate-loop
             // exit below; record residual so the sheet can show RSS return-to-baseline.
             engine.unload()
             val residual = sampler.waitForRelease()
@@ -103,7 +103,7 @@ class Runner(
     }
 
     /**
-     * Citation validator (§1): every [n] marker in the answer must reference an
+     * Citation validator (section 1): every [n] marker in the answer must reference an
      * excerpt actually supplied for this question. Fabricated markers are the
      * criterion-3 hard fail, so they are recorded explicitly, not filtered.
      */

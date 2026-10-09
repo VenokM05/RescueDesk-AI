@@ -2,14 +2,14 @@
 <resources>
     <string name="app_name">RescueDesk AI</string>
 
-    <!-- Navigation (PRD §4.6: four tabs) -->
+    <!-- Navigation (PRD section 4.6: four tabs) -->
     <string name="nav_home">Home</string>
     <string name="nav_guides">Guides</string>
     <string name="nav_ask_ai">Ask AI</string>
     <string name="nav_my_family">My Family</string>
     <string name="emergency_help">Emergency Help</string>
 
-    <!-- Common actions: one word each, never icon-only (PRD §4.4) -->
+    <!-- Common actions: one word each, never icon-only (PRD section 4.4) -->
     <string name="common_back">Back</string>
     <string name="common_next">Next</string>
     <string name="common_skip">Skip</string>
@@ -116,7 +116,7 @@
     <string name="ask_example_2">What should my family prepare before a typhoon?</string>
     <string name="ask_example_3">How can I prepare our house for an earthquake?</string>
 
-    <!-- Privacy notice (PRD §10.1, RA 10173) — shown in Settings -->
+    <!-- Privacy notice (PRD section 10.1, RA 10173) — shown in Settings -->
     <string name="settings_privacy_notice_title">Read the privacy notice</string>
     <string name="settings_privacy_notice_body">RescueDesk AI is built for emergencies and keeps your information private by design.
 
@@ -162,6 +162,9 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="settings_llm_status_error">Error — see details below</string>
     <string name="settings_llm_install_hint">To test on a physical phone: agree to the Gemma license on huggingface.co/litert-community/Gemma2-2B-IT, download `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` (~2.7 GB) with the Hugging Face CLI, rename it to `gemma2b.task`, then `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Free at least 3 GB storage; a phone with 8 GB RAM is recommended. The app checks `/data/local/tmp/rescuedesk/gemma2b.task`, then the app\'s own `files/models/`.</string>
     <string name="settings_about_section">About</string>
+    <string name="settings_about_mission">Why this app exists: in an emergency, every second without clear guidance puts a family at risk. The Philippines faces roughly twenty typhoons a year, plus earthquakes, fires, and floods — yet much of the lifesaving information lives in apps that need internet, accounts, or a data plan. RescueDesk AI keeps tested emergency guidance fully on this device, in Filipino and English, built for every age and eyesight. No accounts. No tracking. Nothing uploaded about you or your family. Because being prepared should not depend on signal strength.</string>
+    <string name="settings_about_author">Created by Elvin Manuel
+Team ELOHIM Creator</string>
     <string name="settings_about_body">Built-in emergency guides are preliminary and pending review by qualified Philippine responders. In a real emergency, contact local authorities and follow official instructions.</string>
 
     <!-- Screen L — Offline and Download Manager -->
@@ -214,7 +217,7 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="family_section_reminders">Important Reminders</string>
     <string name="family_section_reminders_sub">Notes your family should remember</string>
 
-    <!-- Family Plan wizard (PRD §5.10) -->
+    <!-- Family Plan wizard (PRD section 5.10) -->
     <string name="wizard_step_1">Step 1: Household</string>
     <string name="wizard_step_2">Step 2: Emergency Contacts</string>
     <string name="wizard_step_3">Step 3: Meeting Places</string>

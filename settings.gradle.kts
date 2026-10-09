@@ -17,5 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "RescueDeskAI"
 include(":app")
 // Phase 1 model PoC spike — separate applicationId, never ships with :app
-// (docs/PHASE1-MODEL-POC.md §5.1).
+// (docs/PHASE1-MODEL-POC.md section 5.1).
 include(":poc")

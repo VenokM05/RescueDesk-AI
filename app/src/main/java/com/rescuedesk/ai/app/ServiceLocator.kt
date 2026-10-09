@@ -79,11 +79,11 @@ object ServiceLocator {
         mediaPipeEngine = candidateEngine
         aiEngine = candidateEngine
 
-        // Warm the built-in guide seed (PRD §5.4) so first offline launch is ready.
+        // Warm the built-in guide seed (PRD section 5.4) so first offline launch is ready.
         scope.launch { guideRepository.ensureSeeded() }
         scope.launch { familyRepository.ensureGoBagSeeded() }
 
-        // Daily guide-pack check honoring the Wi-Fi-only preference (PRD §5.12).
+        // Daily guide-pack check honoring the Wi-Fi-only preference (PRD section 5.12).
         scope.launch {
             val wifiOnly = preferencesStore.settings.first().wifiOnlyDownloads
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-/** Screen L — Offline & Download Manager (PRD §5.12). */
+/** Screen L — Offline & Download Manager (PRD section 5.12). */
 class OfflineViewModel : ViewModel() {
 
     private val pack = ServiceLocator.packRepository

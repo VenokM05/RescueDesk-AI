@@ -30,7 +30,7 @@ is a placeholder until the content repo ships), Settings, **delete all personal
 information** in Settings → Privacy (household plan, contacts, go-bag wiped
 atomically; guides and language settings survive), a bilingual privacy notice,
 and **Ask AI in local mode** — offline, retrieval-grounded answers composed
-only from the on-device guides, with citations, PRD §5.8 safety refusals
+only from the on-device guides, with citations, PRD section 5.8 safety refusals
 (live-claim + out-of-scope), and a new **medical-emergency escalation**
 (bilingual) that routes symptom / urgency wording to 911 + nearest hospital
 instead of a bland no-match. A code-side **TalkBack pass** shipped in this
@@ -48,7 +48,7 @@ the toggle or the model file, Ask AI behaves exactly as before. The model
 file itself is **not** bundled (see below).
 **Not included:** a bundled model asset or automatic download — the LLM path
 is candidate evaluation only and still gated behind the Phase 1 Go/No-Go
-decision (PRD §7.2).
+decision (PRD section 7.2).
 **Note:** first launch on a phone that ran a pre-Room-v2 build resets the
 household plan / contacts / go-bag once (schema change for the bilingual
 checklist).

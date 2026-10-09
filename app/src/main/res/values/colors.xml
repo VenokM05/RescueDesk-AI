@@ -2,4 +2,7 @@
 <resources>
     <!-- Adaptive icon background: white, matching the brand lockup canvas. -->
     <color name="ic_launcher_background">#FFFFFF</color>
+    <!-- Platform-side brand token used before Compose takes over (splash
+         screen). Kept in sync with ui/theme/Color.kt SoftWhite. -->
+    <color name="splash_background">#F7F9FC</color>
 </resources>

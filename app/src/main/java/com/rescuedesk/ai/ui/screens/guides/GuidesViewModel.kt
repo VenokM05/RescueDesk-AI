@@ -23,7 +23,7 @@ class GuidesViewModel(savedState: SavedStateHandle) : ViewModel() {
     /** Optional category filter from the "guides?category={category}" route. */
     private val category: String? = savedState.get<String>("category")?.takeIf { it.isNotBlank() }
 
-    /** Local, offline search over built-in + pack guides (FR-01, PRD §5.9). */
+    /** Local, offline search over built-in + pack guides (FR-01, PRD section 5.9). */
     @OptIn(ExperimentalCoroutinesApi::class)
     val results: StateFlow<List<Guide>> =
         _query.flatMapLatest { q -> repository.searchGuides(q) }

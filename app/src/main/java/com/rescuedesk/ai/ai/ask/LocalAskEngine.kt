@@ -4,7 +4,7 @@ import com.rescuedesk.ai.data.repository.GuideRepository
 import kotlinx.coroutines.flow.first
 
 /**
- * PRD §7.3 "start with local keyword retrieval" + §5.8 AI safety behavior.
+ * PRD section 7.3 "start with local keyword retrieval" + section 5.8 AI safety behavior.
  *
  * This is a genuine offline capability that needs NO model and NO network:
  * it retrieves from the on-device guide library (FTS) and composes an answer
@@ -28,16 +28,16 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
             val sourceIds: List<Long>
         ) : AskResult
 
-        /** Question needs live conditions the app cannot know (PRD §5.8). */
+        /** Question needs live conditions the app cannot know (PRD section 5.8). */
         data object LiveRefusal : AskResult
 
-        /** Question is outside emergency-preparedness scope (PRD §5.8). */
+        /** Question is outside emergency-preparedness scope (PRD section 5.8). */
         data object ScopeRefusal : AskResult
 
         /**
          * A possible medical emergency. The app holds no first-aid/clinical
          * content, so it must escalate to professional help rather than answer
-         * or return a generic no-match (PRD §5.8 first-aid scope + §13.4).
+         * or return a generic no-match (PRD section 5.8 first-aid scope + section 13.4).
          */
         data object MedicalEscalation : AskResult
 
@@ -93,7 +93,7 @@ class LocalAskEngine(private val guideRepository: GuideRepository) {
      * (not the word "first aid", which is a legitimate preparedness topic) so
      * we escalate real emergencies to professional care instead of answering
      * from general guides. Deliberately conservative — over-escalating is the
-     * safe direction (PRD §13.4).
+     * safe direction (PRD section 13.4).
      */
     private fun isMedicalEmergency(q: String): Boolean {
         val markers = listOf(
