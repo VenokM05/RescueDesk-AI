@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 /** App language choices (PRD §5.2): Filipino or English; null = follow system. */
@@ -29,7 +30,10 @@ enum class TextSize(val factor: Float, val label: String) {
 data class AppSettings(
     val language: AppLanguage? = null,
     val textSize: TextSize = TextSize.NORMAL,
-    val onboardingCompleted: Boolean = false
+    val onboardingCompleted: Boolean = false,
+    /** PRD §5.12: background guide downloads wait for unmetered networks. */
+    val wifiOnlyDownloads: Boolean = true,
+    val lastPackSync: String? = null
 )
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
@@ -45,7 +49,9 @@ class PreferencesStore(private val context: Context) {
             language = AppLanguage.fromTag(prefs[KEY_LANGUAGE]),
             textSize = prefs[KEY_TEXT_SIZE_FACTOR]?.let { f -> TextSize.entries.firstOrNull { it.factor == f } }
                 ?: TextSize.NORMAL,
-            onboardingCompleted = prefs[KEY_ONBOARDING] ?: false
+            onboardingCompleted = prefs[KEY_ONBOARDING] ?: false,
+            wifiOnlyDownloads = prefs[KEY_WIFI_ONLY] ?: true,
+            lastPackSync = prefs[KEY_LAST_SYNC]?.takeIf { it.isNotEmpty() }
         )
     }
 
@@ -61,9 +67,22 @@ class PreferencesStore(private val context: Context) {
         context.dataStore.edit { it[KEY_ONBOARDING] = completed }
     }
 
+    suspend fun setWifiOnlyDownloads(enabled: Boolean) {
+        context.dataStore.edit { it[KEY_WIFI_ONLY] = enabled }
+    }
+
+    suspend fun lastPackSync(): String? =
+        context.dataStore.data.first()[KEY_LAST_SYNC]?.takeIf { it.isNotEmpty() }
+
+    suspend fun setLastPackSync(dateIso: String) {
+        context.dataStore.edit { it[KEY_LAST_SYNC] = dateIso }
+    }
+
     private companion object {
         val KEY_LANGUAGE = stringPreferencesKey("language")
         val KEY_TEXT_SIZE_FACTOR = floatPreferencesKey("text_size_factor")
         val KEY_ONBOARDING = booleanPreferencesKey("onboarding_completed")
+        val KEY_WIFI_ONLY = booleanPreferencesKey("wifi_only_downloads")
+        val KEY_LAST_SYNC = stringPreferencesKey("last_pack_sync")
     }
 }

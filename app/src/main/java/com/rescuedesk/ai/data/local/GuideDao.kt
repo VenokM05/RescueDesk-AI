@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -46,4 +47,24 @@ interface GuideDao {
 
     @Query("DELETE FROM guides")
     suspend fun clearAll()
+
+    @Query("SELECT * FROM guides WHERE publicId = :publicId AND language = :language LIMIT 1")
+    suspend fun byPublicId(publicId: String, language: String): GuideEntity?
+
+    @Query("SELECT COUNT(*) FROM guides WHERE isBuiltin = 0")
+    suspend fun packCount(): Int
+
+    @Query("DELETE FROM guides WHERE isBuiltin = 0")
+    suspend fun clearPackGuides()
+
+    /**
+     * Atomic pack activation (docs/ARCHITECTURE.md §7): the previous pack set
+     * stays intact unless every new row applies cleanly in this transaction.
+     * Built-in guides are never touched.
+     */
+    @Transaction
+    suspend fun replacePackGuides(guides: List<GuideEntity>) {
+        clearPackGuides()
+        guides.forEach { upsert(it) }
+    }
 }

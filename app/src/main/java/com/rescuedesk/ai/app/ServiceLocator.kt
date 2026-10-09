@@ -1,18 +1,24 @@
 package com.rescuedesk.ai.app
 
 import android.content.Context
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.rescuedesk.ai.ai.engine.AiEngine
 import com.rescuedesk.ai.ai.engine.UnavailableAiEngine
 import com.rescuedesk.ai.data.local.PreferencesStore
 import com.rescuedesk.ai.data.local.RescueDeskDatabase
+import com.rescuedesk.ai.data.pack.PackRepository
 import com.rescuedesk.ai.data.repository.FamilyRepository
 import com.rescuedesk.ai.data.repository.GuideRepository
 import com.rescuedesk.ai.data.repository.RoomFamilyRepository
 import com.rescuedesk.ai.data.repository.RoomGuideRepository
 import com.rescuedesk.ai.data.seed.BuiltInGuideSeeder
+import com.rescuedesk.ai.work.PackSyncWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -27,6 +33,9 @@ object ServiceLocator {
         private set
 
     lateinit var familyRepository: FamilyRepository
+        private set
+
+    lateinit var packRepository: PackRepository
         private set
 
     lateinit var preferencesStore: PreferencesStore
@@ -47,6 +56,10 @@ object ServiceLocator {
             contactDao = db.contactDao(),
             goBagDao = db.goBagDao()
         )
+        packRepository = PackRepository(
+            guideDao = db.guideDao(),
+            preferences = preferencesStore
+        )
         // Replace with the Phase 1 gate winner's runtime adapter (PRD §7.2).
         // Until then Ask AI renders the PRD §5.8 fallback state.
         aiEngine = UnavailableAiEngine()
@@ -54,5 +67,15 @@ object ServiceLocator {
         // Warm the built-in guide seed (PRD §5.4) so first offline launch is ready.
         scope.launch { guideRepository.ensureSeeded() }
         scope.launch { familyRepository.ensureGoBagSeeded() }
+
+        // Daily guide-pack check honoring the Wi-Fi-only preference (PRD §5.12).
+        scope.launch {
+            val wifiOnly = preferencesStore.settings.first().wifiOnlyDownloads
+            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                PackSyncWorker.UNIQUE_NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                PackSyncWorker.periodicRequest(wifiOnly)
+            )
+        }
     }
 }
