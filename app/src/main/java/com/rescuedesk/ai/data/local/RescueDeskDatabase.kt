@@ -6,13 +6,25 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [GuideEntity::class, GuideFtsEntity::class],
+    entities = [
+        GuideEntity::class,
+        GuideFtsEntity::class,
+        FamilyPlanEntity::class,
+        EmergencyContactEntity::class,
+        GoBagItemEntity::class
+    ],
     version = 1,
     exportSchema = false
 )
 abstract class RescueDeskDatabase : RoomDatabase() {
 
     abstract fun guideDao(): GuideDao
+
+    abstract fun familyPlanDao(): FamilyPlanDao
+
+    abstract fun contactDao(): ContactDao
+
+    abstract fun goBagDao(): GoBagDao
 
     companion object {
         fun create(context: Context): RescueDeskDatabase =

@@ -1,0 +1,176 @@
+package com.rescuedesk.ai.ui.screens.family
+
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rescuedesk.ai.domain.model.GoBagCategories
+import com.rescuedesk.ai.domain.model.GoBagItem
+
+/**
+ * Screen K — Go-Bag Checklist (PRD §5.11). Grouped categories, large
+ * checkboxes, immediate save, add/remove custom items, last-updated date,
+ * and wording that avoids one-size-fits-all claims.
+ */
+@Composable
+fun GoBagScreen(
+    onBack: () -> Unit,
+    viewModel: GoBagViewModel = viewModel()
+) {
+    val items by viewModel.items.collectAsStateWithLifecycle()
+    val packed = items.count { it.checked }
+    val lastUpdated = items.map { it.updatedAt }.filter { it.isNotEmpty() }.maxOrNull()
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                TextButton(onClick = onBack) { Text("← Bumalik (Back)") }
+                Text(
+                    "Prepare your emergency bag",
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Text(
+                    "This is a general starter list — adapt it to your household and the emergencies common in your area.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "$packed of ${items.size} packed" +
+                        (lastUpdated?.let { " · Last updated $it" } ?: ""),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+                LinearProgressIndicator(
+                    progress = { if (items.isEmpty()) 0f else packed.toFloat() / items.size },
+                    modifier = Modifier.fillMaxWidth().height(12.dp)
+                )
+                Spacer(Modifier.height(6.dp))
+                AddItemRow(onAdd = viewModel::add)
+                Spacer(Modifier.height(6.dp))
+            }
+        }
+
+        GoBagCategories.ALL.forEach { category ->
+            val inCategory = items.filter { it.category == category }
+            if (inCategory.isNotEmpty()) {
+                item {
+                    Text(
+                        category,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                }
+                items(inCategory, key = { it.id }) { item ->
+                    GoBagRow(
+                        item = item,
+                        onToggle = { viewModel.toggle(item.id, it) },
+                        onRemove = { viewModel.remove(item.id) }
+                    )
+                }
+            }
+        }
+        item { Spacer(Modifier.height(24.dp)) }
+    }
+}
+
+@Composable
+private fun GoBagRow(item: GoBagItem, onToggle: (Boolean) -> Unit, onRemove: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 56.dp)
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = item.checked,
+            onCheckedChange = onToggle,
+            modifier = Modifier
+                .heightIn(min = 48.dp)
+                .width(56.dp)
+        )
+        Text(
+            item.label,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.weight(1f)
+        )
+        if (item.isCustom) {
+            TextButton(onClick = onRemove) {
+                Text("Remove", color = MaterialTheme.colorScheme.error)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AddItemRow(onAdd: (String, String) -> Unit) {
+    var label by remember { mutableStateOf("") }
+    var category by remember { mutableStateOf(GoBagCategories.ALL.last()) }
+
+    Text("Add an item", style = MaterialTheme.typography.titleLarge)
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.horizontalScroll(rememberScrollState())
+    ) {
+        GoBagCategories.ALL.forEach { cat ->
+            SuggestionChip(
+                onClick = { category = cat },
+                label = { Text(cat.substringBefore(" "), fontWeight = if (cat == category) FontWeight.Bold else FontWeight.Normal) }
+            )
+        }
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        OutlinedTextField(
+            value = label,
+            onValueChange = { label = it },
+            label = { Text("Item — e.g. Raincoat for each person") },
+            singleLine = true,
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(Modifier.width(10.dp))
+        Button(
+            onClick = {
+                onAdd(category, label)
+                label = ""
+            },
+            modifier = Modifier.heightIn(min = 56.dp)
+        ) {
+            Text("Add")
+        }
+    }
+}

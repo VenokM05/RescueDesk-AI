@@ -29,7 +29,9 @@ import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ui.screens.ask.AskAiScreen
 import com.rescuedesk.ai.ui.screens.detail.GuideDetailScreen
 import com.rescuedesk.ai.ui.screens.emergency.EmergencyHelpScreen
+import com.rescuedesk.ai.ui.screens.family.GoBagScreen
 import com.rescuedesk.ai.ui.screens.family.MyFamilyScreen
+import com.rescuedesk.ai.ui.screens.family.PlanWizardScreen
 import com.rescuedesk.ai.ui.screens.guides.GuidesScreen
 import com.rescuedesk.ai.ui.screens.home.HomeScreen
 import com.rescuedesk.ai.ui.screens.settings.SettingsScreen
@@ -43,8 +45,12 @@ object Routes {
     const val MY_FAMILY = "my_family"
     const val EMERGENCY_HELP = "emergency_help"
     const val SETTINGS = "settings"
+    const val GO_BAG = "go_bag"
+    const val PLAN_WIZARD_PATTERN = "plan_wizard?step={step}"
     const val GUIDE_DETAIL_ARG = "guideId"
     const val GUIDE_DETAIL = "guide_detail/{$GUIDE_DETAIL_ARG}"
+
+    fun planWizard(step: Int = 0) = "plan_wizard?step=$step"
 
     fun guides(category: String? = null) =
         if (category == null) GUIDES else "$GUIDES?category=$category"
@@ -134,7 +140,27 @@ fun RescueDeskApp() {
                 GuidesScreen(onOpenGuide = { id -> navController.navigate(Routes.guideDetail(id)) })
             }
             composable(Routes.ASK_AI) { AskAiScreen(onOpenGuides = { navController.navigate(Routes.GUIDES) }) }
-            composable(Routes.MY_FAMILY) { MyFamilyScreen() }
+            composable(Routes.MY_FAMILY) {
+                MyFamilyScreen(
+                    onOpenWizardStep = { step -> navController.navigate(Routes.planWizard(step)) },
+                    onOpenGoBag = { navController.navigate(Routes.GO_BAG) }
+                )
+            }
+            composable(
+                route = Routes.PLAN_WIZARD_PATTERN,
+                arguments = listOf(
+                    navArgument("step") { type = NavType.IntType; defaultValue = 0 }
+                )
+            ) {
+                PlanWizardScreen(
+                    startStep = it.arguments?.getInt("step") ?: 0,
+                    onBack = { navController.popBackStack() },
+                    onOpenGoBag = { navController.navigate(Routes.GO_BAG) }
+                )
+            }
+            composable(Routes.GO_BAG) {
+                GoBagScreen(onBack = { navController.popBackStack() })
+            }
             composable(Routes.EMERGENCY_HELP) {
                 EmergencyHelpScreen(
                     onBack = { navController.popBackStack() },

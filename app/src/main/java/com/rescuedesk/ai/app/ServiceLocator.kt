@@ -5,7 +5,9 @@ import com.rescuedesk.ai.ai.engine.AiEngine
 import com.rescuedesk.ai.ai.engine.UnavailableAiEngine
 import com.rescuedesk.ai.data.local.PreferencesStore
 import com.rescuedesk.ai.data.local.RescueDeskDatabase
+import com.rescuedesk.ai.data.repository.FamilyRepository
 import com.rescuedesk.ai.data.repository.GuideRepository
+import com.rescuedesk.ai.data.repository.RoomFamilyRepository
 import com.rescuedesk.ai.data.repository.RoomGuideRepository
 import com.rescuedesk.ai.data.seed.BuiltInGuideSeeder
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +26,9 @@ object ServiceLocator {
     lateinit var guideRepository: GuideRepository
         private set
 
+    lateinit var familyRepository: FamilyRepository
+        private set
+
     lateinit var preferencesStore: PreferencesStore
         private set
 
@@ -37,11 +42,17 @@ object ServiceLocator {
             guideDao = db.guideDao(),
             seeder = BuiltInGuideSeeder(context, db.guideDao())
         )
+        familyRepository = RoomFamilyRepository(
+            planDao = db.familyPlanDao(),
+            contactDao = db.contactDao(),
+            goBagDao = db.goBagDao()
+        )
         // Replace with the Phase 1 gate winner's runtime adapter (PRD §7.2).
         // Until then Ask AI renders the PRD §5.8 fallback state.
         aiEngine = UnavailableAiEngine()
 
         // Warm the built-in guide seed (PRD §5.4) so first offline launch is ready.
         scope.launch { guideRepository.ensureSeeded() }
+        scope.launch { familyRepository.ensureGoBagSeeded() }
     }
 }
