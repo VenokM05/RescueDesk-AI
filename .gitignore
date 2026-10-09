@@ -1,6 +1,7 @@
 # Built artifacts
 *.iml
 .gradle/
+.kotlin/
 build/
 local.properties
 .idea/
