@@ -71,7 +71,7 @@ object ServiceLocator {
             preferences = preferencesStore
         )
         // Phase 1 gate is still pending. MediaPipeEngine is wired but lazy —
-        // it does not load the ~1.4 GB Gemma task file until ensureLoaded() is
+        // it does not load the ~2.7 GB Gemma task file until ensureLoaded() is
         // explicitly called, which AskViewModel only does when the user turns
         // on Settings → Experimental → "Try local LLM". Off by default, the
         // shipping retrieval-grounded path is unaffected.

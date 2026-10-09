@@ -160,7 +160,7 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="settings_llm_status_ready">Ready — grounded answers will be rephrased</string>
     <string name="settings_llm_status_incompatible">Incompatible with this device</string>
     <string name="settings_llm_status_error">Error — see details below</string>
-    <string name="settings_llm_install_hint">To test on a physical phone: download the Gemma 2 2B IT int8 .task from Hugging Face (litert-community/Gemma2-2B-IT) or Google\'s Kaggle bucket, then `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Free at least 1.4 GB storage and 4 GB RAM. The app checks `/data/local/tmp/rescuedesk/gemma2b.task`, then the app\'s own `files/models/`.</string>
+    <string name="settings_llm_install_hint">To test on a physical phone: agree to the Gemma license on huggingface.co/litert-community/Gemma2-2B-IT, download `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` (~2.7 GB) with the Hugging Face CLI, rename it to `gemma2b.task`, then `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Free at least 3 GB storage; a phone with 8 GB RAM is recommended. The app checks `/data/local/tmp/rescuedesk/gemma2b.task`, then the app\'s own `files/models/`.</string>
     <string name="settings_about_section">About</string>
     <string name="settings_about_body">Built-in emergency guides are preliminary and pending review by qualified Philippine responders. In a real emergency, contact local authorities and follow official instructions.</string>
 
@@ -191,7 +191,7 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="offline_pref_wifi_note">Guides are small text files, but this protects prepaid data plans. \"Check for updates\" above always runs when you press it.</string>
     <string name="offline_model_section">AI model (Ask AI)</string>
     <string name="offline_model_not_installed">Not installed — Ask AI shows offline guide answers only</string>
-    <string name="offline_model_ready">Loaded on this device (Gemma 2 2B IT, ~1.4 GB)</string>
+    <string name="offline_model_ready">Loaded on this device (Gemma 2 2B IT, ~2.7 GB)</string>
     <string name="offline_model_loading">Loading the model…</string>
     <string name="offline_model_incompatible">Model not compatible with this device</string>
     <string name="offline_model_error">Model failed to load — check logcat for MediaPipe errors</string>

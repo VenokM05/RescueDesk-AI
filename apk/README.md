@@ -62,25 +62,63 @@ your file manager — expected for test builds).
 
 ### Optional: enable the experimental local LLM
 
-The Gemma 2 2B IT int8 `.task` file (~1.4 GB) is not in the APK. To test the
-LLM path on a physical phone (recommend 4 GB+ RAM, ~2 GB free storage):
+The Gemma 2 2B IT `.task` file is **not** in the APK.
 
-1. Download the Gemma 2 2B IT int8 `.task` — Google distributes it via
-   Kaggle (`google/gemma2/on-device`) or the litert-community mirror on
-   Hugging Face (`litert-community/Gemma2-2B-IT`).
-2. Rename it and push it to the debug lookup path:
+**Verified source (Oct 2026):** Google's MediaPipe LLM Inference docs link
+"Download Gemma-2 2B" to the Hugging Face repo
+[`litert-community/Gemma2-2B-IT`](https://huggingface.co/litert-community/Gemma2-2B-IT).
+The file to use is:
+
+- `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` — **2.71 GB** (q8; the
+  earlier ~1.4 GB estimate in these notes was wrong — int8 bundles here
+  include the tokenizer and KV cache). It exceeds the original 2 GB budget;
+  plan for ~3 GB free device storage and realistically 8 GB RAM (Pixel-class).
+- ⚠ The repo is **license-gated**: anonymous `curl` gets `401 GatedRepo`.
+  You must be logged in to Hugging Face, click *Agree and access repository*
+  on the repo page, and create a read token
+  (Settings → Access Tokens → `hf_…`).
+- The 2024 Kaggle route (`google/gemma-2` → on-device `.task` variants, e.g.
+  `gemma-2-2b-it-cpu-int8`) is superseded — Google's docs now point to
+  litert-community. Use it only if the HF flow is blocked for you.
+
+**One-shot download + push (macOS/Linux, phone connected over USB):**
 
 ```bash
+# 0) prerequisites, once:
+#    - pip install "huggingface_hub[cli]"   (provides `hf`; older builds: `huggingface-cli`)
+#    - accept the Gemma license on the repo page above
+#    - export HF_TOKEN=hf_yourReadTokenHere
+export HF_TOKEN=hf_YOUR_TOKEN_HERE
+
+FILE=Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task
+
+# 1) download (~2.7 GB, resumable) — hf CLI handles the gated auth:
+hf download litert-community/Gemma2-2B-IT "$FILE" --local-dir /tmp/gemma2b
+
+# 2) push to the app's debug lookup path, renamed to what the app expects:
+adb shell mkdir -p /data/local/tmp/rescuedesk
+adb push "/tmp/gemma2b/$FILE" /data/local/tmp/rescuedesk/gemma2b.task
+
+# 3) sanity-check the size landed whole (expect ~2.7 GB, not a truncated file):
+adb shell ls -la /data/local/tmp/rescuedesk/
+```
+
+Plain-`curl` variant (same token required):
+
+```bash
+curl -L -H "Authorization: Bearer $HF_TOKEN" -o gemma2b.task \
+  "https://huggingface.co/litert-community/Gemma2-2B-IT/resolve/main/Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task"
 adb shell mkdir -p /data/local/tmp/rescuedesk
 adb push gemma2b.task /data/local/tmp/rescuedesk/
 ```
 
-3. Open the app → Settings → Experimental → toggle **"Try local LLM
-   (Gemma 2 2B IT)"**. Status should flip to *Ready* after the load.
-4. Ask a grounded question (e.g. "What should I do during an earthquake?").
-   The answer appears as one paragraph with the experimental badge.
+Then: open the app → Settings → Experimental → toggle **"Try local LLM
+(Gemma 2 2B IT)"**. First load takes 10–30 s on CPU; status should flip to
+*Ready*. Ask a grounded question (e.g. "What should I do during an
+earthquake?" / "Ano ang dapat gawin kapag baha?") — the answer renders as one
+paragraph with the experimental badge.
 
-The app also checks `<app files>/models/gemma2b.task` and
+The app also accepts the file at `<app files>/models/gemma2b.task` or
 `Android/data/com.rescuedesk.ai/files/models/gemma2b.task`. Files under
 500 MB are treated as truncated and ignored.
 

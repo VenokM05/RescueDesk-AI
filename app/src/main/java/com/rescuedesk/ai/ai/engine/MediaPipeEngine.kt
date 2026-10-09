@@ -15,7 +15,9 @@ import kotlinx.coroutines.withContext
 
 /**
  * Experimental on-device LLM adapter using Google MediaPipe LLM Inference,
- * targeting **Gemma 2 2B IT** (int8, ~1.4 GB `.task` file).
+ * targeting **Gemma 2 2B IT** (q8, `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task`,
+ * ~2.7 GB — the file Google's LLM Inference docs link from
+ * `litert-community/Gemma2-2B-IT`; renamed locally to `gemma2b.task`).
  *
  * Wired behind Settings → Experimental → "Try local LLM" so it never replaces
  * the shipping retrieval-grounded path (PRD §7.2 keeps this decision pending
@@ -153,7 +155,7 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
     private companion object {
         const val MODEL_FILENAME = "gemma2b.task"
         const val DEBUG_TMP_DIR = "/data/local/tmp/rescuedesk"
-        /** Guard against a truncated adb push (Gemma 2 2B int8 is ~1.4 GB). */
+        /** Guard against a truncated adb push (Gemma 2 2B q8 task is ~2.7 GB). */
         const val MIN_VALID_BYTES = 500L * 1024L * 1024L
         const val MAX_TOKENS = 600
         const val ERROR_NO_FILE =

@@ -152,7 +152,7 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="settings_llm_status_ready">Handa — ang grounded na mga sagot ay isusulat muli</string>
     <string name="settings_llm_status_incompatible">Hindi tugma sa device na ito</string>
     <string name="settings_llm_status_error">May error — tingnan ang detalye sa ibaba</string>
-    <string name="settings_llm_install_hint">Para subukan sa tunay na telepono: i-download ang Gemma 2 2B IT int8 .task mula sa Hugging Face (litert-community/Gemma2-2B-IT) o Google\'s Kaggle bucket, pagkatapos `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Magkaroon ng hindi bababa sa 1.4 GB storage at 4 GB RAM. Tinitingnan ng app ang `/data/local/tmp/rescuedesk/gemma2b.task`, pagkatapos ang `files/models/` ng app.</string>
+    <string name="settings_llm_install_hint">Para subukan sa tunay na telepono: pumayag sa Gemma license sa huggingface.co/litert-community/Gemma2-2B-IT, i-download ang `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` (~2.7 GB) gamit ang Hugging Face CLI, palitan ng pangalan na `gemma2b.task`, pagkatapos `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Magkaroon ng hindi bababa sa 3 GB na libreng storage; nirerekomenda ang teleponong may 8 GB RAM. Tinitingnan ng app ang `/data/local/tmp/rescuedesk/gemma2b.task`, pagkatapos ang `files/models/` ng app.</string>
     <string name="settings_about_section">Tungkol sa app</string>
     <string name="settings_about_body">Ang mga built-in na emergency guide ay preliminary at nasa pag-review pa ng mga kwalipikadong responder sa Pilipinas. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
 
@@ -183,7 +183,7 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="offline_pref_wifi_note">Maliliit na text file ang mga gabay, ngunit nakakatipid ito sa load ng prepaid data. Ang \"Tingnan kung may update\" sa itaas ay laging gumagana kapag pindutin mo.</string>
     <string name="offline_model_section">AI model (Magtanong)</string>
     <string name="offline_model_not_installed">Hindi naka-install — ang Magtanong ay nagpapakita lamang ng offline na sagot mula sa mga gabay</string>
-    <string name="offline_model_ready">Naka-load sa device na ito (Gemma 2 2B IT, ~1.4 GB)</string>
+    <string name="offline_model_ready">Naka-load sa device na ito (Gemma 2 2B IT, ~2.7 GB)</string>
     <string name="offline_model_loading">Ikinakarga ang model…</string>
     <string name="offline_model_incompatible">Hindi tugma ang model sa device na ito</string>
     <string name="offline_model_error">Hindi kaya i-load ang model — tingnan ang logcat para sa MediaPipe errors</string>

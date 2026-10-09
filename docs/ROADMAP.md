@@ -124,8 +124,11 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 
 - [~] **Experimental on-device LLM wiring shipped (feature-flagged)** —
   `ai/engine/MediaPipeEngine` implements the `AiEngine` contract against
-  MediaPipe LLM Inference 0.10.27, targeting **Gemma 2 2B IT** (~1.4 GB
-  `.task`, int8). Off by default; Settings → Experimental → "Try local LLM"
+  MediaPipe LLM Inference 0.10.27, targeting **Gemma 2 2B IT** (~2.7 GB
+  `.task`, q8 — `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` from the
+  license-gated `litert-community/Gemma2-2B-IT` repo that Google's LLM
+  Inference docs link to). Off by default; Settings → Experimental →
+  "Try local LLM"
   enables it. Only ever invoked for a Grounded result — the
   live-claim / out-of-scope / medical-emergency refusals still short-circuit
   before the model is asked, and the strict safety prompt forbids inventing
