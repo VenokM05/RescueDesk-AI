@@ -97,6 +97,7 @@
     <string name="ask_scope_refusal">Iyan ay lampas sa saklaw ng matutulongan ko. Sumasagot lang ako sa mga tanong sa emergency preparedness gamit ang mga nireview na guide sa device na ito. Subukan ang itanong tungkol sa bagyo, baha, lindol, sunog, first aid, o paggawa ng family plan at go-bag.</string>
     <string name="ask_nomatch">Hindi ko nakita iyon sa mga gabay sa device na ito. Subukan ang ibang salita (halimbawa “bagyo”, “baha”, “lindol”, “sunog”, “first aid”, “go-bag”), o tingnan ang buong aklatan ng mga gabay.</string>
     <string name="ask_medical_note">Mukhang nangangailangan ito ng propesyonal na medikal na pangangalaga na hindi mapapalitan ng mga gabay sa device na ito. Kung ito ay mapanganib sa buhay, tumawag agad sa 911 (emergency hotline sa Pilipinas) o pumunta sa pinakamalapit na ospital. Panatilihing kalmado at hindi gumagalaw ang tao, at huwag magbigay ng pagkain, inumin, o gamot maliban kung utos ng isang medikal na propesyonal. Maibabahagi ko ang pangkalahatang hakbang sa first-aid preparedness mula sa mga gabay, ngunit sa aktibong emergency, humingi ng tulong sa tao.</string>
+    <string name="ask_llm_badge">Isinulat muli ng lokal na AI (eksperimental) — ang nilalaman ay galing pa rin sa mga gabay</string>
     <string name="ask_not_ready">Hindi pa handa ang offline AI sa device na ito.</string>
     <string name="ask_not_ready_sub">Gumagana pa rin ang mga emergency guide kahit walang ito.</string>
     <string name="ask_open_guides">Buksan ang mga emergency guide</string>
@@ -143,6 +144,15 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="settings_delete_confirm">Burahin lahat</string>
     <string name="settings_delete_cancel">Kanselahin</string>
     <string name="settings_delete_done">Nabura na sa device na ito ang lahat ng personal na impormasyon.</string>
+    <string name="settings_llm_section">Eksperimental — lokal na AI model</string>
+    <string name="settings_llm_body">I-on ito para hayaan ang Gemma 2 2B IT na language model sa device na ito na isulat muli ang grounded na sagot sa mas maikling, natural na talata. Ito ay para sa Phase 1 candidate evaluation lamang. Anuman ang setting na ito, ang sagot ay galing pa rin sa mga gabay, at lahat ng safety refusal (live claim, out-of-scope, medical emergency) ay ipinapatupad bago tanungin ang model. Kung ito ay naka-off, babalik ang Magtanong sa default na composed na sagot; walang epekto sa mga gabay.</string>
+    <string name="settings_llm_toggle_label">Subukan ang lokal na LLM (Gemma 2 2B IT)</string>
+    <string name="settings_llm_status_not_installed">Hindi naka-install sa device na ito</string>
+    <string name="settings_llm_status_loading">Ikinakarga ang model…</string>
+    <string name="settings_llm_status_ready">Handa — ang grounded na mga sagot ay isusulat muli</string>
+    <string name="settings_llm_status_incompatible">Hindi tugma sa device na ito</string>
+    <string name="settings_llm_status_error">May error — tingnan ang detalye sa ibaba</string>
+    <string name="settings_llm_install_hint">Para subukan sa tunay na telepono: i-download ang Gemma 2 2B IT int8 .task mula sa Hugging Face (litert-community/Gemma2-2B-IT) o Google\'s Kaggle bucket, pagkatapos `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Magkaroon ng hindi bababa sa 1.4 GB storage at 4 GB RAM. Tinitingnan ng app ang `/data/local/tmp/rescuedesk/gemma2b.task`, pagkatapos ang `files/models/` ng app.</string>
     <string name="settings_about_section">Tungkol sa app</string>
     <string name="settings_about_body">Ang mga built-in na emergency guide ay preliminary at nasa pag-review pa ng mga kwalipikadong responder sa Pilipinas. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
 
@@ -173,6 +183,11 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="offline_pref_wifi_note">Maliliit na text file ang mga gabay, ngunit nakakatipid ito sa load ng prepaid data. Ang \"Tingnan kung may update\" sa itaas ay laging gumagana kapag pindutin mo.</string>
     <string name="offline_model_section">AI model (Magtanong)</string>
     <string name="offline_model_not_installed">Hindi naka-install — ang Magtanong ay nagpapakita lamang ng offline na sagot mula sa mga gabay</string>
+    <string name="offline_model_ready">Naka-load sa device na ito (Gemma 2 2B IT, ~1.4 GB)</string>
+    <string name="offline_model_loading">Ikinakarga ang model…</string>
+    <string name="offline_model_incompatible">Hindi tugma ang model sa device na ito</string>
+    <string name="offline_model_error">Hindi kaya i-load ang model — tingnan ang logcat para sa MediaPipe errors</string>
+    <string name="offline_model_path">Model file: %1$s</string>
     <string name="offline_model_note">Ang on-device AI model ay nangangailangan ng ilang beses na mas maraming storage at memorya kaysa sa buong guide library, at ang pagkakaroon nito ay depende sa Phase 1 on-device performance review. Hindi depende sa model ang mga emergency guide: mananatili ang lahat ng gabay kahit alisin o husgahan ito.</string>
 
     <!-- Screen J — My Family -->

@@ -187,16 +187,36 @@ private fun WifiCard(wifiOnly: Boolean, onSetWifiOnly: (Boolean) -> Unit) {
 
 @Composable
 private fun AiModelCard() {
+    val engine = com.rescuedesk.ai.app.ServiceLocator.mediaPipeEngine
+    val status by (engine?.status ?: kotlinx.coroutines.flow.MutableStateFlow(
+        com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled
+    )).collectAsStateWithLifecycle(initialValue = com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled)
+    val icon = when (status) {
+        com.rescuedesk.ai.domain.model.ModelStatus.Ready -> Icons.Default.Done
+        com.rescuedesk.ai.domain.model.ModelStatus.Error,
+        com.rescuedesk.ai.domain.model.ModelStatus.Incompatible -> Icons.Default.ErrorOutline
+        com.rescuedesk.ai.domain.model.ModelStatus.Installing -> Icons.Default.CloudSync
+        else -> Icons.Default.CloudOff
+    }
+    val label = when (status) {
+        com.rescuedesk.ai.domain.model.ModelStatus.Ready ->
+            stringResource(R.string.offline_model_ready)
+        com.rescuedesk.ai.domain.model.ModelStatus.Installing ->
+            stringResource(R.string.offline_model_loading)
+        com.rescuedesk.ai.domain.model.ModelStatus.Incompatible ->
+            stringResource(R.string.offline_model_incompatible)
+        com.rescuedesk.ai.domain.model.ModelStatus.Error ->
+            stringResource(R.string.offline_model_error)
+        com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled ->
+            stringResource(R.string.offline_model_not_installed)
+    }
     SectionCard(title = stringResource(R.string.offline_model_section)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Icon(Icons.Default.CloudOff, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(
-                stringResource(R.string.offline_model_not_installed),
-                style = MaterialTheme.typography.bodyLarge
-            )
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(label, style = MaterialTheme.typography.bodyLarge)
         }
         Text(
             stringResource(R.string.offline_model_note),
@@ -204,6 +224,14 @@ private fun AiModelCard() {
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 6.dp)
         )
+        engine?.modelPathOrNull()?.let { path ->
+            Text(
+                stringResource(R.string.offline_model_path, path),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
         // Update / Remove buttons appear only once a model is installable
         // (PRD §5.12); the guide library is deliberately unaffected by them.
     }

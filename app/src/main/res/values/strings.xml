@@ -105,6 +105,7 @@
     <string name="ask_scope_refusal">That\'s outside what I can help with. I only answer emergency-preparedness questions using the reviewed guides on this device. Try asking about typhoons, floods, earthquakes, fire safety, first aid, or making a family plan and go-bag.</string>
     <string name="ask_nomatch">I couldn\'t find that in the guides on this device. Try different words (for example “typhoon”, “flood”, “earthquake”, “fire”, “first aid”, “go-bag”), or browse the full guide library.</string>
     <string name="ask_medical_note">This sounds like it may need professional medical care, which the guides on this device cannot replace. If it is life-threatening, call 911 (the Philippines emergency hotline) or go to the nearest hospital now. Keep the person calm and still, and do not give food, drink, or medicine unless a health professional says to. I can share general first-aid preparedness steps from the guides, but for an active emergency, get help from a person.</string>
+    <string name="ask_llm_badge">Rephrased by local AI (experimental) — content still comes only from the guides</string>
     <string name="ask_not_ready">Offline AI is not ready on this device.</string>
     <string name="ask_not_ready_sub">Emergency guides still work without it.</string>
     <string name="ask_open_guides">Open emergency guides</string>
@@ -151,6 +152,15 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="settings_delete_confirm">Delete everything</string>
     <string name="settings_delete_cancel">Cancel</string>
     <string name="settings_delete_done">All personal information was deleted from this device.</string>
+    <string name="settings_llm_section">Experimental — local AI model</string>
+    <string name="settings_llm_body">Turn this on to let a Gemma 2 2B IT language model running on this device rephrase the grounded answer into a shorter, natural paragraph. This is the Phase 1 candidate evaluation path only. The shipping answer stays retrieval-grounded to the guide text either way, and every safety refusal (live claim, out-of-scope, medical emergency) is enforced before the model is asked. Turning it off returns Ask AI to the default composed answer, with no effect on the guides.</string>
+    <string name="settings_llm_toggle_label">Try local LLM (Gemma 2 2B IT)</string>
+    <string name="settings_llm_status_not_installed">Not installed on this device</string>
+    <string name="settings_llm_status_loading">Loading model…</string>
+    <string name="settings_llm_status_ready">Ready — grounded answers will be rephrased</string>
+    <string name="settings_llm_status_incompatible">Incompatible with this device</string>
+    <string name="settings_llm_status_error">Error — see details below</string>
+    <string name="settings_llm_install_hint">To test on a physical phone: download the Gemma 2 2B IT int8 .task from Hugging Face (litert-community/Gemma2-2B-IT) or Google\'s Kaggle bucket, then `adb push gemma2b.task /data/local/tmp/rescuedesk/`. Free at least 1.4 GB storage and 4 GB RAM. The app checks `/data/local/tmp/rescuedesk/gemma2b.task`, then the app\'s own `files/models/`.</string>
     <string name="settings_about_section">About</string>
     <string name="settings_about_body">Built-in emergency guides are preliminary and pending review by qualified Philippine responders. In a real emergency, contact local authorities and follow official instructions.</string>
 
@@ -181,6 +191,11 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="offline_pref_wifi_note">Guides are small text files, but this protects prepaid data plans. \"Check for updates\" above always runs when you press it.</string>
     <string name="offline_model_section">AI model (Ask AI)</string>
     <string name="offline_model_not_installed">Not installed — Ask AI shows offline guide answers only</string>
+    <string name="offline_model_ready">Loaded on this device (Gemma 2 2B IT, ~1.4 GB)</string>
+    <string name="offline_model_loading">Loading the model…</string>
+    <string name="offline_model_incompatible">Model not compatible with this device</string>
+    <string name="offline_model_error">Model failed to load — check logcat for MediaPipe errors</string>
+    <string name="offline_model_path">Model file: %1$s</string>
     <string name="offline_model_note">The on-device AI model needs several times more storage and memory than the whole guide library, and its availability depends on the Phase 1 on-device performance review. Emergency guides never depend on the model: removing or skipping it keeps all guides intact.</string>
 
     <!-- Screen J — My Family -->

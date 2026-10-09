@@ -69,4 +69,11 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime)
+
+    // Experimental on-device LLM (Phase 1 candidate: Gemma 2 2B IT).
+    // Google has marked MediaPipe LLM Inference "maintenance-only" and is
+    // steering new work to LiteRT-LM. Kept here for the debug-flagged Try-Local-LLM
+    // path so the Phase 1 gate can be evaluated on a real phone before we commit
+    // to a runtime. See docs/PHASE1-MODEL-POC.md and Settings → Experimental.
+    implementation("com.google.mediapipe:tasks-genai:0.10.27")
 }

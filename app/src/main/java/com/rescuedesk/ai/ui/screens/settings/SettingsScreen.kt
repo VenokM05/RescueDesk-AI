@@ -15,6 +15,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -140,6 +141,75 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+        }
+
+        // Experimental on-device LLM toggle (Phase 1 candidate evaluation).
+        // Off by default so the shipping retrieval-grounded path is unaffected.
+        val llmOn = current.llmEnabled
+        val llmEngine = ServiceLocator.mediaPipeEngine
+        val llmStatus by (llmEngine?.status ?: kotlinx.coroutines.flow.MutableStateFlow(
+            com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled
+        )).collectAsStateWithLifecycle(initialValue = com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled)
+        SectionCard(stringResource(R.string.settings_llm_section)) {
+            Text(
+                stringResource(R.string.settings_llm_body),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.settings_llm_toggle_label),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f)
+                )
+                Switch(
+                    checked = llmOn,
+                    onCheckedChange = { enabled ->
+                        scope.launch { store.setLlmEnabled(enabled) }
+                        // Try to load immediately when turning on so the
+                        // status line reflects reality by the next frame.
+                        if (enabled) scope.launch { llmEngine?.ensureLoaded() }
+                        else llmEngine?.unload()
+                    }
+                )
+            }
+            val statusText = when (llmStatus) {
+                com.rescuedesk.ai.domain.model.ModelStatus.NotInstalled ->
+                    stringResource(R.string.settings_llm_status_not_installed)
+                com.rescuedesk.ai.domain.model.ModelStatus.Installing ->
+                    stringResource(R.string.settings_llm_status_loading)
+                com.rescuedesk.ai.domain.model.ModelStatus.Ready ->
+                    stringResource(R.string.settings_llm_status_ready)
+                com.rescuedesk.ai.domain.model.ModelStatus.Incompatible ->
+                    stringResource(R.string.settings_llm_status_incompatible)
+                com.rescuedesk.ai.domain.model.ModelStatus.Error ->
+                    stringResource(R.string.settings_llm_status_error)
+            }
+            Text(
+                statusText,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = if (llmStatus == com.rescuedesk.ai.domain.model.ModelStatus.Ready)
+                    MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            if (llmStatus != com.rescuedesk.ai.domain.model.ModelStatus.Ready) {
+                Text(
+                    stringResource(R.string.settings_llm_install_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                llmEngine?.lastError()?.let { err ->
+                    Text(
+                        err,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         }
     }
 

@@ -33,7 +33,13 @@ data class AppSettings(
     val onboardingCompleted: Boolean = false,
     /** PRD §5.12: background guide downloads wait for unmetered networks. */
     val wifiOnlyDownloads: Boolean = true,
-    val lastPackSync: String? = null
+    val lastPackSync: String? = null,
+    /**
+     * Debug-only switch to route Ask AI through the on-device Gemma 2 2B IT
+     * adapter (MediaPipe). Off by default so the retrieval-grounded path stays
+     * the shipping behaviour and the Phase 1 Go/No-Go gate is not pre-empted.
+     */
+    val llmEnabled: Boolean = false
 )
 
 private val Context.dataStore by preferencesDataStore(name = "settings")
@@ -51,7 +57,8 @@ class PreferencesStore(private val context: Context) {
                 ?: TextSize.NORMAL,
             onboardingCompleted = prefs[KEY_ONBOARDING] ?: false,
             wifiOnlyDownloads = prefs[KEY_WIFI_ONLY] ?: true,
-            lastPackSync = prefs[KEY_LAST_SYNC]?.takeIf { it.isNotEmpty() }
+            lastPackSync = prefs[KEY_LAST_SYNC]?.takeIf { it.isNotEmpty() },
+            llmEnabled = prefs[KEY_LLM_ENABLED] ?: false
         )
     }
 
@@ -84,6 +91,10 @@ class PreferencesStore(private val context: Context) {
         context.dataStore.edit { it[KEY_WIFI_ONLY] = enabled }
     }
 
+    suspend fun setLlmEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[KEY_LLM_ENABLED] = enabled }
+    }
+
     suspend fun lastPackSync(): String? =
         context.dataStore.data.first()[KEY_LAST_SYNC]?.takeIf { it.isNotEmpty() }
 
@@ -111,5 +122,6 @@ class PreferencesStore(private val context: Context) {
         val KEY_ONBOARDING = booleanPreferencesKey("onboarding_completed")
         val KEY_WIFI_ONLY = booleanPreferencesKey("wifi_only_downloads")
         val KEY_LAST_SYNC = stringPreferencesKey("last_pack_sync")
+        val KEY_LLM_ENABLED = booleanPreferencesKey("llm_enabled_experimental")
     }
 }

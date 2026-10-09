@@ -122,12 +122,23 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 
 **Entry:** Phase 1 gate = GO, with the winning model/runtime pair named.
 
-- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD §5.4, §13.3).
-- [ ] On-device inference session management: load-on-demand, unload under memory pressure, no app-level crashes (PRD §FR-02).
-- [ ] Retrieval layer: keyword index over the content pack, source metadata retained end-to-end (PRD §7.3, FR-04).
-- [ ] Ask RescueDesk AI (Screen H): grounded response structure (short answer → steps → caution → sources), fallback state, model-readiness indicator.
-- [ ] Prompt hardening + refusal behaviors per PRD §5.8 AI Safety Behavior; verify against the seed safety set continuously (this is a standing test, not a one-time check).
-- [ ] Offline & Download Manager screen (Screen L) incl. model removal preserving guides and user data.
+- [~] **Experimental on-device LLM wiring shipped (feature-flagged)** —
+  `ai/engine/MediaPipeEngine` implements the `AiEngine` contract against
+  MediaPipe LLM Inference 0.10.27, targeting **Gemma 2 2B IT** (~1.4 GB
+  `.task`, int8). Off by default; Settings → Experimental → "Try local LLM"
+  enables it. Only ever invoked for a Grounded result — the
+  live-claim / out-of-scope / medical-emergency refusals still short-circuit
+  before the model is asked, and the strict safety prompt forbids inventing
+  hotlines, dosages, prices, dates, distances, or current conditions. On any
+  load or inference error Ask AI silently stays on the composed
+  retrieval-grounded answer. This gives the Phase 1 gate a real candidate to
+  evaluate on physical hardware without pre-empting the decision.
+- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD §5.4, §13.3). **Note for model file specifically:** the experimental path expects `adb push gemma2b.task /data/local/tmp/rescuedesk/`; a proper download flow is post-gate work.
+- [ ] On-device inference session management: load-on-demand, unload under memory pressure, no app-level crashes (PRD §FR-02). **Partially covered** — `MediaPipeEngine` is lazy (loads only on Settings toggle → on) and can `unload()` when the switch flips off; on-OS memory-pressure callback is still missing.
+- [x] Retrieval layer: keyword index over the content pack, source metadata retained end-to-end (PRD §7.3, FR-04).
+- [x] Ask RescueDesk AI (Screen H): grounded response structure (short answer → steps → caution → sources), fallback state, model-readiness indicator.
+- [x] Prompt hardening + refusal behaviors per PRD §5.8 AI Safety Behavior; verify against the seed safety set continuously (this is a standing test, not a one-time check).
+- [x] Offline & Download Manager screen (Screen L) incl. model removal preserving guides and user data.
 
 **Exit:** Working local assistant answering only from cleared, reviewed content, with visible source cards; all §13.3 download tests pass; no critical unsafe outputs in the safety set.
 

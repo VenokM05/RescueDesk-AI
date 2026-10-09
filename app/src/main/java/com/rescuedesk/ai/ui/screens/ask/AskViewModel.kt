@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.rescuedesk.ai.R
 import com.rescuedesk.ai.ai.ask.LocalAskEngine
 import com.rescuedesk.ai.ai.ask.LocalAskEngine.AskResult
+import com.rescuedesk.ai.ai.engine.MediaPipeEngine
 import com.rescuedesk.ai.app.ServiceLocator
+import com.rescuedesk.ai.domain.model.ModelStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 data class SourceRef(val id: Long, val title: String)
@@ -19,6 +22,13 @@ data class SourceRef(val id: Long, val title: String)
  * as a string-resource id so it follows the in-app language at composition
  * time; guide-derived text ([lead], [steps], [caution], [sources]) already
  * arrives in the localized guide language.
+ *
+ * When the experimental on-device LLM is enabled AND successfully produced an
+ * answer, [llmText] carries its free-form output. The UI then renders that
+ * single paragraph instead of the composed lead/steps/caution structure, but
+ * still shows the [sources] chips so the user can always verify. If the LLM
+ * errors or refuses, [llmText] stays null and the composed path is used —
+ * the feature degrades gracefully.
  */
 data class ChatMessage(
     val id: Long,
@@ -29,6 +39,7 @@ data class ChatMessage(
     val steps: List<String> = emptyList(),
     val caution: String? = null,
     val sources: List<SourceRef> = emptyList(),
+    val llmText: String? = null,
     val pending: Boolean = false
 )
 
@@ -61,6 +72,13 @@ class AskViewModel : ViewModel() {
                 AskResult.NoMatch -> ChatMessage(placeholderId, false, cannedRes = R.string.ask_nomatch)
             }
             _messages.value = _messages.value.map { if (it.id == placeholderId) answer else it }
+
+            // Optional experimental LLM phrasing pass. Only reached for a
+            // Grounded answer; refusal / medical / no-match are never fed to
+            // the model. On any failure we keep the composed answer as-is.
+            if (result is AskResult.Grounded) {
+                maybeLlmPolish(placeholderId, question, result)
+            }
         }
     }
 
@@ -80,5 +98,63 @@ class AskViewModel : ViewModel() {
             caution = result.caution,
             sources = sources
         )
+    }
+
+    /**
+     * If the user turned on Settings → Experimental → "Try local LLM" AND the
+     * MediaPipe engine loaded successfully, re-phrase the grounded content as
+     * a single flowing answer. Sources chips remain attached so verification
+     * is one tap away. Any error → keep the composed answer silently.
+     */
+    private suspend fun maybeLlmPolish(
+        messageId: Long,
+        question: String,
+        result: AskResult.Grounded
+    ) {
+        val enabled = runCatching {
+            // Read current settings once; do NOT pass a predicate to first()
+            // — that would suspend until some future emission matches.
+            ServiceLocator.preferencesStore.settings.first().llmEnabled
+        }.getOrDefault(false)
+        if (!enabled) return
+
+        val llm: MediaPipeEngine = ServiceLocator.mediaPipeEngine ?: return
+        // Load lazily; if this is the first try and it fails, surface NotInstalled
+        // in Settings / Offline and stay on the composed path.
+        if (llm.status.value != ModelStatus.Ready) {
+            val loaded = llm.ensureLoaded()
+            if (loaded.isFailure) return
+        }
+
+        // Feed the same guide content we already retrieved — no new search.
+        val chunks = buildList {
+            val primary = buildString {
+                appendLine("Title: local emergency guide")
+                appendLine("Summary: ${result.lead}")
+                if (result.steps.isNotEmpty()) {
+                    appendLine("Steps:")
+                    result.steps.forEachIndexed { i, s -> appendLine("${i + 1}. $s") }
+                }
+                result.caution?.let { appendLine("Avoid: $it") }
+            }
+            add(primary)
+        }
+
+        val gen = llm.generate(question, chunks) { /* partial token; ignore for now */ }
+        val answer = gen.getOrNull() ?: return
+        if (answer.text.isBlank()) return
+        // Honour the model's refusal token — swap in the localized no-match.
+        if (answer.text.contains("NO_GUIDE_MATCH", ignoreCase = true)) return
+        if (!answer.grounded) return
+
+        // Replace the composed message body with the LLM text, keep sources.
+        val existing = _messages.value.firstOrNull { it.id == messageId } ?: return
+        val updated = existing.copy(
+            lead = null,
+            steps = emptyList(),
+            caution = null,
+            llmText = answer.text
+        )
+        _messages.value = _messages.value.map { if (it.id == messageId) updated else it }
     }
 }

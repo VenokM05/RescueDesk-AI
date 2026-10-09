@@ -195,6 +195,17 @@ private fun MessageRow(message: ChatMessage, onOpenGuide: (Long) -> Unit) {
                         message.cannedRes?.let { res ->
                             Text(stringResource(res), style = MaterialTheme.typography.bodyLarge)
                         }
+                        // Experimental LLM paragraph — a small badge makes it
+                        // obvious the wording came from the on-device Gemma
+                        // model, not the guide text verbatim (PRD §5.8 honesty).
+                        message.llmText?.let { text ->
+                            Text(
+                                stringResource(R.string.ask_llm_badge),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                            Text(text, style = MaterialTheme.typography.bodyLarge)
+                        }
                         // Grounded answer structure: lead → steps → caution → sources.
                         message.lead?.let {
                             Text(it, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
