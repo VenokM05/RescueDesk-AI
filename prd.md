@@ -1261,6 +1261,7 @@ Do not make a public performance promise until the target device test suite has 
 * Android application.
 * Filipino and English interface.
 * Accessibility settings and scalable text.
+* Built-in minimum guide set (Typhoon, Flood, Earthquake, Fire) available from first launch.
 * Offline emergency guide library.
 * Local guide search.
 * Downloadable AI model.
@@ -1273,6 +1274,10 @@ Do not make a public performance promise until the target device test suite has 
 * Reviewed content packs and update handling.
 * Privacy and data deletion settings.
 * Safety and usability testing.
+
+### Conditional AI scope
+
+The three AI items above (downloadable AI model, on-device AI chat, and grounded responses — FR-02, FR-03, FR-04) are **Should-have and conditional on the Phase 1 go/no-go gate (see Section 14.2)**. This list otherwise reflects the GO path. If the gate returns NO-GO, the MVP ships without on-device AI: the guide library, built-in guide set, search, family plan, contacts, and checklist remain the full Must-have MVP, and the AI items move to a later release. The application must remain useful and shippable with the AI features removed.
 
 ## Excluded from MVP
 
