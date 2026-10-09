@@ -7,17 +7,21 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-ce56dd3-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `eae6ac7` |
+| Git commit | `ce56dd3` |
 | Date | 2026-10-10 |
-| SHA-256 | `248de0e6cafe482c5f44a29c54188e3db2d3f1d7bb4820180b9c8b8fd6a87cc4` |
-| Size | ~71 MB (grew from ~18 MB: MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `595f95cab0697570e69d56d93d342cdaf6ee2e51ca4bb6ff6541801f0bccbe1a` |
+| Size | ~70 MB (grew from ~18 MB: MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** the launcher now shows **"RescueDesk AI"** as the app
-display name (`android:label` was missing, so launchers fell back to the
-package name).
+**New in this build:** a **splash screen** (app logo on the brand background,
+held until your language settings load, so the first real frame is never in
+the wrong language); Settings → About now carries the project **mission
+paragraph** and credits — *Created by Elvin Manuel, Team ELOHIM Creator*
+(English + Filipino); and all `§` symbols in docs/comments were replaced with
+the word "section". Previous build: the launcher shows
+**"RescueDesk AI"** as the app display name.
 
 **Included:** onboarding (language + text size), Home, Emergency Help routing,
 8 built-in guides in EN + Filipino (typhoon/flood/earthquake/fire — UNREVIEWED,
@@ -58,7 +62,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-ce56dd3-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
