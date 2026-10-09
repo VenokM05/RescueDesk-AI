@@ -7,11 +7,11 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-b2af9be-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-63bdbf5-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `b2af9be` |
+| Git commit | `63bdbf5` |
 | Date | 2026-10-10 |
-| SHA-256 | `13d63388ffad9bc237c8a137b6501df6a2784629cb0e0b018a0f21dcf4e9e7e4` |
+| SHA-256 | `a009a3e945e0f3215cdd8998242222b719a766b669650e8198b4559bcb67ab83` |
 | Size | ~18 MB |
 | Min Android | 8.0 (API 26) |
 
@@ -21,7 +21,9 @@ rights status pending), guide detail with review banners, local search,
 Family Plan wizard, emergency contacts (system-dialer calling), bilingual
 Go-Bag checklist, full Filipino UI (Settings → Language → Filipino),
 Screen L — Offline & Download Manager (guide-pack pipeline present; server URL
-is a placeholder until the content repo ships), Settings.
+is a placeholder until the content repo ships), Settings, and **delete all
+personal information** in Settings → Privacy (household plan, contacts, go-bag
+wiped atomically; guides and language settings survive).
 **Not included:** on-device AI (Ask AI shows the fallback state).
 **Note:** first launch on a phone that ran the previous build resets the
 household plan / contacts / go-bag once (Room v2 schema change for the
@@ -32,7 +34,7 @@ bilingual checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-b2af9be-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-63bdbf5-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
