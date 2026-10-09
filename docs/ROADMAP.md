@@ -133,8 +133,18 @@ Decision recorded in writing with test data attached. GO requires **all five**:
 
 ### Phase 3 — NO-GO alternative track (1 week)
 
-- [ ] Enhanced guide categorization and curated question→guide routing (keyword-based "Ask" that jumps to guides instead of generating text).
+- [x] Enhanced guide categorization and curated question→guide routing (keyword-based "Ask" that jumps to guides instead of generating text).
 - [ ] Polish search morphology handling for Filipino.
+
+### Local retrieval-grounded Ask (shipped, gate-independent)
+
+Screen H now runs a **local answer engine** (`ai/ask/LocalAskEngine`): FTS
+retrieval over the on-device guides → structured answer composed strictly
+from guide text, with citations and the PRD §5.8 live-claim / out-of-scope
+refusals. It needs no model and no network, so it is safe under both the GO
+and NO-GO paths and does **not** pre-empt the Phase 1 gate. The generative
+LLM path (Gemma / llama.cpp) remains the `:poc` experiment until the gate
+returns GO and a winning runtime × model pair is named.
 
 ---
 

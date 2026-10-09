@@ -86,15 +86,39 @@
 
     <!-- Screen H — Ask AI -->
     <string name="ask_title">Magtanong sa RescueDesk AI</string>
+    <string name="ask_local_note">Gumagana nang offline. Ang bawat sagot ay direkta mula sa mga emergency guide sa device na ito — walang hula-hula, at walang naipapadala sa internet ang inyong tinatayp.</string>
+    <string name="ask_hint">Magtanong tungkol sa bagyo, baha, lindol, sunog, first aid, go-bag…</string>
+    <string name="ask_send">Ipadala</string>
+    <string name="ask_you">Ikaw</string>
+    <string name="ask_sources">Mula sa mga gabay na ito</string>
+    <string name="ask_caution">Mahalagang paalala</string>
+    <string name="ask_thinking">Hinahanap sa mga gabay…</string>
+    <string name="ask_live_refusal">Hindi ko kaya\'t tingnan ang kasalukuyang kalagayan — walang internet o sensor para dito, at mabilis magbago ang emergency info. Para sa nangyayari ngayon (storm signal, ulan, kalagayan ng kalsada, aftershock), tingnan ang PAGASA, PHIVOLCS, NDRRMC, o ang opisyal na channel ng inyong lokal na pamahalaan. Matutulong pa rin ako sa mga hakbang ng paghahanda mula sa mga gabay.</string>
+    <string name="ask_scope_refusal">Iyan ay lampas sa saklaw ng matutulongan ko. Sumasagot lang ako sa mga tanong sa emergency preparedness gamit ang mga nireview na guide sa device na ito. Subukan ang itanong tungkol sa bagyo, baha, lindol, sunog, first aid, o paggawa ng family plan at go-bag.</string>
+    <string name="ask_nomatch">Hindi ko nakita iyon sa mga gabay sa device na ito. Subukan ang ibang salita (halimbawa “bagyo”, “baha”, “lindol”, “sunog”, “first aid”, “go-bag”), o tingnan ang buong aklatan ng mga gabay.</string>
     <string name="ask_not_ready">Hindi pa handa ang offline AI sa device na ito.</string>
     <string name="ask_not_ready_sub">Gumagana pa rin ang mga emergency guide kahit walang ito.</string>
     <string name="ask_open_guides">Buksan ang mga emergency guide</string>
     <string name="ask_retry_setup">Subukang muling i-setup ang AI</string>
     <string name="ask_chat_placeholder">Darating ang chat UI kasama ng Phase 3 runtime integration.</string>
-    <string name="ask_examples_title">Mga halimbawang matatanong kapag naka-setup na ang AI</string>
+    <string name="ask_examples_title">Subukang itanong</string>
     <string name="ask_example_1">Ano ang ilalagay ko sa go-bag?</string>
     <string name="ask_example_2">Ano ang dapat ihanda ng pamilya ko bago ang bagyo?</string>
     <string name="ask_example_3">Paano ihahanda ang bahay namin para sa lindol?</string>
+
+    <!-- Privacy notice (PRD §10.1, RA 10173) -->
+    <string name="settings_privacy_notice_title">Basahin ang privacy notice</string>
+    <string name="settings_privacy_notice_body">Ang RescueDesk AI ay ginawa para sa emergency at ang layunin ay ingatan ang inyong impormasyon.
+
+ANG IMBAK NAMIN: ang inyong household plan, meeting place, emergency contact, mga paalala, at checklist ng go-bag. Lahat ng ito ay nakaimbak lamang sa phone na ito.
+
+ANG HINDI NAMIN GINAGAWA: walang account o sign-up, hindi kailangan ang internet para sa mga gabay, walang location tracking, walang iniipon na chat history, walang analytics o ads, at walang naipapadala sa server ang inyong nilalagay.
+
+ANG INYONG KARAPATAN (Data Privacy Act of 2012, RA 10173): maaari ninyong tingnan, baguhin, o burahin ang inyong impormasyon anumang oras. Gamitin ang \"Burahin ang lahat ng personal na impormasyon\" sa screen na ito para punasan ang lahat sa device na ito. Dahil walang data na umalis sa inyong phone, wala kaming mabubura sa aming panig.
+
+SINO ANG NAGPAPATAKBO NITO: ang RescueDesk AI team. Nakasara ang backup at device-transfer, kaya ang inyong emergency data ay hindi kinokopya sa Google o sa ibang phone nang walang inyong aksyon.
+
+Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propesyonal, medikal, o legal na payo. Sa tunay na emergency, kontakin ang lokal na awtoridad at sundin ang opisyal na utos.</string>
 
     <!-- Screen M — Settings -->
     <string name="settings_title">Mga Setting</string>

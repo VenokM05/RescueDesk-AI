@@ -43,6 +43,7 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showPrivacyNotice by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -104,6 +105,17 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                     stringResource(R.string.settings_delete_all_button),
                     color = MaterialTheme.colorScheme.error,
                     fontWeight = FontWeight.Bold
+                )
+            }
+            // Plain-language privacy notice in the current language (PRD §10.1).
+            TextButton(onClick = { showPrivacyNotice = !showPrivacyNotice }) {
+                Text(stringResource(R.string.settings_privacy_notice_title))
+            }
+            if (showPrivacyNotice) {
+                Text(
+                    stringResource(R.string.settings_privacy_notice_body),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

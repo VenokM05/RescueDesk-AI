@@ -141,7 +141,12 @@ fun RescueDeskApp() {
             ) {
                 GuidesScreen(onOpenGuide = { id -> navController.navigate(Routes.guideDetail(id)) })
             }
-            composable(Routes.ASK_AI) { AskAiScreen(onOpenGuides = { navController.navigate(Routes.GUIDES) }) }
+            composable(Routes.ASK_AI) {
+                AskAiScreen(
+                    onOpenGuides = { navController.navigate(Routes.GUIDES) },
+                    onOpenGuide = { id -> navController.navigate(Routes.guideDetail(id)) }
+                )
+            }
             composable(Routes.MY_FAMILY) {
                 MyFamilyScreen(
                     onOpenWizardStep = { step -> navController.navigate(Routes.planWizard(step)) },

@@ -92,17 +92,41 @@
     <string name="detail_meta_pack">Language: %1$s · Version %2$d · Guide pack</string>
     <string name="detail_related">Related guides</string>
 
-    <!-- Screen H — Ask AI fallback state -->
+    <!-- Screen H — Ask AI (retrieval-grounded local mode) -->
     <string name="ask_title">Ask RescueDesk AI</string>
+    <string name="ask_local_note">Working offline. Every answer is drawn directly from the emergency guides on this device — nothing is invented, and nothing you type leaves the phone.</string>
+    <string name="ask_hint">Ask about typhoons, floods, earthquakes, fire, first aid, go-bags…</string>
+    <string name="ask_send">Send</string>
+    <string name="ask_you">You</string>
+    <string name="ask_sources">From these guides</string>
+    <string name="ask_caution">Important caution</string>
+    <string name="ask_thinking">Searching the guides…</string>
+    <string name="ask_live_refusal">I can\'t check live conditions — there\'s no internet or sensor for that, and emergency info changes fast. For what is happening right now (storm signals, rain, road status, aftershocks), check PAGASA, PHIVOLCS, NDRRMC, or your local government\'s official channels. I can still help with preparedness steps from the guides.</string>
+    <string name="ask_scope_refusal">That\'s outside what I can help with. I only answer emergency-preparedness questions using the reviewed guides on this device. Try asking about typhoons, floods, earthquakes, fire safety, first aid, or making a family plan and go-bag.</string>
+    <string name="ask_nomatch">I couldn\'t find that in the guides on this device. Try different words (for example “typhoon”, “flood”, “earthquake”, “fire”, “first aid”, “go-bag”), or browse the full guide library.</string>
     <string name="ask_not_ready">Offline AI is not ready on this device.</string>
     <string name="ask_not_ready_sub">Emergency guides still work without it.</string>
     <string name="ask_open_guides">Open emergency guides</string>
     <string name="ask_retry_setup">Retry AI setup</string>
     <string name="ask_chat_placeholder">Chat UI arrives with the Phase 3 runtime integration.</string>
-    <string name="ask_examples_title">Examples you can ask once AI is set up</string>
+    <string name="ask_examples_title">Try asking</string>
     <string name="ask_example_1">What should I put in a go-bag?</string>
     <string name="ask_example_2">What should my family prepare before a typhoon?</string>
     <string name="ask_example_3">How can I prepare our house for an earthquake?</string>
+
+    <!-- Privacy notice (PRD §10.1, RA 10173) — shown in Settings -->
+    <string name="settings_privacy_notice_title">Read the privacy notice</string>
+    <string name="settings_privacy_notice_body">RescueDesk AI is built for emergencies and keeps your information private by design.
+
+WHAT WE STORE: your household plan, meeting places, emergency contacts, notes, and go-bag checklist. All of it is saved only on this phone.
+
+WHAT WE NEVER DO: no account or sign-up, no internet is required for guides, no location tracking, no chat history is kept, no analytics or ads, and nothing you enter is uploaded to any server.
+
+YOUR RIGHTS (Data Privacy Act of 2012, RA 10173): you can view, change, or delete your information any time. Use \"Delete all personal information\" in this screen to erase everything from this device at once. Because no data leaves your phone, there is nothing for us to delete on our side.
+
+WHO OPERATES THIS APP: the RescueDesk AI team. Backup and device-transfer are turned off, so your emergency data is not copied to Google or another phone without your action.
+
+This app gives general preparedness guidance, not professional, medical, or legal advice. In a real emergency, contact local authorities and follow official instructions.</string>
 
     <!-- Screen M — Settings and privacy -->
     <string name="settings_title">Settings</string>
