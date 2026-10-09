@@ -7,27 +7,32 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-ad367e5-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-b2af9be-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `ad367e5` |
-| Date | 2026-10-09 |
-| SHA-256 | `516ea8698e67578053e306515add5c5cd9e0ec312771cc1904a2e6d65397a2c0` |
-| Size | ~18.6 MB |
+| Git commit | `b2af9be` |
+| Date | 2026-10-10 |
+| SHA-256 | `13d63388ffad9bc237c8a137b6501df6a2784629cb0e0b018a0f21dcf4e9e7e4` |
+| Size | ~18 MB |
 | Min Android | 8.0 (API 26) |
 
 **Included:** onboarding (language + text size), Home, Emergency Help routing,
-4 built-in placeholder guides (typhoon/flood/earthquake/fire — UNREVIEWED,
+8 built-in guides in EN + Filipino (typhoon/flood/earthquake/fire — UNREVIEWED,
 rights status pending), guide detail with review banners, local search,
-Family Plan wizard, emergency contacts (system-dialer calling), Go-Bag checklist,
-Settings. **Not included:** on-device AI (Ask AI shows the fallback state),
-guide-pack downloads.
+Family Plan wizard, emergency contacts (system-dialer calling), bilingual
+Go-Bag checklist, full Filipino UI (Settings → Language → Filipino),
+Screen L — Offline & Download Manager (guide-pack pipeline present; server URL
+is a placeholder until the content repo ships), Settings.
+**Not included:** on-device AI (Ask AI shows the fallback state).
+**Note:** first launch on a phone that ran the previous build resets the
+household plan / contacts / go-bag once (Room v2 schema change for the
+bilingual checklist).
 
 ## Install
 
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-ad367e5-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-b2af9be-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
