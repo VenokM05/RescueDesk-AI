@@ -7,22 +7,27 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-71fed25-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-cdaba8d-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `71fed25` |
+| Git commit | `cdaba8d` |
 | Date | 2026-10-10 |
-| SHA-256 | `4437c2e427f75c5d365f30a00e468a496bfae4a279665b27cf77cbd063218405` |
-| Size | 74,020,119 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `c7ab7a0b52053b17c1bbffc258ca8fe6eec1815aad352305a302ba3ab206d9a3` |
+| Size | 74,022,423 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** the assistant is renamed **Ask Juan** everywhere
-(nav tab, screen title, home chip, settings, offline screen — English and
-Filipino; the name stays identical in both languages). And "no match" is no
-longer a dead end: when nothing fits the question, Juan now shows the **real
-topics installed on the device as tappable guide chips** under a short note.
-Earlier: splash screen with the app logo, About mission + credits
-(*Created by Elvin Manuel, Team ELOHIM Creator*), `§` replaced with the word
-"section", launcher display name **"RescueDesk AI"**.
+**New in this build:** the **Settings → Experimental** local-LLM card now
+detects a locally placed Gemma model at runtime — showing the detected file
+path + size, a one-tap **Re-check for model** button (no app restart), and an
+explicit warning if the file looks truncated. The EN + Filipino guidance now
+leads with the **cable-free** setup (download in the phone's browser → move to
+`Android/data/com.rescuedesk.ai/files/models/gemma2b.task` → Re-check → toggle
+Ready), so on-device AI testing no longer requires a computer or `adb push`.
+The 2.7 GB `.task` is intentionally *not* committed to the repo — see
+"enable the experimental local LLM" below for why.
+Earlier: assistant renamed **Ask Juan** everywhere (with real tappable guide
+chips on no-match instead of a dead-end message); splash screen with the app
+logo; About mission + credits (*Created by Elvin Manuel, Team ELOHIM Creator*);
+`§` replaced with the word "section"; launcher display name **"RescueDesk AI"**.
 
 **Included:** onboarding (language + text size), Home, Emergency Help routing,
 8 built-in guides in EN + Filipino (typhoon/flood/earthquake/fire — UNREVIEWED,
@@ -63,7 +68,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-71fed25-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-cdaba8d-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
