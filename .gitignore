@@ -10,6 +10,8 @@ captures/
 .externalNativeBuild/
 .cxx/
 *.apk
+# Exception: versioned test drops in apk/ are intentionally tracked
+!apk/*.apk
 *.aab
 *.keystore
 !debug.keystore
