@@ -7,24 +7,32 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-cdaba8d-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-eacb18e-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `cdaba8d` |
+| Git commit | `eacb18e` |
 | Date | 2026-10-10 |
-| SHA-256 | `c7ab7a0b52053b17c1bbffc258ca8fe6eec1815aad352305a302ba3ab206d9a3` |
+| SHA-256 | `78345b332e59ccfba8db12aee097a49c6213c9ac85517669cb18bec9dfb1a04a` |
 | Size | 74,022,423 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** the **Settings → Experimental** local-LLM card now
-detects a locally placed Gemma model at runtime — showing the detected file
-path + size, a one-tap **Re-check for model** button (no app restart), and an
-explicit warning if the file looks truncated. The EN + Filipino guidance now
-leads with the **cable-free** setup (download in the phone's browser → move to
+**New in this build:** the four built-in **Emergency Guides** (Typhoon, Flood,
+Earthquake, Fire — EN + Filipino) now read as real, complete guidance: the
+leftover "PLACEHOLDER" wording is gone from every summary, source attribution is
+honest, and Flood gained an early-evacuation step. Guides still show the
+*"Pending review"* banner on purpose — that is the PRD safety gate (sections 8.3
+and 10.3): the content stays unapproved until a qualified reviewer signs off and
+redistribution rights are confirmed, and we will not fake that. **A fresh
+install (or Settings → clear app data) is needed to re-seed the updated guide
+text** — an existing install keeps its previously seeded copies.
+Earlier this session: the **Settings → Experimental** local-LLM card now detects
+a locally placed Gemma model at runtime (path + size + truncation warning) with a
+one-tap **Re-check for model** button, and its guidance leads with the
+**cable-free** setup (browser download → move to
 `Android/data/com.rescuedesk.ai/files/models/gemma2b.task` → Re-check → toggle
-Ready), so on-device AI testing no longer requires a computer or `adb push`.
-The 2.7 GB `.task` is intentionally *not* committed to the repo — see
-"enable the experimental local LLM" below for why.
-Earlier: assistant renamed **Ask Juan** everywhere (with real tappable guide
+Ready), so testing no longer needs a computer or `adb push`. The 2.7 GB `.task`
+is intentionally *not* committed to the repo — see "enable the experimental local
+LLM" below for why.
+Even earlier: assistant renamed **Ask Juan** everywhere (with real tappable guide
 chips on no-match instead of a dead-end message); splash screen with the app
 logo; About mission + credits (*Created by Elvin Manuel, Team ELOHIM Creator*);
 `§` replaced with the word "section"; launcher display name **"RescueDesk AI"**.
@@ -68,7 +76,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-cdaba8d-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-eacb18e-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
