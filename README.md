@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/rescuedesk-logo-horizontal.png" alt="RescueDesk AI logo" width="520"/>
+</p>
+
 # RescueDesk AI
 
 **Offline-first emergency preparedness for Philippine households — in Filipino and English, on your phone, with no accounts, no tracking, and no internet required.**
