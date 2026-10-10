@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -184,6 +185,11 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            // The switch only unlocks when a complete, readable model file is
+            // actually present (detectModel returned valid = true). Until then it
+            // stays disabled and the locked-reason line + install hint below
+            // explain why, so a disabled control never looks broken.
+            val modelDetected = llmDetected?.valid == true
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
@@ -196,13 +202,43 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 )
                 Switch(
                     checked = llmOn,
+                    enabled = modelDetected,
                     onCheckedChange = { enabled ->
                         scope.launch { store.setLlmEnabled(enabled) }
                         // Try to load immediately when turning on so the
                         // status line reflects reality by the next frame.
-                        if (enabled) scope.launch { llmEngine?.ensureLoaded() }
-                        else llmEngine?.unload()
-                    }
+                        if (enabled) {
+                            scope.launch {
+                                llmEngine?.ensureLoaded()
+                                recheckModel()
+                            }
+                        } else llmEngine?.unload()
+                    },
+                    // Explicit colors so the control is unmistakable in BOTH
+                    // light and dark themes: primary-filled track when checked,
+                    // elevated surface track with an outline ring when off,
+                    // and a dimmed variant of the same when disabled.
+                    colors = SwitchDefaults.colors(
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                        uncheckedTrackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                        uncheckedThumbColor = MaterialTheme.colorScheme.outline,
+                        uncheckedBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledUncheckedTrackColor =
+                            MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.4f),
+                        disabledUncheckedThumbColor = MaterialTheme.colorScheme.outlineVariant,
+                        disabledUncheckedBorderColor = MaterialTheme.colorScheme.outlineVariant
+                    )
+                )
+            }
+            if (!modelDetected) {
+                // Reason line for the locked switch, shown right above the
+                // existing download guidance so the two read as one block.
+                Text(
+                    stringResource(R.string.settings_llm_switch_locked),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             val statusText = when (llmStatus) {

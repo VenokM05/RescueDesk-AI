@@ -152,6 +152,7 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="settings_llm_body">Turn this on to let a Gemma 2 2B IT language model running on this device rephrase the grounded answer into a shorter, natural paragraph. This is the Phase 1 candidate evaluation path only. The shipping answer stays retrieval-grounded to the guide text either way, and every safety refusal (live claim, out-of-scope, medical emergency) is enforced before the model is asked. Turning it off returns Ask Juan to the default composed answer, with no effect on the guides.</string>
     <string name="settings_llm_toggle_label">Try local LLM (Gemma 2 2B IT)</string>
     <string name="settings_llm_status_not_installed">Not installed on this device</string>
+    <string name="settings_llm_switch_locked">Switch locked until a complete model file is found on this device. Follow the download steps below, then tap Re-check to unlock.</string>
     <string name="settings_llm_status_loading">Loading model…</string>
     <string name="settings_llm_status_ready">Ready — grounded answers will be rephrased</string>
     <string name="settings_llm_status_incompatible">Incompatible with this device</string>
