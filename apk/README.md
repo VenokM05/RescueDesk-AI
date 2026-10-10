@@ -7,15 +7,24 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-eacb18e-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-53dab49-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `eacb18e` |
+| Git commit | `53dab49` |
 | Date | 2026-10-10 |
-| SHA-256 | `78345b332e59ccfba8db12aee097a49c6213c9ac85517669cb18bec9dfb1a04a` |
-| Size | 74,022,423 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `613a85c9095214833ad64e5a52af8b52608e1329d1159176eced1091801bb7a6` |
+| Size | 74,023,171 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** the four built-in **Emergency Guides** (Typhoon, Flood,
+**New in this build:** the **Settings → Experimental** local-LLM switch is now
+impossible to miss and impossible to mislead: explicit `SwitchDefaults` colors
+(primary track when on, outlined surface track when off, dimmed when locked)
+keep it clearly visible in both light and dark themes, and it only unlocks when
+a **complete, valid model file is actually detected** on the device — until
+then, a "Switch locked until a complete model file is found…" line plus the
+existing download guidance explain exactly what to do, and **Re-check for
+model** unlocks it without an app restart.
+
+Earlier builds: the four built-in **Emergency Guides** (Typhoon, Flood,
 Earthquake, Fire — EN + Filipino) now read as real, complete guidance: the
 leftover "PLACEHOLDER" wording is gone from every summary, source attribution is
 honest, and Flood gained an early-evacuation step. Guides still show the
@@ -76,7 +85,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-eacb18e-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-53dab49-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
