@@ -159,6 +159,8 @@ This app gives general preparedness guidance, not professional, medical, or lega
     <string name="settings_llm_status_error">Error — see details below</string>
     <string name="settings_llm_install_hint">No computer needed. On the phone, open huggingface.co/litert-community/Gemma2-2B-IT in a browser, log in and accept the Gemma license once, then download Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task (about 2.7 GB). Use the Files app to move it into Android/data/com.rescuedesk.ai/files/models/ and rename it to gemma2b.task, then tap Re-check below. Some newer Android versions block file managers from that folder; if so, use a computer and run: adb push gemma2b.task /data/local/tmp/rescuedesk/gemma2b.task. Keep at least 3 GB free; a phone with 8 GB RAM is recommended. The model file is not shipped inside the APK on purpose: GitHub rejects files over 100 MB, and the Gemma license forbids redistributing the weights.</string>
     <string name="settings_llm_recheck">Re-check for model</string>
+    <string name="settings_llm_recheck_started">Checking this device for the model file…</string>
+    <string name="settings_llm_recheck_none">No model file found. Checked: app internal storage (files/models/gemma2b.task), app external folder (Android/data/com.rescuedesk.ai/files/models/), and /data/local/tmp/rescuedesk/. Place the full 2.7 GB file in one of these, then Re-check.</string>
     <string name="settings_llm_detected">Model detected: %1$s (%2$s)</string>
     <string name="settings_llm_truncated">A model file was found but it looks incomplete (only %1$s). Download the full file (about 2.7 GB), replace it, then tap Re-check.</string>
     <string name="settings_about_section">About</string>

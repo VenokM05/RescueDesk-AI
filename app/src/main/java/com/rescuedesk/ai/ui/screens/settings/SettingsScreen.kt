@@ -60,11 +60,40 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
     // expose a Re-check action so the user can register a file they just moved in
     // with the Files app WITHOUT restarting the app. Detection reads the filesystem
     // only (never loads the 2.7 GB model), so it stays on the IO dispatcher.
+    // Every tap reports its outcome three ways: an instant Toast, a persistent
+    // status line, and a logcat trace (tag LLM-detect) — a silent no-op tap is
+    // never acceptable UX on a life-safety app, and the trace makes a "nothing
+    // happens" report diagnosable over adb without a screen-reader session.
     val llmEngine = ServiceLocator.mediaPipeEngine
     var llmDetected by remember { mutableStateOf<MediaPipeEngine.DetectedModel?>(null) }
-    val recheckModel = {
+    var recheckedOnce by remember { mutableStateOf(false) }
+    val recheckModel: () -> Unit = {
         scope.launch {
-            llmDetected = withContext(Dispatchers.IO) { llmEngine?.detectModel() }
+            android.widget.Toast.makeText(context, R.string.settings_llm_recheck_started, android.widget.Toast.LENGTH_SHORT).show()
+            val result = withContext(Dispatchers.IO) {
+                android.util.Log.i("LLM-detect", "engine=${llmEngine != null} probing candidates")
+                llmEngine?.detectModel().also { d ->
+                    android.util.Log.i(
+                        "LLM-detect",
+                        "detectModel -> " + (d?.let { "${it.path} (${it.bytes} B, valid=${it.valid})" } ?: "null")
+                    )
+                }
+            }
+            llmDetected = result
+            recheckedOnce = true
+            val sizeLabel = result?.let {
+                android.text.format.Formatter.formatShortFileSize(context, it.bytes)
+            }.orEmpty()
+            val msg = when {
+                result == null -> context.getString(R.string.settings_llm_recheck_none)
+                result.valid -> context.getString(R.string.settings_llm_detected, result.path, sizeLabel)
+                else -> context.getString(R.string.settings_llm_truncated, sizeLabel)
+            }
+            // MIUI/HyperOS can block app Notifications outright — a suppressed
+            // Toast must never take the persistent status line down with it.
+            runCatching {
+                android.widget.Toast.makeText(context, msg, android.widget.Toast.LENGTH_LONG).show()
+            }
         }
     }
     LaunchedEffect(Unit) { recheckModel() }
@@ -275,8 +304,9 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                 }
             }
             // Runtime presence: path + size when a complete file is found, or a
-            // truncation warning when only a partial file is present. Shown in every
-            // state so the user always knows what the app can actually see.
+            // truncation warning when only a partial file is present. An explicit
+            // "not found" line is shown after any Re-check that came up empty, so
+            // every tap has a durable on-screen result, not just a success case.
             llmDetected?.let { d ->
                 val sizeLabel = android.text.format.Formatter.formatShortFileSize(context, d.bytes)
                 Text(
@@ -288,6 +318,13 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                     style = MaterialTheme.typography.bodySmall,
                     color = if (d.valid) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.error
+                )
+            }
+            if (recheckedOnce && llmDetected == null) {
+                Text(
+                    stringResource(R.string.settings_llm_recheck_none),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
             // Register a file the user just moved in, without restarting the app.

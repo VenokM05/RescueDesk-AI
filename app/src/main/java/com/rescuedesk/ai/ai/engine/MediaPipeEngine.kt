@@ -158,6 +158,15 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
             if (external != null) add(File(external, "models/$MODEL_FILENAME"))
             add(File(DEBUG_TMP_DIR, MODEL_FILENAME))
         }
+        // Trace every candidate so a "nothing was found" report is diagnosable
+        // over adb logcat (tag LLM-detect) without needing the user to describe
+        // filesystem state by hand.
+        candidates.forEach { f ->
+            android.util.Log.d(
+                "LLM-detect",
+                "candidate ${f.absolutePath}: exists=${f.exists()} canRead=${f.canRead()} length=${runCatching { f.length() }.getOrDefault(-1)}"
+            )
+        }
         val partial = candidates.firstOrNull { it.exists() && it.length() > 0L }
         return partial?.let { DetectedModel(it.absolutePath, it.length(), valid = false) }
     }
