@@ -3,6 +3,7 @@ package com.rescuedesk.ai.ai.engine
 import android.content.Context
 import com.google.mediapipe.tasks.genai.llminference.LlmInference
 import com.google.mediapipe.tasks.genai.llminference.LlmInference.LlmInferenceOptions
+import com.google.mediapipe.tasks.genai.llminference.LlmInferenceSession
 import com.rescuedesk.ai.domain.model.ModelStatus
 import java.io.File
 import kotlinx.coroutines.Dispatchers
@@ -98,17 +99,55 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
 
         val prompt = buildSafetyPrompt(question, contextChunks)
         try {
-            // Sync call is fine here: we are already on the IO dispatcher and the
-            // AskViewModel shows a "thinking" bubble while it runs. MediaPipe's
-            // async listener API is available if we later want true streaming.
-            val full = engine.generateResponse(prompt).trim()
+            // Token pre-flight. Hitting the maxTokens boundary makes MediaPipe
+            // fail INSIDE nativePredictSync: the pending Java exception plus a
+            // follow-up JNI NewByteArray is a CheckJNI abort — a debuggable
+            // build SIGABRTs (observed on Redmi Note 14: "Input is too long
+            // for the model to process: current_step(319) + input_size(7)").
+            // We cannot catch a native abort, so we must never reach it: trim
+            // the guide context until the real tokenized prompt fits with a
+            // generous output allowance left over.
+            val budget = MAX_TOKENS - OUTPUT_ALLOWANCE
+            var promptFinal = prompt
+            var chunksFinal = contextChunks
+            val promptTokens = runCatching { engine.sizeInTokens(prompt) }.getOrDefault(budget + 1)
+            if (promptTokens > budget) {
+                val ratio = budget.toFloat() / promptTokens.coerceAtLeast(1)
+                chunksFinal = chunksFinal.map { it.take(maxOf(240, (it.length * ratio).toInt())) }
+                promptFinal = buildSafetyPrompt(question, chunksFinal)
+                android.util.Log.w("LLM-ask", "prompt $promptTokens tokens > budget $budget — context trimmed to ${runCatching { engine.sizeInTokens(promptFinal) }.getOrDefault(-1)} tokens")
+            }
+
+            // Fresh session per request: LlmInference.generateResponse(String)
+            // routes through a shared internal session whose history ACCUMULATES
+            // across questions, pushing current_step toward the ceiling on every
+            // follow-up. A per-question session starts at zero and closes after.
+            // Falls back to the engine-level call only if session creation fails.
+            val session = runCatching {
+                LlmInferenceSession.createFromOptions(
+                    engine,
+                    LlmInferenceSession.LlmInferenceSessionOptions.builder().build()
+                )
+            }.getOrNull()
+            val full = if (session != null) {
+                try {
+                    session.addQueryChunk(promptFinal)
+                    session.generateResponse().trim()
+                } finally {
+                    runCatching { session.close() }
+                }
+            } else {
+                // Sync call is fine here: we are already on the IO dispatcher and the
+                // AskViewModel shows a "thinking" bubble while it runs.
+                engine.generateResponse(promptFinal).trim()
+            }
 
             // Emit progressively so the UI feels responsive even without
             // token streaming; sentence boundaries are a decent proxy.
             splitForStreaming(full).forEach { piece -> onToken(piece) }
 
             // Grounding claim: only true if we actually fed context to the model.
-            val grounded = contextChunks.isNotEmpty() && full.isNotBlank()
+            val grounded = chunksFinal.isNotEmpty() && full.isNotBlank()
             Result.success(
                 GroundedAnswer(
                     text = full,
@@ -121,7 +160,9 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
                 )
             )
         } catch (t: Throwable) {
-            _status.value = ModelStatus.Error
+            // Request-scoped failure: a bad generation must NOT flip Settings to
+            // "Error" (the model is still loaded and fine); record it and let
+            // AskViewModel keep the composed retrieval answer.
             lastError = t.message ?: "Inference failed"
             Result.failure(t)
         }
@@ -189,11 +230,16 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
         const val DEBUG_TMP_DIR = "/data/local/tmp/rescuedesk"
         /** Guard against a truncated adb push (Gemma 2 2B q8 task is ~2.7 GB). */
         const val MIN_VALID_BYTES = 500L * 1024L * 1024L
-        // The safety prompt asks for <120 words (~160 tokens). CPU-only
-        // Gemma on a mid-range phone generates roughly 3-8 tokens/s, so a
-        // 600-token ceiling could stall the polish pass for minutes past any
-        // realistic answer. 320 leaves 2x headroom and keeps answers snappy.
-        const val MAX_TOKENS = 320
+        // maxTokens counts INPUT + OUTPUT tokens together. 320 was so tight
+        // that a normal grounding prompt (~200 input tokens) plus a compliant
+        // ~120-word answer crossed the line at generation time, MediaPipe
+        // threw OUT_OF_RANGE mid-step, and CheckJNI turned it into a SIGABRT
+        // crash on debug builds (tombstone 2026-10-10, Redmi Note 14). 1024
+        // gives every request real headroom while staying inside the KV cache
+        // of the q8_ekv1280 task file (1280 positions — never exceed that).
+        const val MAX_TOKENS = 1024
+        // Reserve this many output tokens when pre-trimming the prompt.
+        const val OUTPUT_ALLOWANCE = 256
         const val ERROR_NO_FILE =
             "Gemma 2 2B IT model file not found. Download it on the phone and place " +
                 "it at <app files>/models/$MODEL_FILENAME, or push it to " +
