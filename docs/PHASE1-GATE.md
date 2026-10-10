@@ -12,15 +12,21 @@ management, default-on toggle) begins.
 
 ## Test setup
 
-**Build under test:** `apk/RescueDeskAI-v0.1.0-scaffold-eae6ac7-debug.apk`
+**Build under test:** `apk/RescueDeskAI-v0.1.0-scaffold-cdaba8d-debug.apk`
 (or newer) — experimental Gemma 2 2B IT via MediaPipe LLM Inference 0.10.27,
-CPU backend, off-by-default toggle.
+CPU backend, off-by-default toggle, plus runtime model detection + Re-check.
 
 **One-time prep** (full detail in `apk/README.md` → *Optional: enable the
-experimental local LLM*):
+experimental local LLM*). The model is **never** committed to the repo or
+bundled in the APK; obtain it one of two ways:
 
-1. Accept the Gemma license on `litert-community/Gemma2-2B-IT` (Hugging Face),
-   create a read token, run the one-shot download + `adb push` block.
+1a. **Cable-free (no computer):** on the phone, download
+   `Gemma2-2B-IT_multi-prefill-seq_q8_ekv1280.task` from `litert-community/Gemma2-2B-IT`
+   in a browser (log in + accept the Gemma license once), move it with the Files
+   app to `Android/data/com.rescuedesk.ai/files/models/gemma2b.task`, then
+   Settings → Experimental → **Re-check for model**.
+1b. **Developer:** accept the Gemma license, create a read token, run the
+   one-shot download + `adb push` block in `apk/README.md`.
 2. `adb install -r apk/RescueDeskAI-…-debug.apk`
 3. App → Settings → Experimental → toggle **"Try local LLM (Gemma 2 2B IT)"**.
    Wait for status *Ready*.
@@ -103,7 +109,7 @@ Plus the grounded-set quality check (not gate-blocking, but informs GO/CONDITION
 
 | Item | Status |
 | --- | --- |
-| Gemma license terms allow distributing the *downloaded* q8 derivative through the planned mechanism | ☐ cleared ☐ pending ☐ blocked |
+| Gemma license terms allow the planned acquisition mechanism (users download from Google's gated source with their own account; the app ships **no** bundled or repo-tracked weights) | ☐ cleared ☐ pending ☐ blocked |
 | MediaPipe `tasks-genai` (Apache 2.0) attribution in app notices | ☐ cleared ☐ pending |
 | Runtime (Google MediaPipe) maintenance-only status accepted for v1 | ☐ accepted ☐ rejected — see Phase 3 LiteRT-LM migration note in ROADMAP |
 
@@ -129,7 +135,7 @@ Plus the grounded-set quality check (not gate-blocking, but informs GO/CONDITION
 | Outcome | Meaning |
 | --- | --- |
 | **GO** | All five criteria PASS. Phase 3 proceeds as scoped: model download manager, memory-pressure handling, prompt the toggle to a first-run choice. |
-| **CONDITIONAL** | Criteria 1–3 pass on ≥6 GB devices only, storage/4 GB-class fails → ship GO path restricted to the passing device class; 4 GB-class phones get the retrieval-grounded no-model path (already the default). Consider the Gemma 3 1B int4 (~0.9 GB) swap to widen device support. |
+| **CONDITIONAL** | Criteria 1–3 pass on ≥6 GB devices only, storage/4 GB-class fails → ship GO path restricted to the passing device class; 4 GB-class phones get the retrieval-grounded no-model path (already the default). **Action item — swap to Gemma 3 1B int4 (~0.9 GB, runs on 4 GB-class) by changing the single `MediaPipeEngine.MODEL_FILENAME` constant to widen device support and keep any future in-app download humane on a Philippine data plan.** |
 | **NO-GO** | Any safety FAIL (C3) or stability FAIL (C1), or licenses blocked (C4) → experimental path stays off, Phase 3 reverts to the guide-only track; AI revisited at v1.1. |
 
 **Decision:** ☐ GO ☐ CONDITIONAL ☐ NO-GO

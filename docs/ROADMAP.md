@@ -137,7 +137,35 @@ Decision recorded in writing with test data attached — use the scorecard at
   load or inference error Ask AI silently stays on the composed
   retrieval-grounded answer. This gives the Phase 1 gate a real candidate to
   evaluate on physical hardware without pre-empting the decision.
-- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD section 5.4, section 13.3). **Note for model file specifically:** the experimental path expects `adb push gemma2b.task /data/local/tmp/rescuedesk/`; a proper download flow is post-gate work.
+- [ ] Resumable download manager: Wi-Fi/mobile-data choice, progress, pause/retry, checksum verification, atomic activation, keep-previous-version rule (PRD section 5.4, section 13.3). **Note for model file specifically:** Settings → Experimental now does **runtime detection** of a locally placed `gemma2b.task` (path + size + truncation warning) with a **Re-check** button, and the guidance leads with the **cable-free** path (phone-browser download → move to `Android/data/com.rescuedesk.ai/files/models/gemma2b.task` → Re-check → toggle Ready), with `adb push` as the fallback. A full in-app download *button* is intentionally **deferred** — see *Model acquisition & distribution strategy* below.
+
+### Model acquisition & distribution strategy (decided Oct 2026)
+
+The ~2.7 GB Gemma 2 2B IT `.task` is **not** committed to the repo and **not**
+shipped in the APK: GitHub hard-rejects single files over 100 MB, the free
+Git-LFS tier caps at 1 GiB total, a multi-GB blob bloats every clone/CI/pilot
+pull (the opposite of a low-bandwidth offline-first app), and the **Gemma
+Terms of Use restrict redistributing the weights** — the Hugging Face repo is
+license-gated for exactly that reason. Decided approach, tiered:
+
+- **Now (Phase 1 pilots):** ship the app; reviewers obtain the model themselves
+  via the **cable-free** browser download + move + Re-check flow, or the
+  documented HF CLI / `adb push` one-shot (`apk/README.md`). No token is ever
+  captured inside the app.
+- **Deferred in-app "Download Model" button — only after Phase 1 GO *and* once
+  a smaller, redistributable model is chosen *and* we have rights to host it.**
+  A gated HF endpoint cannot be pulled anonymously without pasting the user's
+  own read token into the app — poor UX for seniors and a credential-capture
+  privacy smell that contradicts the no-accounts promise. Build it later as a
+  streaming-to-disk, resumable worker (a sibling of the text-only
+  `data/pack/PackDownloader`, which loads whole files in memory and would OOM
+  at 2.7 GB — see `ARCHITECTURE.md` section 7), integrated into the existing
+  Offline & Download Manager and honouring `wifiOnlyDownloads`.
+- **CONDITIONAL-path swap (widen device support):** replace Gemma 2 2B IT q8
+  (2.71 GB, over budget, 8 GB-RAM class) with **Gemma 3 1B int4 (~0.9 GB, runs
+  on 4 GB-class)** via the single `MediaPipeEngine.MODEL_FILENAME` constant. This
+  is the concrete lever if Criterion 5 (storage) or Criterion 1 (4 GB stability)
+  fails. Also keeps a future in-app download humane on a Philippine data plan.
 - [ ] On-device inference session management: load-on-demand, unload under memory pressure, no app-level crashes (PRD FR-02). **Partially covered** — `MediaPipeEngine` is lazy (loads only on Settings toggle → on) and can `unload()` when the switch flips off; on-OS memory-pressure callback is still missing.
 - [x] Retrieval layer: keyword index over the content pack, source metadata retained end-to-end (PRD section 7.3, FR-04).
 - [x] Ask RescueDesk AI (Screen H): grounded response structure (short answer → steps → caution → sources), fallback state, model-readiness indicator.

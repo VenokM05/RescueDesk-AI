@@ -3,7 +3,7 @@
   "title": "Earthquake: What to do",
   "category": "earthquake",
   "language": "en",
-  "summary": "Drop, Cover, Hold, and what to do after shaking stops. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD section 8.3, section 10.3).",
+  "summary": "Protect yourself during and after an earthquake: Drop, Cover, and Hold, then expect aftershocks and move to higher ground at once if you are near the coast.",
   "steps": [
     "DROP onto your hands and knees before the shaking throws you down.",
     "Take COVER under a sturdy table or desk, protecting your head and neck. If no shelter is nearby, cover your head with your arms and stay away from glass.",
@@ -18,7 +18,7 @@
     "Do not stand under unsecured shelves, glass, or heavy objects that can fall.",
     "Do not light matches or lighters until you are sure there is no gas leak."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "RescueDesk AI original preparedness summary — pending subject-matter review",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

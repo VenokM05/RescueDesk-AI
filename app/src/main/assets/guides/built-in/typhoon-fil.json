@@ -3,7 +3,7 @@
   "title": "Bagyo: Ano ang gagawin",
   "category": "typhoon",
   "language": "fil",
-  "summary": "Mga agarang hakbang bago at habang may bagyo. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD section 8.3, section 10.3).",
+  "summary": "Ano ang gawin bago at habang may bagyo: subaybayan ang signal ng PAGASA, iingatan ang bahay, ihanda ang go-bag, at manatili sa loob hanggang sa opisyal na all-clear para sa inyong lugar.",
   "steps": [
     "Subaybayan ang opisyal na babala ng PAGASA kung may koneksyon, at tandaan ang pinakabagong signal number sa inyong lugar.",
     "Itakda o pagtibayin ang bubong, bintana, at mga kalat sa labas na maaaring tangayin ng hangin.",
@@ -18,7 +18,7 @@
     "Huwag maglakad o magmaneho sa tubig-baha na hindi alam ang lalim.",
     "Huwag ituring na tapos na ang bagyo dahil tahimik na — ang pinakamalakas na hangin ay babalik mula sa kabilang direksyon."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "Orihinal na buod ng RescueDesk AI para sa paghahanda — hinihintay ang pagsusuri ng reviewer",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

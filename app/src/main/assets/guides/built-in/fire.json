@@ -3,7 +3,7 @@
   "title": "Fire: What to do",
   "category": "fire",
   "language": "en",
-  "summary": "Get out, stay low, and safe evacuation actions for home fires. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD section 8.3, section 10.3).",
+  "summary": "How to escape a home fire safely: get out fast, stay low under the smoke, check doors for heat before opening, and never go back inside for belongings.",
   "steps": [
     "Get out immediately — do not stop to collect belongings.",
     "Stay low under smoke; cleaner air is near the floor.",
@@ -18,7 +18,7 @@
     "Do not stand upright in smoke — smoke rises; stay low and crawl to an exit.",
     "Do not go back inside for belongings once you are out."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "RescueDesk AI original preparedness summary — pending subject-matter review",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

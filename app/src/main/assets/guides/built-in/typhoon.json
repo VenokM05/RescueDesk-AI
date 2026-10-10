@@ -3,7 +3,7 @@
   "title": "Typhoon: What to do",
   "category": "typhoon",
   "language": "en",
-  "summary": "Immediate actions before and during a typhoon. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD section 8.3, section 10.3).",
+  "summary": "What to do before and during a typhoon: track PAGASA storm signals, secure your home, pack your go-bag, and shelter in place until the official all-clear for your area.",
   "steps": [
     "Monitor official PAGASA warnings when connectivity allows and note the latest signal number for your area.",
     "Secure or reinforce the roof, windows, and loose outdoor items.",
@@ -18,7 +18,7 @@
     "Do not walk or drive through floodwater of unknown depth.",
     "Do not treat the calm eye as the end of the storm — the strongest winds return from the other direction."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "RescueDesk AI original preparedness summary — pending subject-matter review",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

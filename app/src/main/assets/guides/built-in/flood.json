@@ -3,10 +3,10 @@
   "title": "Flooding: What to do",
   "category": "flood",
   "language": "en",
-  "summary": "Immediate actions for rising water and flooded areas. PLACEHOLDER — must be replaced with reviewer-approved, rights-cleared content before release (PRD section 8.3, section 10.3).",
+  "summary": "How to stay safe when water rises: evacuate when told, move to higher ground, cut the power if it is safe, and never walk or drive through floodwater.",
   "steps": [
     "Move away from rising water when it is safe to do so.",
-    "Follow official evacuation instructions applicable to your area.",
+    "Follow official evacuation instructions applicable to your area — leave early rather than waiting for the water to trap you.",
     "If water enters your home, switch off the electricity at the main breaker if safe to reach.",
     "Move to higher ground or the safest upper floor; avoid enclosed attics without a way out.",
     "Return home only after authorities declare it safe for your area."
@@ -17,7 +17,7 @@
     "Do not return home before waters have fully receded and authorities say it is safe.",
     "Do not drink or wash with floodwater — it may carry sewage and chemicals."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "RescueDesk AI original preparedness summary — pending subject-matter review",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

@@ -3,7 +3,7 @@
   "title": "Lindol: Ano ang gagawin",
   "category": "earthquake",
   "language": "fil",
-  "summary": "Drop, Cover, Hold at ang gagawin pagtapos ng pagyanig. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD section 8.3, section 10.3).",
+  "summary": "Paano ipagtanggol ang sarili habang at pagkatapos ng lindol: Drop, Cover, at Hold, maghanda para sa mga aftershock, at umakyat sa mas mataas na lugar kaagad kung malapit kayo sa baybayin.",
   "steps": [
     "DROP — yumuko sa mga tuhod at palad bago ka madapa ng pag-yanig.",
     "Magtago sa ilalim ng matibay na mesa o desk at protektahan ang ulo at leeg. Kung walang malapit na takpan, takpan ang ulo sa mga braso at lumayo sa salamin.",
@@ -18,7 +18,7 @@
     "Huwag tumayo sa tabi ng mga istanteng hindi nakapigil, salamin, o mabibigat na bagay na maaaring matumba.",
     "Huwag mag-sindi ng match o lighter hangga't hindi tiyak na walang gas leak."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "Orihinal na buod ng RescueDesk AI para sa paghahanda — hinihintay ang pagsusuri ng reviewer",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,

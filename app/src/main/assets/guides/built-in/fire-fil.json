@@ -3,7 +3,7 @@
   "title": "Sunog: Ano ang gagawin",
   "category": "fire",
   "language": "fil",
-  "summary": "Paglabas, paggapang sa mababa, at ligtas na pag-evacuate kapag may sunog sa bahay. PLACEHOLDER — palitan ng content na aprubado ng reviewer at may pahintulot ng source bago ang release (PRD section 8.3, section 10.3).",
+  "summary": "Paano ligtas na makatakas sa sunog sa bahay: lumabas agad, gumapang sa mababa sa ilalim ng usok, subukan ang init ng pinto bago ito buksan, at huwag nang bumalik sa loob para sa mga gamit.",
   "steps": [
     "Lumabas agad — huwag huminto para kunin ang mga gamit.",
     "Gumapang sa mababa sa ilalim ng usok; mas malinis ang hangin sa malapit sa sahig.",
@@ -18,7 +18,7 @@
     "Huwag tumayo nang tuwid sa makapal na usok — pataas ang usok; manatiling mababa at gumapang patungong labasan.",
     "Huwag bumalik sa loob para sa mga gamit kapag nakalabas ka na."
   ],
-  "sourceName": "UNREVIEWED PLACEHOLDER — general preparedness summary",
+  "sourceName": "Orihinal na buod ng RescueDesk AI para sa paghahanda — hinihintay ang pagsusuri ng reviewer",
   "sourceRef": null,
   "publishedDate": null,
   "lastReviewed": null,
