@@ -7,15 +7,25 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-53dab49-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-e0e12b0-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `53dab49` |
+| Git commit | `e0e12b0` |
 | Date | 2026-10-10 |
-| SHA-256 | `613a85c9095214833ad64e5a52af8b52608e1329d1159176eced1091801bb7a6` |
-| Size | 74,023,171 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `94454d6fba7c5c49ab182e97ddedba390c944ae17f0103fd764ac576f7a83501` |
+| Size | 74,024,655 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** the **Settings → Experimental** local-LLM switch is now
+**New in this build:** **Re-check for model** can no longer look dead: every
+tap now fires an instant "Checking this device…" Toast, ends with a Toast
+stating the concrete result (detected / truncated / not found — Toasts are
+`runCatching`-wrapped because MIUI/HyperOS can suppress app notifications), and
+a persistent red "No model file found — checked: …" line appears on screen
+when the probe comes up empty (previously a not-found result rendered NOTHING,
+which is exactly what looked like a broken button on the Redmi test unit).
+`detectModel()` additionally logs every candidate path with
+exists/canRead/length under logcat tag **LLM-detect** for remote diagnosis.
+
+Earlier: the **Settings → Experimental** local-LLM switch became
 impossible to miss and impossible to mislead: explicit `SwitchDefaults` colors
 (primary track when on, outlined surface track when off, dimmed when locked)
 keep it clearly visible in both light and dark themes, and it only unlocks when
@@ -85,7 +95,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-53dab49-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-e0e12b0-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
