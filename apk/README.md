@@ -7,15 +7,28 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-600d0ab-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-859144d-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `600d0ab` |
+| Git commit | `859144d` |
 | Date | 2026-10-10 |
-| SHA-256 | `35b9b99de12a1f72b0f38fee440205ef6a2dba6b3062201e58b97c70d0149978` |
+| SHA-256 | `2eab292fa58577cbfcb8ca79433d482b073d6f197ba2dd5a41193a14bd9667eb` |
 | Size | 74,025,479 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** **Ask Juan stops answering every question with
+**New in this build:** the Ask Juan LLM rewrite no longer **crashes the app**
+mid-generation. The tombstone was explicit: SIGABRT — `JNI NewByteArray called
+with pending exception … OUT_OF_RANGE: Input is too long … current_step(319) +
+input_size(7) was not less than maxTokens(320)`. MediaPipe's maxTokens budgets
+input + output together, so the grounding prompt alone ate most of the ceiling;
+hitting that boundary inside native inference is an uncatchable CheckJNI abort
+on debug builds — which is what really made every answer "stay the same".
+Fix: a token pre-flight (measured with MediaPipe's own tokenizer, guide context
+trimmed before it can explode), a fresh session per question (the shared
+default session accumulated history across questions), and a 1024-token budget
+(within the model's 1280 KV positions). Failed generations also no longer flip
+Settings to Error — the composed retrieval answer always survives.
+
+Earlier: **Ask Juan stopped answering every question with
 earthquake.** Root cause: Room's FTS4 search cannot `ORDER BY bm25 rank`, so
 OR-matched guides came back in insertion order — and since stopword tokens hit
 nearly all guides, the first-seeded guide (earthquake) always won
@@ -112,7 +125,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-600d0ab-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-859144d-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
