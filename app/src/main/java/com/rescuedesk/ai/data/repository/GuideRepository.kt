@@ -64,6 +64,46 @@ class RoomGuideRepository(
                 if (terms.isBlank()) guideDao.observeAll() else guideDao.search(terms)
             }
         }.localized().mapEntities()
+            // FTS4 MATCH + OR-joined tokens over-matches (common stopwords hit
+            // every guide) and rowid ordering let the first-seeded guide —
+            // earthquake — hijack every Ask Juan answer. Rank the candidate set
+            // by real term presence so the guide the question is about wins.
+            .ranked(query)
+
+    private fun Flow<List<Guide>>.ranked(q: String): Flow<List<Guide>> =
+        map { list -> rankByRelevance(list, q) }
+
+    /**
+     * In-memory relevance: occurrences of each query token (length >= 3)
+     * weighted title 6 / summary 3 / body 1. Room's FTS4 cannot ORDER BY
+     * bm25 rank (see GuideDao.search note); the library is small enough to
+     * score here. Zero-score or single-result sets keep their original order.
+     */
+    private fun rankByRelevance(guides: List<Guide>, q: String): List<Guide> {
+        val tokens = q.lowercase().split(Regex("\\s+")).filter { it.length >= 3 }.distinct()
+        if (tokens.isEmpty() || guides.size < 2) return guides
+        val scored = guides.map { g ->
+            val t = g.title.lowercase()
+            val s = g.summary.lowercase()
+            val b = g.body.lowercase()
+            val score = tokens.sumOf { tok ->
+                occurrences(t, tok) * 6 + occurrences(s, tok) * 3 + occurrences(b, tok)
+            }
+            g to score
+        }
+        if (scored.all { it.second == 0 }) return guides
+        return scored.sortedByDescending { it.second }.map { it.first }
+    }
+
+    private fun occurrences(text: String, token: String): Int {
+        var count = 0
+        var idx = text.indexOf(token)
+        while (idx >= 0) {
+            count++
+            idx = text.indexOf(token, idx + token.length)
+        }
+        return count
+    }
 
     override suspend fun guideById(id: Long): Guide? = guideDao.byId(id)?.toDomain()
 

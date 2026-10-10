@@ -145,9 +145,15 @@ class AskViewModel : ViewModel() {
         }
 
         // Feed the same guide content we already retrieved — no new search.
+        // Name the real source guide so the model rephrases in the right topic
+        // frame instead of seeing a generic placeholder title.
+        val primaryTitle = result.sourceIds.firstNotNullOfOrNull {
+            ServiceLocator.guideRepository.guideById(it)?.title
+        } ?: "local emergency guide"
+        android.util.Log.i("LLM-ask", "grounding on guide: $primaryTitle")
         val chunks = buildList {
             val primary = buildString {
-                appendLine("Title: local emergency guide")
+                appendLine("Title: $primaryTitle")
                 appendLine("Summary: ${result.lead}")
                 if (result.steps.isNotEmpty()) {
                     appendLine("Steps:")
