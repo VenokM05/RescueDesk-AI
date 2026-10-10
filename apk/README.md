@@ -7,16 +7,25 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-9436a1b-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-600d0ab-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `9436a1b` |
+| Git commit | `600d0ab` |
 | Date | 2026-10-10 |
-| SHA-256 | `6b51890ea283afacc834c0b05f54a5ee2befe451ae19eb40be32544a9e39dfa2` |
+| SHA-256 | `35b9b99de12a1f72b0f38fee440205ef6a2dba6b3062201e58b97c70d0149978` |
 | Size | 74,025,479 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** two on-device fixes from Redmi Note 14 testing.
-(1) The LLM toggle row now shows a bold **ON/OFF text mirror** next to the
+**New in this build:** **Ask Juan stops answering every question with
+earthquake.** Root cause: Room's FTS4 search cannot `ORDER BY bm25 rank`, so
+OR-matched guides came back in insertion order — and since stopword tokens hit
+nearly all guides, the first-seeded guide (earthquake) always won
+`matches.first()`. Search results are now re-ranked in memory by real term
+presence (title ×6 / summary ×3 / body ×1), so a typhoon question grounds on
+the typhoon guide — in Ask Juan, the search screen, and the Gemma rewrite
+(which now also receives the real source-guide title; watch logcat tag
+`LLM-ask` for the grounding + timing trace).
+
+Earlier: the LLM toggle row shows a bold **ON/OFF text mirror** next to the
 Switch and the **whole row is tappable** — the Switch glyph alone proved easy
 to miss on this unit. (2) The Ask Juan LLM rewrite pass is no longer silently
 optional: every skip branch logs under logcat tag **LLM-ask** (enabled flag,
@@ -103,7 +112,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-9436a1b-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-600d0ab-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
