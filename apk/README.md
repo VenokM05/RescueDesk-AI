@@ -7,15 +7,23 @@ self-signed with the Android debug key — never distribute these as releases.**
 
 | | |
 | --- | --- |
-| File | `RescueDeskAI-v0.1.0-scaffold-e0e12b0-debug.apk` |
+| File | `RescueDeskAI-v0.1.0-scaffold-9436a1b-debug.apk` |
 | Version | `0.1.0-scaffold` (versionCode 1) |
-| Git commit | `e0e12b0` |
+| Git commit | `9436a1b` |
 | Date | 2026-10-10 |
-| SHA-256 | `94454d6fba7c5c49ab182e97ddedba390c944ae17f0103fd764ac576f7a83501` |
-| Size | 74,024,655 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
+| SHA-256 | `6b51890ea283afacc834c0b05f54a5ee2befe451ae19eb40be32544a9e39dfa2` |
+| Size | 74,025,479 bytes (~71 MB; MediaPipe native libs across 4 ABIs) |
 | Min Android | 8.0 (API 26) |
 
-**New in this build:** **Re-check for model** can no longer look dead: every
+**New in this build:** two on-device fixes from Redmi Note 14 testing.
+(1) The LLM toggle row now shows a bold **ON/OFF text mirror** next to the
+Switch and the **whole row is tappable** — the Switch glyph alone proved easy
+to miss on this unit. (2) The Ask Juan LLM rewrite pass is no longer silently
+optional: every skip branch logs under logcat tag **LLM-ask** (enabled flag,
+engine status, load/generate failures, timings), and `MAX_TOKENS` dropped
+600 → 320 so CPU inference rewrites arrive in tens of seconds, not minutes.
+
+Earlier: **Re-check for model** can no longer look dead: every
 tap now fires an instant "Checking this device…" Toast, ends with a Toast
 stating the concrete result (detected / truncated / not found — Toasts are
 `runCatching`-wrapped because MIUI/HyperOS can suppress app notifications), and
@@ -95,7 +103,7 @@ checklist).
 USB (Developer Options → USB debugging on):
 
 ```bash
-adb install -r apk/RescueDeskAI-v0.1.0-scaffold-e0e12b0-debug.apk
+adb install -r apk/RescueDeskAI-v0.1.0-scaffold-9436a1b-debug.apk
 ```
 
 Or copy the file to the phone and open it (allow "install unknown apps" for
