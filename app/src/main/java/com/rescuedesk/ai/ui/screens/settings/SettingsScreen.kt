@@ -1,5 +1,6 @@
 package com.rescuedesk.ai.ui.screens.settings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -219,8 +220,26 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
             // stays disabled and the locked-reason line + install hint below
             // explain why, so a disabled control never looks broken.
             val modelDetected = llmDetected?.valid == true
+            val toggleAction: () -> Unit = {
+                val next = !llmOn
+                scope.launch { store.setLlmEnabled(next) }
+                // Try to load immediately when turning on so the
+                // status line reflects reality by the next frame.
+                if (next) {
+                    scope.launch {
+                        llmEngine?.ensureLoaded()
+                        recheckModel()
+                    }
+                } else llmEngine?.unload()
+            }
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    // Whole row is a tap target: on test units the Switch glyph
+                    // itself proved easy to miss, and a setting whose current
+                    // state can only be read from a small pill is not an
+                    // accessible control on a senior-friendly app.
+                    .clickable(enabled = modelDetected, onClick = toggleAction),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -229,20 +248,20 @@ fun SettingsScreen(onBack: () -> Unit, onOpenOffline: () -> Unit) {
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(1f)
                 )
+                // Plain-text mirror of the switch state, always visible,
+                // always legible regardless of theme or OEM Switch styling.
+                Text(
+                    text = stringResource(if (llmOn) R.string.settings_llm_state_on else R.string.settings_llm_state_off),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = if (llmOn) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(end = 10.dp)
+                )
                 Switch(
                     checked = llmOn,
                     enabled = modelDetected,
-                    onCheckedChange = { enabled ->
-                        scope.launch { store.setLlmEnabled(enabled) }
-                        // Try to load immediately when turning on so the
-                        // status line reflects reality by the next frame.
-                        if (enabled) {
-                            scope.launch {
-                                llmEngine?.ensureLoaded()
-                                recheckModel()
-                            }
-                        } else llmEngine?.unload()
-                    },
+                    onCheckedChange = { toggleAction() },
                     // Explicit colors so the control is unmistakable in BOTH
                     // light and dark themes: primary-filled track when checked,
                     // elevated surface track with an outline ring when off,

@@ -143,6 +143,8 @@ Ang app na ito ay nagbibigay ng pangkalahatang gabay sa paghahanda, hindi propes
     <string name="settings_llm_section">Eksperimental — lokal na AI model</string>
     <string name="settings_llm_body">I-on ito para hayaan ang Gemma 2 2B IT na language model sa device na ito na isulat muli ang grounded na sagot sa mas maikling, natural na talata. Ito ay para sa Phase 1 candidate evaluation lamang. Anuman ang setting na ito, ang sagot ay galing pa rin sa mga gabay, at lahat ng safety refusal (live claim, out-of-scope, medical emergency) ay ipinapatupad bago tanungin ang model. Kung ito ay naka-off, babalik ang Ask Juan sa default na composed na sagot; walang epekto sa mga gabay.</string>
     <string name="settings_llm_toggle_label">Subukan ang lokal na LLM (Gemma 2 2B IT)</string>
+    <string name="settings_llm_state_on">ON</string>
+    <string name="settings_llm_state_off">OFF</string>
     <string name="settings_llm_status_not_installed">Hindi naka-install sa device na ito</string>
     <string name="settings_llm_switch_locked">Naka-lock ang switch hanggang sa makahanap ng kumpletong model file sa device na ito. Sundin ang mga hakbang sa pag-download sa ibaba, pagkatapos pindutin ang Tingnan muli para i-unlock.</string>
     <string name="settings_llm_status_loading">Ikinakarga ang model…</string>

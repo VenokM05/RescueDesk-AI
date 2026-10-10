@@ -123,14 +123,25 @@ class AskViewModel : ViewModel() {
             // — that would suspend until some future emission matches.
             ServiceLocator.preferencesStore.settings.first().llmEnabled
         }.getOrDefault(false)
+        val llm: MediaPipeEngine? = ServiceLocator.mediaPipeEngine
+        android.util.Log.i(
+            "LLM-ask",
+            "polish requested: enabled=$enabled enginePresent=${llm != null} status=${llm?.status?.value}"
+        )
         if (!enabled) return
+        llm ?: return
 
-        val llm: MediaPipeEngine = ServiceLocator.mediaPipeEngine ?: return
         // Load lazily; if this is the first try and it fails, surface NotInstalled
         // in Settings / Offline and stay on the composed path.
         if (llm.status.value != ModelStatus.Ready) {
             val loaded = llm.ensureLoaded()
-            if (loaded.isFailure) return
+            if (loaded.isFailure) {
+                android.util.Log.w(
+                    "LLM-ask",
+                    "ensureLoaded FAILED — staying on composed answer: ${loaded.exceptionOrNull()?.message}"
+                )
+                return
+            }
         }
 
         // Feed the same guide content we already retrieved — no new search.
@@ -147,11 +158,24 @@ class AskViewModel : ViewModel() {
             add(primary)
         }
 
+        val startedAt = android.os.SystemClock.elapsedRealtime()
         val gen = llm.generate(question, chunks) { /* partial token; ignore for now */ }
-        val answer = gen.getOrNull() ?: return
+        val elapsed = android.os.SystemClock.elapsedRealtime() - startedAt
+        val answer = gen.getOrNull()
+        if (answer == null) {
+            android.util.Log.w(
+                "LLM-ask",
+                "generate FAILED after ${elapsed} ms — staying on composed answer: ${gen.exceptionOrNull()?.message}"
+            )
+            return
+        }
+        android.util.Log.i("LLM-ask", "generate ok in ${elapsed} ms, ${answer.text.length} chars, grounded=${answer.grounded}")
         if (answer.text.isBlank()) return
         // Honour the model's refusal token — swap in the localized no-match.
-        if (answer.text.contains("NO_GUIDE_MATCH", ignoreCase = true)) return
+        if (answer.text.contains("NO_GUIDE_MATCH", ignoreCase = true)) {
+            android.util.Log.i("LLM-ask", "model returned NO_GUIDE_MATCH — keeping composed answer")
+            return
+        }
         if (!answer.grounded) return
 
         // Replace the composed message body with the LLM text, keep sources.

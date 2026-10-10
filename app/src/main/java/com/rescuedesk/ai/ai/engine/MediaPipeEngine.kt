@@ -189,7 +189,11 @@ class MediaPipeEngine(private val context: Context) : AiEngine {
         const val DEBUG_TMP_DIR = "/data/local/tmp/rescuedesk"
         /** Guard against a truncated adb push (Gemma 2 2B q8 task is ~2.7 GB). */
         const val MIN_VALID_BYTES = 500L * 1024L * 1024L
-        const val MAX_TOKENS = 600
+        // The safety prompt asks for <120 words (~160 tokens). CPU-only
+        // Gemma on a mid-range phone generates roughly 3-8 tokens/s, so a
+        // 600-token ceiling could stall the polish pass for minutes past any
+        // realistic answer. 320 leaves 2x headroom and keeps answers snappy.
+        const val MAX_TOKENS = 320
         const val ERROR_NO_FILE =
             "Gemma 2 2B IT model file not found. Download it on the phone and place " +
                 "it at <app files>/models/$MODEL_FILENAME, or push it to " +
